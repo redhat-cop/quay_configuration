@@ -1,7 +1,7 @@
 ---
 # Supporting organization
 - name: Ensure organization ansibletestorg exists
-  herve4m.quay.quay_organization:
+  infra.quay_configuration.quay_organization:
     name: ansibletestorg
     email: ansibletestorg@example.com
     state: present
@@ -11,7 +11,7 @@
 
 # Supporting user account
 - name: Ensure user accounts exist
-  herve4m.quay.quay_user:
+  infra.quay_configuration.quay_user:
     username: ansibletestuser1
     email: "ansibletestuser1@example.com"
     state: present
@@ -21,7 +21,7 @@
 
 # Supporting team
 - name: Ensure teams exist
-  herve4m.quay.quay_team:
+  infra.quay_configuration.quay_team:
     name: ansibletestteam1
     organization: ansibletestorg
     role: admin
@@ -32,7 +32,7 @@
 
 # Supporting repository
 - name: Ensure repository ansibletestrepo exists
-  herve4m.quay.quay_repository:
+  infra.quay_configuration.quay_repository:
     name: ansibletestorg/ansibletestrepo
     visibility: private
     perms:
@@ -48,7 +48,7 @@
     validate_certs: false
 
 - name: Ensure notification exists (but repo does not exist)
-  herve4m.quay.quay_notification:
+  infra.quay_configuration.quay_notification:
     repository: myansibletestrepo
     title: Test Quay Notification
     event: repo_push
@@ -69,7 +69,7 @@
     fail_msg: The preceding task should have failed (no such repository)
 
 - name: Ensure notification exists (but with missing required parameters)
-  herve4m.quay.quay_notification:
+  infra.quay_configuration.quay_notification:
     repository: ansibletestorg/ansibletestrepo
     state: present
     quay_host: "{{ quay_url }}"
@@ -84,7 +84,7 @@
     fail_msg: The preceding task should have failed (missing parameters)
 
 - name: Ensure notification of type Quay Notification exists
-  herve4m.quay.quay_notification:
+  infra.quay_configuration.quay_notification:
     repository: ansibletestorg/ansibletestrepo
     title: Test Quay Notification
     event: repo_push
@@ -98,7 +98,7 @@
     validate_certs: false
 
 - name: Ensure notification of type Quay Notification exists (no change)
-  herve4m.quay.quay_notification:
+  infra.quay_configuration.quay_notification:
     repository: ansibletestorg/ansibletestrepo
     title: Test Quay Notification
     event: repo_push
@@ -118,7 +118,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure notification of type Slack exists (+test)
-  herve4m.quay.quay_notification:
+  infra.quay_configuration.quay_notification:
     repository: ansibletestorg/ansibletestrepo
     title: Test Slack Notification
     event: repo_push
@@ -132,7 +132,7 @@
     validate_certs: false
 
 - name: Ensure another notification of type Slack exists (+test)
-  herve4m.quay.quay_notification:
+  infra.quay_configuration.quay_notification:
     repository: ansibletestorg/ansibletestrepo
     title: Test Slack Notification2
     event: repo_push
@@ -150,7 +150,7 @@
     seconds: 15
 
 - name: Ensure failure counter is reset for Quay Notification (no change)
-  herve4m.quay.quay_notification:
+  infra.quay_configuration.quay_notification:
     repository: ansibletestorg/ansibletestrepo
     title: Test Quay Notification
     reset_failcount: true
@@ -165,7 +165,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure failure counter is reset for all Slack notifications
-  herve4m.quay.quay_notification:
+  infra.quay_configuration.quay_notification:
     repository: ansibletestorg/ansibletestrepo
     regex: "[Ss]lack\\s"
     reset_failcount: true
@@ -174,7 +174,7 @@
     quay_token: "{{ quay_token }}"
 
 - name: Ensure non-existing notification is removed - method (no change)
-  herve4m.quay.quay_notification:
+  infra.quay_configuration.quay_notification:
     repository: ansibletestorg/ansibletestrepo
     method: hipchat
     reset_failcount: true
@@ -189,7 +189,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure non-existing notification is removed - event (no change)
-  herve4m.quay.quay_notification:
+  infra.quay_configuration.quay_notification:
     repository: ansibletestorg/ansibletestrepo
     event: build_start
     reset_failcount: true
@@ -204,7 +204,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure Quay Notification is removed
-  herve4m.quay.quay_notification:
+  infra.quay_configuration.quay_notification:
     repository: ansibletestorg/ansibletestrepo
     search_string: Quay Notification
     reset_failcount: true
@@ -213,7 +213,7 @@
     quay_token: "{{ quay_token }}"
 
 - name: Ensure the Slack notifications are removed
-  herve4m.quay.quay_notification:
+  infra.quay_configuration.quay_notification:
     repository: ansibletestorg/ansibletestrepo
     method: slack
     state: absent
@@ -221,7 +221,7 @@
     quay_token: "{{ quay_token }}"
 
 - name: Ensure the repository is removed
-  herve4m.quay.quay_repository:
+  infra.quay_configuration.quay_repository:
     name: ansibletestorg/ansibletestrepo
     state: absent
     quay_host: "{{ quay_url }}"
@@ -229,7 +229,7 @@
     validate_certs: false
 
 - name: Ensure the team is removed
-  herve4m.quay.quay_team:
+  infra.quay_configuration.quay_team:
     name: ansibletestteam1
     organization: ansibletestorg
     state: absent
@@ -238,7 +238,7 @@
     validate_certs: false
 
 - name: Ensure user account is removed
-  herve4m.quay.quay_user:
+  infra.quay_configuration.quay_user:
     username: ansibletestuser1
     state: absent
     quay_host: "{{ quay_url }}"
@@ -246,7 +246,7 @@
     validate_certs: false
 
 - name: Ensure the organization is removed
-  herve4m.quay.quay_organization:
+  infra.quay_configuration.quay_organization:
     name: ansibletestorg
     state: absent
     quay_host: "{{ quay_url }}"

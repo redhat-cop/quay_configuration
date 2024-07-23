@@ -7,7 +7,7 @@
   tasks:
     - name: Ensure the organization exists
       ansible.builtin.include_role:
-        name: herve4m.quay.quay_org
+        name: infra.quay_configuration.quay_org
       vars:
         quay_org_host: https://quay.example.com
         quay_org_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7

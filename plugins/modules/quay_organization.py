@@ -83,14 +83,14 @@ notes:
   - To rename organizations, the token must also have the "Super User Access"
     permission.
 extends_documentation_fragment:
-  - herve4m.quay.auth
-  - herve4m.quay.auth.login
-  - herve4m.quay.autoprune
+  - infra.quay_configuration.auth
+  - infra.quay_configuration.auth.login
+  - infra.quay_configuration.autoprune
 """
 
 EXAMPLES = r"""
 - name: Ensure the organization exists
-  herve4m.quay.quay_organization:
+  infra.quay_configuration.quay_organization:
     name: production
     email: prodlist@example.com
     time_machine_expiration: "7d"
@@ -102,14 +102,14 @@ EXAMPLES = r"""
 
 # Renaming requires superuser permissions
 - name: Ensure the organization has a new name
-  herve4m.quay.quay_organization:
+  infra.quay_configuration.quay_organization:
     name: production
     new_name: development
     quay_host: https://quay.example.com
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
 - name: Ensure the organization is removed
-  herve4m.quay.quay_organization:
+  infra.quay_configuration.quay_organization:
     name: development
     state: absent
     quay_host: https://quay.example.com

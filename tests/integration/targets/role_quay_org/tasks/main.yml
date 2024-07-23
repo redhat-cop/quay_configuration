@@ -1,7 +1,7 @@
 ---
 - name: Ensure the organization exists
   ansible.builtin.include_role:
-    name: herve4m.quay.quay_org
+    name: infra.quay_configuration.quay_org
   vars:
     quay_org_host: "{{ quay_url }}"
     quay_org_token: "{{ quay_token }}"
@@ -67,7 +67,7 @@
 
 # Cleanup (by using quay_username and quay_password for testing purpose)
 - name: Ensure repositories are removed
-  herve4m.quay.quay_repository:
+  infra.quay_configuration.quay_repository:
     name: "ansibletestorg/{{ item }}"
     state: absent
     quay_host: "{{ quay_url }}"
@@ -79,7 +79,7 @@
     - ansibletestrepo2
 
 - name: Ensure the applications are removed
-  herve4m.quay.quay_application:
+  infra.quay_configuration.quay_application:
     organization: ansibletestorg
     name: "{{ item }}"
     state: absent
@@ -92,7 +92,7 @@
     - ansibletestapp2
 
 - name: Ensure the teams are removed
-  herve4m.quay.quay_team:
+  infra.quay_configuration.quay_team:
     name: "{{ item }}"
     organization: ansibletestorg
     state: absent
@@ -105,7 +105,7 @@
     - ansibletestteam2
 
 - name: Ensure the robot accounts are removed
-  herve4m.quay.quay_robot:
+  infra.quay_configuration.quay_robot:
     name: ansibletestorg+ansibletestrobot1
     state: absent
     quay_host: "{{ quay_url }}"
@@ -114,7 +114,7 @@
     validate_certs: false
 
 - name: Ensure user accounts are removed
-  herve4m.quay.quay_user:
+  infra.quay_configuration.quay_user:
     username: "{{ item }}"
     state: absent
     quay_host: "{{ quay_url }}"
@@ -127,7 +127,7 @@
     - ansibletestuser3
 
 - name: Ensure the proxy cache configuration is removed
-  herve4m.quay.quay_proxy_cache:
+  infra.quay_configuration.quay_proxy_cache:
     organization: ansibletestorg
     state: absent
     quay_host: "{{ quay_url }}"
@@ -136,7 +136,7 @@
     validate_certs: false
 
 - name: Ensure the organization is removed
-  herve4m.quay.quay_organization:
+  infra.quay_configuration.quay_organization:
     name: ansibletestorg
     state: absent
     quay_host: "{{ quay_url }}"

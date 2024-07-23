@@ -1,7 +1,7 @@
 # Tests for the Quay Container Registry Collection
 
 GitHub Actions trigger the tests in this directory.
-The GitHub Actions workflow YAML files are defined in the [GitHub Actions workflow directory](https://github.com/herve4m/quay-collection/tree/main/.github/workflows).
+The GitHub Actions workflow YAML files are defined in the [GitHub Actions workflow directory](https://github.com/redhat-cop/quay_configuration/tree/main/.github/workflows).
 
 The workflow uses the `docker-compose.yml` file to deploy a testing Quay environment, and then the `ansible-test integration` command to perform the integration tests.
 Those tests consist of running the roles (playbooks) defined under the `integration/targets` directory.

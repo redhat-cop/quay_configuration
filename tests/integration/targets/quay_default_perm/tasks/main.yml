@@ -1,7 +1,7 @@
 ---
 # Supporting organization
 - name: Ensure organization ansibletestorg exists
-  herve4m.quay.quay_organization:
+  infra.quay_configuration.quay_organization:
     name: ansibletestorg
     email: ansibletestorg@example.com
     state: present
@@ -11,7 +11,7 @@
 
 # Supporting user accounts
 - name: Ensure user accounts exist
-  herve4m.quay.quay_user:
+  infra.quay_configuration.quay_user:
     username: "{{ item }}"
     email: "{{ item }}@example.com"
     state: present
@@ -24,7 +24,7 @@
 
 # Supporting robot accounts
 - name: Ensure the robot accounts exist
-  herve4m.quay.quay_robot:
+  infra.quay_configuration.quay_robot:
     name: ansibletestorg+ansibletestrobot1
     state: present
     quay_host: "{{ quay_url }}"
@@ -33,7 +33,7 @@
 
 # Supporting team
 - name: Ensure teams exist
-  herve4m.quay.quay_team:
+  infra.quay_configuration.quay_team:
     name: "{{ item }}"
     organization: ansibletestorg
     role: admin
@@ -46,7 +46,7 @@
     - ansibletestteam2
 
 - name: Ensure default perm anon-read-ansibletestuser1 exists
-  herve4m.quay.quay_default_perm:
+  infra.quay_configuration.quay_default_perm:
     organization: ansibletestorg
     name: ansibletestuser1
     type: user
@@ -57,7 +57,7 @@
     validate_certs: false
 
 - name: Ensure default perm anon-read-ansibletestuser1 exists (no change)
-  herve4m.quay.quay_default_perm:
+  infra.quay_configuration.quay_default_perm:
     organization: ansibletestorg
     name: ansibletestuser1
     type: user
@@ -73,7 +73,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure default perm anon-write-robot exists
-  herve4m.quay.quay_default_perm:
+  infra.quay_configuration.quay_default_perm:
     organization: ansibletestorg
     name: ansibletestorg+ansibletestrobot1
     type: user
@@ -84,7 +84,7 @@
     validate_certs: false
 
 - name: Ensure default perm anon-admin-ansibletestteam1 exists
-  herve4m.quay.quay_default_perm:
+  infra.quay_configuration.quay_default_perm:
     organization: ansibletestorg
     name: ansibletestteam1
     type: team
@@ -95,7 +95,7 @@
     validate_certs: false
 
 - name: Ensure default perm is updated to anon-write-ansibletestteam1
-  herve4m.quay.quay_default_perm:
+  infra.quay_configuration.quay_default_perm:
     organization: ansibletestorg
     name: ansibletestteam1
     type: team
@@ -106,7 +106,7 @@
     validate_certs: false
 
 - name: Ensure default perm ansibletestuser2-read-ansibletestuser1 exists
-  herve4m.quay.quay_default_perm:
+  infra.quay_configuration.quay_default_perm:
     organization: ansibletestorg
     name: ansibletestuser1
     type: user
@@ -118,7 +118,7 @@
     validate_certs: false
 
 - name: Ensure default perm ansibletestuser2-write-robot exists
-  herve4m.quay.quay_default_perm:
+  infra.quay_configuration.quay_default_perm:
     organization: ansibletestorg
     name: ansibletestorg+ansibletestrobot1
     type: user
@@ -130,7 +130,7 @@
     validate_certs: false
 
 - name: Ensure default perm ansibletestuser2-admin-ansibletestteam1 exists
-  herve4m.quay.quay_default_perm:
+  infra.quay_configuration.quay_default_perm:
     organization: ansibletestorg
     name: ansibletestteam1
     type: team
@@ -142,7 +142,7 @@
     validate_certs: false
 
 - name: Ensure default perm is removed (no change)
-  herve4m.quay.quay_default_perm:
+  infra.quay_configuration.quay_default_perm:
     organization: ansibletestorg
     name: ansibletestteam2
     type: team
@@ -160,7 +160,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure default perm anon-read-ansibletestuser1 is removed
-  herve4m.quay.quay_default_perm:
+  infra.quay_configuration.quay_default_perm:
     organization: ansibletestorg
     name: ansibletestuser1
     type: user
@@ -171,7 +171,7 @@
     validate_certs: false
 
 - name: Ensure default perm anon-write-robot is removed
-  herve4m.quay.quay_default_perm:
+  infra.quay_configuration.quay_default_perm:
     organization: ansibletestorg
     name: ansibletestorg+ansibletestrobot1
     type: user
@@ -181,7 +181,7 @@
     validate_certs: false
 
 - name: Ensure default perm anon-admin-ansibletestteam1 is removed
-  herve4m.quay.quay_default_perm:
+  infra.quay_configuration.quay_default_perm:
     organization: ansibletestorg
     name: ansibletestteam1
     type: team
@@ -192,7 +192,7 @@
     validate_certs: false
 
 - name: Ensure perm ansibletestuser2-read-ansibletestuser1 is removed
-  herve4m.quay.quay_default_perm:
+  infra.quay_configuration.quay_default_perm:
     organization: ansibletestorg
     name: ansibletestuser1
     type: user
@@ -204,7 +204,7 @@
     validate_certs: false
 
 - name: Ensure default perm ansibletestuser2-write-robot is removed
-  herve4m.quay.quay_default_perm:
+  infra.quay_configuration.quay_default_perm:
     organization: ansibletestorg
     name: ansibletestorg+ansibletestrobot1
     type: user
@@ -216,7 +216,7 @@
     validate_certs: false
 
 - name: Ensure perm ansibletestuser2-admin-ansibletestteam1 is removed
-  herve4m.quay.quay_default_perm:
+  infra.quay_configuration.quay_default_perm:
     organization: ansibletestorg
     name: ansibletestteam1
     type: team
@@ -228,7 +228,7 @@
     validate_certs: false
 
 - name: Ensure the teams are removed
-  herve4m.quay.quay_team:
+  infra.quay_configuration.quay_team:
     name: "{{ item }}"
     organization: ansibletestorg
     state: absent
@@ -240,7 +240,7 @@
     - ansibletestteam2
 
 - name: Ensure user accounts are removed
-  herve4m.quay.quay_user:
+  infra.quay_configuration.quay_user:
     username: "{{ item }}"
     state: absent
     quay_host: "{{ quay_url }}"
@@ -251,7 +251,7 @@
     - ansibletestuser2
 
 - name: Ensure the robot accounts are removed
-  herve4m.quay.quay_robot:
+  infra.quay_configuration.quay_robot:
     name: ansibletestorg+ansibletestrobot1
     state: absent
     quay_host: "{{ quay_url }}"
@@ -259,7 +259,7 @@
     validate_certs: false
 
 - name: Ensure the organization is removed
-  herve4m.quay.quay_organization:
+  infra.quay_configuration.quay_organization:
     name: ansibletestorg
     state: absent
     quay_host: "{{ quay_url }}"

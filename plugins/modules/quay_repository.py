@@ -110,7 +110,7 @@ options:
       - If C(NORMAL), then the repository is in the default state (read/write).
       - If C(READ_ONLY), then the repository is read-only.
       - If C(MIRROR), then the repository is a mirror and you can configure it
-        by using the M(herve4m.quay.quay_repository_mirror) module.
+        by using the M(infra.quay_configuration.quay_repository_mirror) module.
       - You must enable the mirroring capability of your Quay installation to
         use this I(repo_state) parameter.
     type: str
@@ -123,14 +123,14 @@ notes:
   - The token that you provide in I(quay_token) must have the "Administer
     Repositories" and "Create Repositories" permissions.
 extends_documentation_fragment:
-  - herve4m.quay.auth
-  - herve4m.quay.auth.login
-  - herve4m.quay.autoprune
+  - infra.quay_configuration.auth
+  - infra.quay_configuration.auth.login
+  - infra.quay_configuration.autoprune
 """
 
 EXAMPLES = r"""
 - name: Ensure repository smallimage exists in the production organization
-  herve4m.quay.quay_repository:
+  infra.quay_configuration.quay_repository:
     name: production/smallimage
     visibility: private
     description: |
@@ -153,7 +153,7 @@ EXAMPLES = r"""
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
 - name: Ensure repository bigimage exists in my namespace
-  herve4m.quay.quay_repository:
+  infra.quay_configuration.quay_repository:
     name: bigimage
     visibility: public
     perms:
@@ -165,14 +165,14 @@ EXAMPLES = r"""
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
 - name: Ensure repository development/testimg does not exist
-  herve4m.quay.quay_repository:
+  infra.quay_configuration.quay_repository:
     name: development/testimg
     state: absent
     quay_host: https://quay.example.com
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
 - name: Ensure the repository has the exact set of permissions
-  herve4m.quay.quay_repository:
+  infra.quay_configuration.quay_repository:
     name: production/smallimage
     perms:
       - name: operators
@@ -193,7 +193,7 @@ EXAMPLES = r"""
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
 - name: Ensure the repository has a star and tags older that 4 weeks are pruned
-  herve4m.quay.quay_repository:
+  infra.quay_configuration.quay_repository:
     name: production/smallimage
     star: true
     auto_prune_method: date
@@ -205,7 +205,7 @@ EXAMPLES = r"""
 # You must enable the mirroring capability of your Quay installation
 # to use the repo_state parameter.
 - name: Ensure the repository is prepared for mirroring
-  herve4m.quay.quay_repository:
+  infra.quay_configuration.quay_repository:
     name: production/smallimage
     repo_state: MIRROR
     state: present

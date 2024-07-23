@@ -11,32 +11,32 @@
 
 .. Anchors
 
-.. _ansible_collections.herve4m.quay.quay_first_user_module:
+.. _ansible_collections.infra.quay_configuration.quay_first_user_module:
 
 .. Anchors: short name for ansible.builtin
 
 .. Title
 
-herve4m.quay.quay_first_user module -- Create the first user account
+infra.quay_configuration.quay_first_user module -- Create the first user account
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `herve4m.quay collection <https://galaxy.ansible.com/ui/repo/published/herve4m/quay/>`_ (version 1.3.0).
+    This module is part of the `infra.quay_configuration collection <https://galaxy.ansible.com/ui/repo/published/herve4m/quay/>`_ (version 1.3.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
 
-    To install it, use: :code:`ansible-galaxy collection install herve4m.quay`.
+    To install it, use: :code:`ansible-galaxy collection install infra.quay_configuration`.
 
-    To use it in a playbook, specify: :code:`herve4m.quay.quay_first_user`.
+    To use it in a playbook, specify: :code:`infra.quay_configuration.quay_first_user`.
 
 .. version_added
 
 .. rst-class:: ansible-version-added
 
-New in herve4m.quay 0.0.7
+New in infra.quay_configuration 0.0.7
 
 .. contents::
    :local:
@@ -155,7 +155,7 @@ Parameters
     </div></td>
     <td><div class="ansible-option-cell">
       <p>Name of the user account to create.</p>
-      <p>You probably want that user account to have superuser permissions so that you can use the returned token to create additional objects. To do so, add the account name to the <code class='docutils literal notranslate'>SUPER_USERS</code> section in the <code class='docutils literal notranslate'>config.yaml</code> file before using the <a href='../../herve4m/quay/quay_first_user_module.html' class='module'>herve4m.quay.quay_first_user</a> module.</p>
+      <p>You probably want that user account to have superuser permissions so that you can use the returned token to create additional objects. To do so, add the account name to the <code class='docutils literal notranslate'>SUPER_USERS</code> section in the <code class='docutils literal notranslate'>config.yaml</code> file before using the <a href='../../herve4m/quay/quay_first_user_module.html' class='module'>infra.quay_configuration.quay_first_user</a> module.</p>
     </div></td>
   </tr>
   <tr class="row-odd">
@@ -213,7 +213,7 @@ Examples
 
     
     - name: Ensure the initial user exists
-      herve4m.quay.quay_first_user:
+      infra.quay_configuration.quay_first_user:
         username: admin
         email: admin@example.com
         password: S6tGwo13
@@ -332,10 +332,10 @@ Collection links
 .. ansible-links::
 
   - title: "Issue Tracker"
-    url: "https://github.com/herve4m/quay-collection/issues"
+    url: "https://github.com/redhat-cop/quay_configuration/issues"
     external: true
   - title: "Repository (Sources)"
-    url: "https://github.com/herve4m/quay-collection"
+    url: "https://github.com/redhat-cop/quay_configuration"
     external: true
 
 

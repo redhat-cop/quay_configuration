@@ -3,7 +3,7 @@
   when:
     - quay_org_cache_registry is defined
     - quay_org_cache_registry|length > 0
-  herve4m.quay.quay_proxy_cache:
+  infra.quay_configuration.quay_proxy_cache:
     organization: "{{ quay_org_name }}"
     registry: "{{ quay_org_cache_registry }}"
     expiration: "{{ quay_org_cache_expiration | default(omit) }}"

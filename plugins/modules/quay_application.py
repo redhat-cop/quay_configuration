@@ -79,13 +79,13 @@ notes:
   - The token that you provide in I(quay_token) must have the "Administer
     Organization" permission.
 extends_documentation_fragment:
-  - herve4m.quay.auth
-  - herve4m.quay.auth.login
+  - infra.quay_configuration.auth
+  - infra.quay_configuration.auth.login
 """
 
 EXAMPLES = r"""
 - name: Ensure the application extapp exists
-  herve4m.quay.quay_application:
+  infra.quay_configuration.quay_application:
     organization: production
     name: extapp
     description: External application
@@ -101,7 +101,7 @@ EXAMPLES = r"""
     msg: "Client secret: {{ app_details['client_secret'] }}"
 
 - name: Ensure the application is renamed
-  herve4m.quay.quay_application:
+  infra.quay_configuration.quay_application:
     organization: production
     name: extapp
     new_name: apiaccess
@@ -111,7 +111,7 @@ EXAMPLES = r"""
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
 - name: Ensure the application is removed
-  herve4m.quay.quay_application:
+  infra.quay_configuration.quay_application:
     organization: production
     name: apiaccess
     state: absent

@@ -1,6 +1,6 @@
 ---
 - name: Ensure the repositories exist
-  herve4m.quay.quay_repository:
+  infra.quay_configuration.quay_repository:
     name: "{{ quay_org_name }}/{{ item['name'] }}"
     visibility: "{{ item['visibility'] | default(omit) }}"
     auto_prune_method: "{{ item['auto_prune_method'] | default(omit) }}"

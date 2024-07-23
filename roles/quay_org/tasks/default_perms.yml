@@ -1,6 +1,6 @@
 ---
 - name: Ensure the default permissions exist
-  herve4m.quay.quay_default_perm:
+  infra.quay_configuration.quay_default_perm:
     organization: "{{ quay_org_name }}"
     name: "{{ quay_org_name + '+' + item['name']
       if '+' not in item['name'] and item['type'] == 'robot'

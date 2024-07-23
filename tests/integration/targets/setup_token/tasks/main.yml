@@ -8,7 +8,7 @@
 #    file is used instead.
 # 3) If the default_token parameter is stil not set (not in defaults/main.yml
 #    and not in /tmp/quay_collection_TOKEN.yml), then the module
-#    herve4m.quay.quay_first_user is used to create the first user account and
+#    infra.quay_configuration.quay_first_user is used to create the first user account and
 #    get its token. If that fails, then an error is reported
 # 4) The retrieved token is stored in /tmp/quay_collection_TOKEN.yml so that it
 #    can be reused by other playbooks.
@@ -43,7 +43,7 @@
     # * the configuration does not allow first user creation
     #   (FEATURE_USER_INITIALIZE is false or not set in config.yaml)
     - name: Ensure the initial user exists
-      herve4m.quay.quay_first_user:
+      infra.quay_configuration.quay_first_user:
         username: "{{ admin_username }}"
         email: "{{ admin_username }}@example.com"
         password: "{{ admin_password }}"

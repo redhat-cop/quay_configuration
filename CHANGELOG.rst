@@ -13,7 +13,7 @@ New Plugins
 Filter
 ~~~~~~
 
-- herve4m.quay.quay_docker_config - Build a Docker configuration in JSON format
+- infra.quay_configuration.quay_docker_config - Build a Docker configuration in JSON format
 
 v1.2.0
 ======
@@ -21,12 +21,12 @@ v1.2.0
 Minor Changes
 -------------
 
-- Add support for the auto-pruning tags feature in Quay 3.11 for organizations and repositories. The ``herve4m.quay.quay_organization`` and ``herve4m.quay.quay_repository`` modules now have the ``auto_prune_method`` and ``auto_prune_value`` options.
+- Add support for the auto-pruning tags feature in Quay 3.11 for organizations and repositories. The ``infra.quay_configuration.quay_organization`` and ``infra.quay_configuration.quay_repository`` modules now have the ``auto_prune_method`` and ``auto_prune_value`` options.
 
 New Modules
 -----------
 
-- herve4m.quay.quay_team_oidc - Synchronize Quay Container Registry teams with OIDC groups
+- infra.quay_configuration.quay_team_oidc - Synchronize Quay Container Registry teams with OIDC groups
 
 v1.1.0
 ======
@@ -37,7 +37,7 @@ v1.0.4
 New Modules
 -----------
 
-- herve4m.quay.quay_proxy_cache - Manage Quay Container Registry proxy cache configurations
+- infra.quay_configuration.quay_proxy_cache - Manage Quay Container Registry proxy cache configurations
 
 v1.0.3
 ======
@@ -66,7 +66,7 @@ Testing against Quay version 3.8.6.
 Bugfixes
 --------
 
-- quay_user - Workaround empty SUPER_USERS configuration parameter. (https://github.com/herve4m/quay-collection/issues/26)
+- quay_user - Workaround empty SUPER_USERS configuration parameter. (https://github.com/redhat-cop/quay_configuration/issues/26)
 
 v1.0.0
 ======
@@ -79,7 +79,7 @@ Testing against Quay version 3.8.5.
 Bugfixes
 --------
 
-- quay_api_token - Convert response headers in lowercase. (https://github.com/herve4m/quay-collection/issues/23)
+- quay_api_token - Convert response headers in lowercase. (https://github.com/redhat-cop/quay_configuration/issues/23)
 
 v0.1.3
 ======
@@ -95,12 +95,12 @@ v0.1.2
 Release Summary
 ---------------
 
-Adding the ``herve4m.quay.quay`` module defaults group.
+Adding the ``infra.quay_configuration.quay`` module defaults group.
 
 Minor Changes
 -------------
 
-- Add the ``herve4m.quay.quay`` module defaults group. To avoid repeating common parameters, such as ``quay_host`` or ``quay_token``, in each task, you can define these common module parameters at the top of your play, in the ``module_defaults`` section, under the ``group/herve4m.quay.quay`` subsection.
+- Add the ``infra.quay_configuration.quay`` module defaults group. To avoid repeating common parameters, such as ``quay_host`` or ``quay_token``, in each task, you can define these common module parameters at the top of your play, in the ``module_defaults`` section, under the ``group/infra.quay_configuration.quay`` subsection.
 
 v0.1.1
 ======
@@ -132,7 +132,7 @@ v0.0.13
 New Roles
 ---------
 
-- herve4m.quay.quay_org - Create and configure a Red Hat Quay organization
+- infra.quay_configuration.quay_org - Create and configure a Red Hat Quay organization
 
 v0.0.12
 =======
@@ -140,7 +140,7 @@ v0.0.12
 New Modules
 -----------
 
-- herve4m.quay.quay_api_token - Create OAuth access tokens for accessing the Red Hat Quay API
+- infra.quay_configuration.quay_api_token - Create OAuth access tokens for accessing the Red Hat Quay API
 
 v0.0.11
 =======
@@ -148,7 +148,7 @@ v0.0.11
 New Modules
 -----------
 
-- herve4m.quay.quay_docker_token - Manage tokens for accessing Red Hat Quay repositories
+- infra.quay_configuration.quay_docker_token - Manage tokens for accessing Red Hat Quay repositories
 
 v0.0.10
 =======
@@ -156,8 +156,8 @@ v0.0.10
 New Modules
 -----------
 
-- herve4m.quay.quay_manifest_label - Manage Red Hat Quay image manifest labels
-- herve4m.quay.quay_manifest_label_info - Gather information about manifest labels in Red Hat Quay
+- infra.quay_configuration.quay_manifest_label - Manage Red Hat Quay image manifest labels
+- infra.quay_configuration.quay_manifest_label_info - Gather information about manifest labels in Red Hat Quay
 
 v0.0.9
 ======
@@ -165,7 +165,7 @@ v0.0.9
 New Modules
 -----------
 
-- herve4m.quay.quay_team_ldap - Synchronize Red Hat Quay teams with LDAP groups
+- infra.quay_configuration.quay_team_ldap - Synchronize Red Hat Quay teams with LDAP groups
 
 v0.0.8
 ======
@@ -191,7 +191,7 @@ New quay_first_user module
 New Modules
 -----------
 
-- herve4m.quay.quay_first_user - Create the first user account
+- infra.quay_configuration.quay_first_user - Create the first user account
 
 v0.0.6
 ======
@@ -244,14 +244,14 @@ Initial public release.
 New Modules
 -----------
 
-- herve4m.quay.quay_application - Manage Red Hat Quay organizations
-- herve4m.quay.quay_default_perm - Manage Red Hat Quay default repository permissions
-- herve4m.quay.quay_image_info - Gather information about images in a Red Hat Quay repository
-- herve4m.quay.quay_message - Manage Red Hat Quay global messages
-- herve4m.quay.quay_notification - Manage Red Hat Quay repository notifications
-- herve4m.quay.quay_organization - Manage Red Hat Quay organizations
-- herve4m.quay.quay_repository - Manage Red Hat Quay repositories
-- herve4m.quay.quay_robot - Manage Red Hat Quay robot accounts
-- herve4m.quay.quay_tag_info - Gather information about tags in a Red Hat Quay repository
-- herve4m.quay.quay_team - Manage Red Hat Quay teams
-- herve4m.quay.quay_user - Manage Red Hat Quay users
+- infra.quay_configuration.quay_application - Manage Red Hat Quay organizations
+- infra.quay_configuration.quay_default_perm - Manage Red Hat Quay default repository permissions
+- infra.quay_configuration.quay_image_info - Gather information about images in a Red Hat Quay repository
+- infra.quay_configuration.quay_message - Manage Red Hat Quay global messages
+- infra.quay_configuration.quay_notification - Manage Red Hat Quay repository notifications
+- infra.quay_configuration.quay_organization - Manage Red Hat Quay organizations
+- infra.quay_configuration.quay_repository - Manage Red Hat Quay repositories
+- infra.quay_configuration.quay_robot - Manage Red Hat Quay robot accounts
+- infra.quay_configuration.quay_tag_info - Gather information about tags in a Red Hat Quay repository
+- infra.quay_configuration.quay_team - Manage Red Hat Quay teams
+- infra.quay_configuration.quay_user - Manage Red Hat Quay users

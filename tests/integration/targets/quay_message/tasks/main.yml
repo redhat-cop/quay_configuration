@@ -1,6 +1,6 @@
 ---
 - name: Ensure the info messages exist
-  herve4m.quay.quay_message:
+  infra.quay_configuration.quay_message:
     content: "{{ item }}"
     severity: info
     format: plain
@@ -15,7 +15,7 @@
     - That is an information 4
 
 - name: Ensure the info message (markdown) exists
-  herve4m.quay.quay_message:
+  infra.quay_configuration.quay_message:
     content: |
       # Information message
 
@@ -28,7 +28,7 @@
     validate_certs: false
 
 - name: Ensure the warning message (text) exists
-  herve4m.quay.quay_message:
+  infra.quay_configuration.quay_message:
     content: Αυτό είναι ένα μήνυμα δοκιμής κειμένου
     severity: warning
     state: present
@@ -37,7 +37,7 @@
     validate_certs: false
 
 - name: Ensure the error message (text) exists
-  herve4m.quay.quay_message:
+  infra.quay_configuration.quay_message:
     content: Test text error message
     severity: error
     format: plain
@@ -47,7 +47,7 @@
     validate_certs: false
 
 - name: Ensure the error message (text) exists (no change)
-  herve4m.quay.quay_message:
+  infra.quay_configuration.quay_message:
     content: Test text error message
     severity: error
     state: present
@@ -62,7 +62,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure the info message is now an error message
-  herve4m.quay.quay_message:
+  infra.quay_configuration.quay_message:
     content: |
       # Information message
 
@@ -75,7 +75,7 @@
     validate_certs: false
 
 - name: Ensure the new error message has new content
-  herve4m.quay.quay_message:
+  infra.quay_configuration.quay_message:
     content: |
       # Information message 2
 
@@ -88,7 +88,7 @@
     validate_certs: false
 
 - name: Ensure the new error message has another content
-  herve4m.quay.quay_message:
+  infra.quay_configuration.quay_message:
     content: |
       # Information message 3
 
@@ -101,7 +101,7 @@
     validate_certs: false
 
 - name: Ensure the error message (text) is now a warning
-  herve4m.quay.quay_message:
+  infra.quay_configuration.quay_message:
     search_string: text error message
     severity: warning
     state: present
@@ -110,7 +110,7 @@
     validate_certs: false
 
 - name: Ensure some messages are deleted (no change)
-  herve4m.quay.quay_message:
+  infra.quay_configuration.quay_message:
     search_string: no such message
     state: absent
     quay_host: "{{ quay_url }}"
@@ -124,7 +124,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure some other messages are deleted (no change)
-  herve4m.quay.quay_message:
+  infra.quay_configuration.quay_message:
     regexp: "no.*such.*message"
     state: absent
     quay_host: "{{ quay_url }}"
@@ -138,7 +138,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure messages are deleted (regex)
-  herve4m.quay.quay_message:
+  infra.quay_configuration.quay_message:
     regexp: " +message"
     state: absent
     quay_host: "{{ quay_url }}"
@@ -146,7 +146,7 @@
     validate_certs: false
 
 - name: Ensure message is deleted (content)
-  herve4m.quay.quay_message:
+  infra.quay_configuration.quay_message:
     content: Αυτό είναι ένα μήνυμα δοκιμής κειμένου
     state: absent
     quay_host: "{{ quay_url }}"
@@ -154,7 +154,7 @@
     validate_certs: false
 
 - name: Ensure all info messages are deleted (severity)
-  herve4m.quay.quay_message:
+  infra.quay_configuration.quay_message:
     search_severity: info
     state: absent
     quay_host: "{{ quay_url }}"

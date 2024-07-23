@@ -88,13 +88,13 @@ notes:
   - The token that you provide in I(quay_token) must have the "Administer
     Organization" permission.
 extends_documentation_fragment:
-  - herve4m.quay.auth
-  - herve4m.quay.auth.login
+  - infra.quay_configuration.auth
+  - infra.quay_configuration.auth.login
 """
 
 EXAMPLES = r"""
 - name: Ensure proxy cache is enabled in the production organization
-  herve4m.quay.quay_proxy_cache:
+  infra.quay_configuration.quay_proxy_cache:
     organization: production
     registry: quay.io/prodimgs
     username: cwade
@@ -105,7 +105,7 @@ EXAMPLES = r"""
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
 - name: Ensure proxy cache is disabled in the production organization
-  herve4m.quay.quay_proxy_cache:
+  infra.quay_configuration.quay_proxy_cache:
     organization: production
     state: absent
     quay_host: https://quay.example.com

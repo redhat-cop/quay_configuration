@@ -47,19 +47,19 @@ options:
         returning data on all the labels in the manifest.
     type: str
 extends_documentation_fragment:
-  - herve4m.quay.auth
-  - herve4m.quay.auth.login
+  - infra.quay_configuration.auth
+  - infra.quay_configuration.auth.login
 """
 
 EXAMPLES = r"""
 - name: Retrieve all the labels of the centos7/nginx-116-centos7 manifest
-  herve4m.quay.quay_manifest_label_info:
+  infra.quay_configuration.quay_manifest_label_info:
     image: centos7/nginx-116-centos7:latest
     quay_host: quay.io
   register: labels
 
 - name: Retrieve the labels with a specific key
-  herve4m.quay.quay_manifest_label_info:
+  infra.quay_configuration.quay_manifest_label_info:
     image: production/smallimage@sha256:4f6f...e797
     key: architecture
     quay_host: https://quay.example.com

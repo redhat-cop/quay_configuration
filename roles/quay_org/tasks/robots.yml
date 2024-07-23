@@ -1,6 +1,6 @@
 ---
 - name: Ensure the robot accounts exist
-  herve4m.quay.quay_robot:
+  infra.quay_configuration.quay_robot:
     name: "{{ item['name'] if '+' in item['name']
       else quay_org_name + '+' + item['name'] }}"
     description: "{{ item['description'] | default(omit) }}"

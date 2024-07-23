@@ -1,7 +1,7 @@
 ---
 # Supporting organization
 - name: Ensure organization ansibletestorg exists
-  herve4m.quay.quay_organization:
+  infra.quay_configuration.quay_organization:
     name: ansibletestorg
     email: ansibletestorg@example.com
     state: present
@@ -94,7 +94,7 @@
       failed_when: false
 
 - name: Ensure the tag v1.0.0 is added to the image
-  herve4m.quay.quay_tag:
+  infra.quay_configuration.quay_tag:
     image: ansibletestorg/ansibletestrepo:latest
     tag: v1.0.0
     state: present
@@ -103,7 +103,7 @@
     validate_certs: false
 
 - name: Ensure the tag v1.0.0 is added to the image 1 (no change)
-  herve4m.quay.quay_tag:
+  infra.quay_configuration.quay_tag:
     image: ansibletestorg/ansibletestrepo:latest
     tag: v1.0.0
     state: present
@@ -118,7 +118,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure the tag v1.0.0 is added to the image 2 (no change)
-  herve4m.quay.quay_tag:
+  infra.quay_configuration.quay_tag:
     image: ansibletestorg/ansibletestrepo
     state: present
     quay_host: "{{ quay_url }}"
@@ -132,7 +132,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure the tag v1.0.0 is added to the image 3 (no change)
-  herve4m.quay.quay_tag:
+  infra.quay_configuration.quay_tag:
     image: ansibletestorg/ansibletestrepo:v1.0.0
     state: present
     quay_host: "{{ quay_url }}"
@@ -146,7 +146,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure the tag v1.0.0 is added to the image 4 (no change)
-  herve4m.quay.quay_tag:
+  infra.quay_configuration.quay_tag:
     image: ansibletestorg/ansibletestrepo:v1.0.0
     tag: latest
     state: present
@@ -161,7 +161,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure the tag v1.0.0 is added to the image 5 (no change)
-  herve4m.quay.quay_tag:
+  infra.quay_configuration.quay_tag:
     image: ansibletestorg/ansibletestrepo:v1.0.0
     tag: latest
     expiration: ""
@@ -177,7 +177,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure the tag v2.0.0 is added with expiration
-  herve4m.quay.quay_tag:
+  infra.quay_configuration.quay_tag:
     image: ansibletestorg/ansibletestrepo:v1.0.0
     tag: v2.0.0
     expiration: "{{ expiration }}"
@@ -187,7 +187,7 @@
     validate_certs: false
 
 - name: Ensure the tag v2.0.0 is added with expiration (no change)
-  herve4m.quay.quay_tag:
+  infra.quay_configuration.quay_tag:
     image: ansibletestorg/ansibletestrepo:v2.0.0
     expiration: "{{ expiration }}"
     state: present
@@ -202,7 +202,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure the tag v2.0.0 has no expiration
-  herve4m.quay.quay_tag:
+  infra.quay_configuration.quay_tag:
     image: ansibletestorg/ansibletestrepo:v2.0.0
     expiration: ""
     state: present
@@ -211,7 +211,7 @@
     validate_certs: false
 
 - name: Retrieve the digest for the v2.0.0 image
-  herve4m.quay.quay_tag_info:
+  infra.quay_configuration.quay_tag_info:
     repository: ansibletestorg/ansibletestrepo
     tag: v2.0.0
     quay_host: "{{ quay_url }}"
@@ -220,7 +220,7 @@
   register: t
 
 - name: Ensure the tag v3.0.0 is added with expiration
-  herve4m.quay.quay_tag:
+  infra.quay_configuration.quay_tag:
     image: ansibletestorg/ansibletestrepo@{{ t['tags'][0]['manifest_digest'] }}
     tag: v3.0.0
     expiration: "{{ expiration }}"
@@ -230,7 +230,7 @@
     validate_certs: false
 
 - name: Ensure the tag v2.0.0 is removed
-  herve4m.quay.quay_tag:
+  infra.quay_configuration.quay_tag:
     image: ansibletestorg/ansibletestrepo:v2.0.0
     expiration: ""
     state: absent
@@ -239,7 +239,7 @@
     validate_certs: false
 
 - name: Ensure the tag v1.0.0 is removed
-  herve4m.quay.quay_tag:
+  infra.quay_configuration.quay_tag:
     image: ansibletestorg/ansibletestrepo
     tag: v1.0.0
     state: absent
@@ -248,7 +248,7 @@
     validate_certs: false
 
 - name: Ensure the tag latest is removed
-  herve4m.quay.quay_tag:
+  infra.quay_configuration.quay_tag:
     image: ansibletestorg/ansibletestrepo:latest
     tag: latest
     state: absent
@@ -257,7 +257,7 @@
     validate_certs: false
 
 - name: Ensure the repository is removed
-  herve4m.quay.quay_repository:
+  infra.quay_configuration.quay_repository:
     name: ansibletestorg/ansibletestrepo
     state: absent
     quay_host: "{{ quay_url }}"
@@ -265,7 +265,7 @@
     validate_certs: false
 
 - name: Ensure the organization is removed
-  herve4m.quay.quay_organization:
+  infra.quay_configuration.quay_organization:
     name: ansibletestorg
     state: absent
     quay_host: "{{ quay_url }}"

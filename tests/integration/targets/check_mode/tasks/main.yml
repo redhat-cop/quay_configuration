@@ -1,7 +1,7 @@
 ---
 # Check mode on object creation
 - name: Ensure user lvasquez exists (check mode)
-  herve4m.quay.quay_user:
+  infra.quay_configuration.quay_user:
     username: lvasquez
     email: lvasquez@example.com
     password: vs9mrD55NP
@@ -18,7 +18,7 @@
     fail_msg: The preceding task should have created the user account
 
 - name: Ensure user lvasquez exists
-  herve4m.quay.quay_user:
+  infra.quay_configuration.quay_user:
     username: lvasquez
     email: lvasquez@example.com
     password: vs9mrD55NP
@@ -35,7 +35,7 @@
 
 # Check mode on object update (no change)
 - name: Ensure user lvasquez exists (no change) (check mode)
-  herve4m.quay.quay_user:
+  infra.quay_configuration.quay_user:
     username: lvasquez
     email: lvasquez@example.com
     state: present
@@ -51,7 +51,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure user lvasquez exists (no change)
-  herve4m.quay.quay_user:
+  infra.quay_configuration.quay_user:
     username: lvasquez
     email: lvasquez@example.com
     state: present
@@ -67,7 +67,7 @@
 
 # Check mode on object update (with change)
 - name: Ensure user lvasquez is updated (check mode)
-  herve4m.quay.quay_user:
+  infra.quay_configuration.quay_user:
     username: lvasquez
     email: newemail@example.com
     state: present
@@ -83,7 +83,7 @@
     fail_msg: The preceding task should have updated the user email address
 
 - name: Ensure user lvasquez is updated
-  herve4m.quay.quay_user:
+  infra.quay_configuration.quay_user:
     username: lvasquez
     email: newemail@example.com
     state: present
@@ -99,7 +99,7 @@
 
 # Check mode on object deletion
 - name: Ensure user lvasquez does not exist (check mode)
-  herve4m.quay.quay_user:
+  infra.quay_configuration.quay_user:
     username: lvasquez
     email: newemail@example.com
     state: absent
@@ -115,7 +115,7 @@
     fail_msg: The preceding task should have deleted the user account
 
 - name: Ensure user lvasquez does not exist (check mode)
-  herve4m.quay.quay_user:
+  infra.quay_configuration.quay_user:
     username: lvasquez
     email: newemail@example.com
     state: absent

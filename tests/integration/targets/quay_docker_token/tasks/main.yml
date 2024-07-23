@@ -1,6 +1,6 @@
 ---
 - name: Ensure the ansibletesttoken1 does not exist (no change)
-  herve4m.quay.quay_docker_token:
+  infra.quay_configuration.quay_docker_token:
     name: ansibletesttoken1
     state: absent
     quay_host: "{{ quay_url }}"
@@ -14,7 +14,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure the ansibletesttoken1 exists
-  herve4m.quay.quay_docker_token:
+  infra.quay_configuration.quay_docker_token:
     name: ansibletesttoken1
     state: present
     quay_host: "{{ quay_url }}"
@@ -23,7 +23,7 @@
   register: result
 
 - name: Ensure the ansibletesttoken1 exists (no change)
-  herve4m.quay.quay_docker_token:
+  infra.quay_configuration.quay_docker_token:
     name: ansibletesttoken1
     state: present
     quay_host: "{{ quay_url }}"
@@ -47,7 +47,7 @@
     fail_msg: The result should have the token_code key
 
 - name: Ensure the ansibletesttoken1 does not exist
-  herve4m.quay.quay_docker_token:
+  infra.quay_configuration.quay_docker_token:
     name: ansibletesttoken1
     state: absent
     quay_host: "{{ quay_url }}"

@@ -1,6 +1,6 @@
 ---
 - name: Ensure the applications exist
-  herve4m.quay.quay_application:
+  infra.quay_configuration.quay_application:
     organization: "{{ quay_org_name }}"
     name: "{{ item['name'] }}"
     description: "{{ item['description'] | default(omit) }}"

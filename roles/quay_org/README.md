@@ -1,4 +1,4 @@
-herve4m.quay.quay_org
+infra.quay_configuration.quay_org
 =========
 
 This role creates an organization in Quay Container Registry.
@@ -28,7 +28,7 @@ If you wish to use an OAuth access token, then you can create one as follows:
 Role Variables
 --------------
 
-You can access the documentation of all the role variables by running the `ansible-doc -t role herve4m.quay.quay_org` command.
+You can access the documentation of all the role variables by running the `ansible-doc -t role infra.quay_configuration.quay_org` command.
 
 The following list gives a short descriptions of the variables:
 
@@ -77,7 +77,7 @@ Example Playbook
   tasks:
     - name: Ensure the organization exists
       include_role:
-        name: herve4m.quay.quay_org
+        name: infra.quay_configuration.quay_org
       vars:
         # Connection parameters
         quay_host: https://quay.example.com

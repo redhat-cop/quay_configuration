@@ -70,13 +70,13 @@ notes:
   - The token that you provide in I(quay_token) must have the "Administer
     Organization" and "Administer User" permissions.
 extends_documentation_fragment:
-  - herve4m.quay.auth
-  - herve4m.quay.auth.login
+  - infra.quay_configuration.auth
+  - infra.quay_configuration.auth.login
 """
 
 EXAMPLES = r"""
 - name: Ensure the robot account production+robotprod1 exists
-  herve4m.quay.quay_robot:
+  infra.quay_configuration.quay_robot:
     name: production+robotprod1
     description: Robot account for production
     state: present
@@ -89,18 +89,18 @@ EXAMPLES = r"""
 
 - debug:
     msg: "Docker configuration (Base64): {{ robot_details['name']
-      | herve4m.quay.quay_docker_config(robot_details['token'],
+      | infra.quay_configuration.quay_docker_config(robot_details['token'],
       'https://quay.example.com') }}"
 
 - name: Ensure the robot account myrobot exists in my namespace
-  herve4m.quay.quay_robot:
+  infra.quay_configuration.quay_robot:
     name: myrobot
     state: present
     quay_host: https://quay.example.com
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
 - name: Ensure the robot account production+robotdev1 does not exists
-  herve4m.quay.quay_robot:
+  infra.quay_configuration.quay_robot:
     name: production+robotdev1
     state: absent
     quay_host: https://quay.example.com
@@ -113,7 +113,7 @@ name:
     - Token name.
     - From this name and the token, in I(token), you can construct a Docker
       configuration file that you can use to manage images in the container
-      image registry. See P(herve4m.quay.quay_docker_config#filter).
+      image registry. See P(infra.quay_configuration.quay_docker_config#filter).
   returned: changed
   type: str
   sample: production+robotprod1

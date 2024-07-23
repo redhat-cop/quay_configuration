@@ -1,7 +1,7 @@
 ---
 # Supporting organization
 - name: Ensure organization ansibletestorg exists
-  herve4m.quay.quay_organization:
+  infra.quay_configuration.quay_organization:
     name: ansibletestorg
     email: ansibletestorg@example.com
     state: present
@@ -10,7 +10,7 @@
     validate_certs: false
 
 - name: Ensure quota exists but no quota/limits given (no change)
-  herve4m.quay.quay_quota:
+  infra.quay_configuration.quay_quota:
     organization: ansibletestorg
     state: present
     quay_host: "{{ quay_url }}"
@@ -24,7 +24,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure the quota does not exist (no change)
-  herve4m.quay.quay_quota:
+  infra.quay_configuration.quay_quota:
     organization: ansibletestorg
     state: absent
     quay_host: "{{ quay_url }}"
@@ -38,7 +38,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure quota exists but only warning limit given
-  herve4m.quay.quay_quota:
+  infra.quay_configuration.quay_quota:
     organization: ansibletestorg
     warning_pct: 80
     state: present
@@ -47,7 +47,7 @@
     validate_certs: false
 
 - name: Ensure quota exists but only warning limit given (no change)
-  herve4m.quay.quay_quota:
+  infra.quay_configuration.quay_quota:
     organization: ansibletestorg
     warning_pct: 80
     state: present
@@ -62,7 +62,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure quota exists but only change warning limit
-  herve4m.quay.quay_quota:
+  infra.quay_configuration.quay_quota:
     organization: ansibletestorg
     warning_pct: 85
     state: present
@@ -77,7 +77,7 @@
     fail_msg: The preceding task should have changed something
 
 - name: Ensure warning limit does not exist
-  herve4m.quay.quay_quota:
+  infra.quay_configuration.quay_quota:
     organization: ansibletestorg
     warning_pct: 0
     state: present
@@ -86,7 +86,7 @@
     validate_certs: false
 
 - name: Ensure warning limit does not exist (no change)
-  herve4m.quay.quay_quota:
+  infra.quay_configuration.quay_quota:
     organization: ansibletestorg
     warning_pct: 0
     state: present
@@ -101,7 +101,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure warning limit exists
-  herve4m.quay.quay_quota:
+  infra.quay_configuration.quay_quota:
     organization: ansibletestorg
     warning_pct: 85
     state: present
@@ -116,7 +116,7 @@
     fail_msg: The preceding task should have changed something
 
 - name: Ensure quota exists
-  herve4m.quay.quay_quota:
+  infra.quay_configuration.quay_quota:
     organization: ansibletestorg
     quota: 1.5 GiB
     warning_pct: 85
@@ -127,7 +127,7 @@
     validate_certs: false
 
 - name: Ensure quota exists (no change)
-  herve4m.quay.quay_quota:
+  infra.quay_configuration.quay_quota:
     organization: ansibletestorg
     quota: 1.5 GiB
     warning_pct: 85
@@ -144,7 +144,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure the quota is updated (1)
-  herve4m.quay.quay_quota:
+  infra.quay_configuration.quay_quota:
     organization: ansibletestorg
     quota: 1.5 TiB
     warning_pct: 80
@@ -155,7 +155,7 @@
     validate_certs: false
 
 - name: Ensure the quota is updated (2)
-  herve4m.quay.quay_quota:
+  infra.quay_configuration.quay_quota:
     organization: ansibletestorg
     quota: 1.5 TiB
     warning_pct: 80
@@ -166,7 +166,7 @@
     validate_certs: false
 
 - name: Ensure the quota is updated (3)
-  herve4m.quay.quay_quota:
+  infra.quay_configuration.quay_quota:
     organization: ansibletestorg
     quota: 1 TiB
     warning_pct: 85
@@ -177,7 +177,7 @@
     validate_certs: false
 
 - name: Ensure quota does not exist
-  herve4m.quay.quay_quota:
+  infra.quay_configuration.quay_quota:
     organization: ansibletestorg
     quota: 1TiB
     warning_pct: 85
@@ -193,7 +193,7 @@
     fail_msg: The preceding task should have changed something
 
 - name: Ensure the organization is removed
-  herve4m.quay.quay_organization:
+  infra.quay_configuration.quay_organization:
     name: ansibletestorg
     state: absent
     quay_host: "{{ quay_url }}"

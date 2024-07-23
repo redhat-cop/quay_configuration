@@ -57,7 +57,7 @@ options:
       - List of the user or robot accounts in the team. Use the syntax
         C(organization)+C(robotshortname) for robot accounts.
       - If the team is synchronized with an LDAP group (see the
-        M(herve4m.quay.quay_team_ldap) module), then you can only add or remove
+        M(infra.quay_configuration.quay_team_ldap) module), then you can only add or remove
         robot accounts.
     type: list
     elements: str
@@ -81,18 +81,18 @@ options:
     choices: [absent, present]
 notes:
   - To synchronize teams with LDAP groups, see the
-    M(herve4m.quay.quay_team_ldap) module.
+    M(infra.quay_configuration.quay_team_ldap) module.
   - Supports C(check_mode).
   - The token that you provide in I(quay_token) must have the "Administer
     Organization" and "Administer User" permissions.
 extends_documentation_fragment:
-  - herve4m.quay.auth
-  - herve4m.quay.auth.login
+  - infra.quay_configuration.auth
+  - infra.quay_configuration.auth.login
 """
 
 EXAMPLES = r"""
 - name: Ensure team operators exists in the production organization
-  herve4m.quay.quay_team:
+  infra.quay_configuration.quay_team:
     name: operators
     organization: production
     description: |
@@ -111,7 +111,7 @@ EXAMPLES = r"""
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
 - name: Ensure team developers does not exist in the production organization
-  herve4m.quay.quay_team:
+  infra.quay_configuration.quay_team:
     name: developers
     organization: production
     state: absent
@@ -119,7 +119,7 @@ EXAMPLES = r"""
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
 - name: Ensure team administrators has no members
-  herve4m.quay.quay_team:
+  infra.quay_configuration.quay_team:
     name: administrators
     organization: production
     members: []
@@ -129,7 +129,7 @@ EXAMPLES = r"""
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
 - name: Ensure team operators has additional members
-  herve4m.quay.quay_team:
+  infra.quay_configuration.quay_team:
     name: operators
     organization: production
     members:

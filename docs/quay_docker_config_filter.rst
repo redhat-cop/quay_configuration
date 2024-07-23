@@ -11,32 +11,32 @@
 
 .. Anchors
 
-.. _ansible_collections.herve4m.quay.quay_docker_config_filter:
+.. _ansible_collections.infra.quay_configuration.quay_docker_config_filter:
 
 .. Anchors: short name for ansible.builtin
 
 .. Title
 
-herve4m.quay.quay_docker_config filter -- Build a Docker configuration in JSON format
+infra.quay_configuration.quay_docker_config filter -- Build a Docker configuration in JSON format
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This filter plugin is part of the `herve4m.quay collection <https://galaxy.ansible.com/ui/repo/published/herve4m/quay/>`_ (version 1.3.0).
+    This filter plugin is part of the `infra.quay_configuration collection <https://galaxy.ansible.com/ui/repo/published/herve4m/quay/>`_ (version 1.3.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
 
-    To install it, use: :code:`ansible-galaxy collection install herve4m.quay`.
+    To install it, use: :code:`ansible-galaxy collection install infra.quay_configuration`.
 
-    To use it in a playbook, specify: :code:`herve4m.quay.quay_docker_config`.
+    To use it in a playbook, specify: :code:`infra.quay_configuration.quay_docker_config`.
 
 .. version_added
 
 .. rst-class:: ansible-version-added
 
-New in herve4m.quay 1.3.0
+New in infra.quay_configuration 1.3.0
 
 .. contents::
    :local:
@@ -68,7 +68,7 @@ Synopsis
 Input
 -----
 
-This describes the input of the filter, the value before ``| herve4m.quay.quay_docker_config``.
+This describes the input of the filter, the value before ``| infra.quay_configuration.quay_docker_config``.
 
 .. raw:: html
 
@@ -108,7 +108,7 @@ Keyword parameters
 ------------------
 
 This describes keyword parameters of the filter. These are the values ``key1=value1``, ``key2=value2`` and so on in the following
-example: ``input | herve4m.quay.quay_docker_config(key1=value1, key2=value2, ...)``
+example: ``input | infra.quay_configuration.quay_docker_config(key1=value1, key2=value2, ...)``
 
 .. raw:: html
 
@@ -203,7 +203,7 @@ Examples
 
     # Build the Docker configuration for lvasquez with password vs9mrD55NP
     # for accessing the registry at quay.example.com
-    {{ 'lvasquez' | herve4m.quay.quay_docker_config('vs9mrD55NP',
+    {{ 'lvasquez' | infra.quay_configuration.quay_docker_config('vs9mrD55NP',
        'https://quay.example.com') }}
 
 
@@ -268,10 +268,10 @@ Collection links
 .. ansible-links::
 
   - title: "Issue Tracker"
-    url: "https://github.com/herve4m/quay-collection/issues"
+    url: "https://github.com/redhat-cop/quay_configuration/issues"
     external: true
   - title: "Repository (Sources)"
-    url: "https://github.com/herve4m/quay-collection"
+    url: "https://github.com/redhat-cop/quay_configuration"
     external: true
 
 

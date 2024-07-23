@@ -1,6 +1,6 @@
 ---
 - name: Ensure user lvasquez exists
-  herve4m.quay.quay_user:
+  infra.quay_configuration.quay_user:
     username: lvasquez
     email: lvasquez@example.com
     password: vs9mrD55NP
@@ -10,7 +10,7 @@
     validate_certs: false
 
 - name: Ensure user dwilde exists but account is disabled
-  herve4m.quay.quay_user:
+  infra.quay_configuration.quay_user:
     username: dwilde
     email: dwilde@example.com
     enabled: false
@@ -19,7 +19,7 @@
     validate_certs: false
 
 - name: Ensure user jziglar is a superuser but account is disabled
-  herve4m.quay.quay_user:
+  infra.quay_configuration.quay_user:
     username: jziglar
     state: present
     email: jziglar@example.com
@@ -31,7 +31,7 @@
     validate_certs: false
 
 - name: Ensure user jziglar is not a superuser and their account is enabled
-  herve4m.quay.quay_user:
+  infra.quay_configuration.quay_user:
     username: jziglar
     state: present
     # Works because the Quay service has not been restarted yet.
@@ -43,7 +43,7 @@
     validate_certs: false
 
 - name: Ensure user jziglar is a superuser
-  herve4m.quay.quay_user:
+  infra.quay_configuration.quay_user:
     username: jziglar
     state: present
     superuser: true
@@ -52,7 +52,7 @@
     validate_certs: false
 
 - name: Ensure user jziglar has a new password
-  herve4m.quay.quay_user:
+  infra.quay_configuration.quay_user:
     username: jziglar
     password: 7BbB8T6c
     quay_host: "{{ quay_url }}"
@@ -60,7 +60,7 @@
     validate_certs: false
 
 - name: Ensure non-existing user is deleted (no change)
-  herve4m.quay.quay_user:
+  infra.quay_configuration.quay_user:
     username: nonexistinguser
     state: absent
     quay_host: "{{ quay_url }}"
@@ -74,7 +74,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure the users are removed
-  herve4m.quay.quay_user:
+  infra.quay_configuration.quay_user:
     username: "{{ item }}"
     state: absent
     enabled: false

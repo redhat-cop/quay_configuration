@@ -11,32 +11,32 @@
 
 .. Anchors
 
-.. _ansible_collections.herve4m.quay.quay_notification_module:
+.. _ansible_collections.infra.quay_configuration.quay_notification_module:
 
 .. Anchors: short name for ansible.builtin
 
 .. Title
 
-herve4m.quay.quay_notification module -- Manage Quay Container Registry repository notifications
+infra.quay_configuration.quay_notification module -- Manage Quay Container Registry repository notifications
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `herve4m.quay collection <https://galaxy.ansible.com/ui/repo/published/herve4m/quay/>`_ (version 1.3.0).
+    This module is part of the `infra.quay_configuration collection <https://galaxy.ansible.com/ui/repo/published/herve4m/quay/>`_ (version 1.3.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
 
-    To install it, use: :code:`ansible-galaxy collection install herve4m.quay`.
+    To install it, use: :code:`ansible-galaxy collection install infra.quay_configuration`.
 
-    To use it in a playbook, specify: :code:`herve4m.quay.quay_notification`.
+    To use it in a playbook, specify: :code:`infra.quay_configuration.quay_notification`.
 
 .. version_added
 
 .. rst-class:: ansible-version-added
 
-New in herve4m.quay 0.0.1
+New in infra.quay_configuration 0.0.1
 
 .. contents::
    :local:
@@ -521,7 +521,7 @@ Examples
 
     
     - name: Ensure notification of type Quay Notification exists
-      herve4m.quay.quay_notification:
+      infra.quay_configuration.quay_notification:
         repository: production/smallimage
         title: Test Quay Notification on image push
         event: repo_push
@@ -536,7 +536,7 @@ Examples
     # You must enable the security scanner capability of your Quay installation
     # to use the vulnerability_found event.
     - name: Ensure notification of type webhook exists
-      herve4m.quay.quay_notification:
+      infra.quay_configuration.quay_notification:
         repository: production/smallimage
         title: Webhook notification on critical image vulnerability
         event: vulnerability_found
@@ -550,7 +550,7 @@ Examples
         quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
     - name: Ensure notification of type Slack exists
-      herve4m.quay.quay_notification:
+      infra.quay_configuration.quay_notification:
         repository: production/smallimage
         title: Notify image push to Slack
         event: repo_push
@@ -562,7 +562,7 @@ Examples
         quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
     - name: Test Slack notification
-      herve4m.quay.quay_notification:
+      infra.quay_configuration.quay_notification:
         repository: production/smallimage
         title: Notify image push to Slack
         test: true
@@ -571,7 +571,7 @@ Examples
         quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
     - name: Reset the failure counter for the Quay Notification
-      herve4m.quay.quay_notification:
+      infra.quay_configuration.quay_notification:
         repository: production/smallimage
         regex: "Quay\\s+Notification\\s"
         reset_failcount: true
@@ -580,7 +580,7 @@ Examples
         quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
     - name: Delete all the notifications triggered by canceled builds
-      herve4m.quay.quay_notification:
+      infra.quay_configuration.quay_notification:
         repository: production/smallimage
         event: build_cancelled
         state: absent
@@ -588,7 +588,7 @@ Examples
         quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
     - name: Delete all the notifications where the title includes "Test"
-      herve4m.quay.quay_notification:
+      infra.quay_configuration.quay_notification:
         repository: production/smallimage
         search_string: Test
         state: absent
@@ -624,10 +624,10 @@ Collection links
 .. ansible-links::
 
   - title: "Issue Tracker"
-    url: "https://github.com/herve4m/quay-collection/issues"
+    url: "https://github.com/redhat-cop/quay_configuration/issues"
     external: true
   - title: "Repository (Sources)"
-    url: "https://github.com/herve4m/quay-collection"
+    url: "https://github.com/redhat-cop/quay_configuration"
     external: true
 
 

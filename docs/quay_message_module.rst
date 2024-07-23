@@ -11,32 +11,32 @@
 
 .. Anchors
 
-.. _ansible_collections.herve4m.quay.quay_message_module:
+.. _ansible_collections.infra.quay_configuration.quay_message_module:
 
 .. Anchors: short name for ansible.builtin
 
 .. Title
 
-herve4m.quay.quay_message module -- Manage Quay Container Registry global messages
+infra.quay_configuration.quay_message module -- Manage Quay Container Registry global messages
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `herve4m.quay collection <https://galaxy.ansible.com/ui/repo/published/herve4m/quay/>`_ (version 1.3.0).
+    This module is part of the `infra.quay_configuration collection <https://galaxy.ansible.com/ui/repo/published/herve4m/quay/>`_ (version 1.3.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
 
-    To install it, use: :code:`ansible-galaxy collection install herve4m.quay`.
+    To install it, use: :code:`ansible-galaxy collection install infra.quay_configuration`.
 
-    To use it in a playbook, specify: :code:`herve4m.quay.quay_message`.
+    To use it in a playbook, specify: :code:`infra.quay_configuration.quay_message`.
 
 .. version_added
 
 .. rst-class:: ansible-version-added
 
-New in herve4m.quay 0.0.1
+New in infra.quay_configuration 0.0.1
 
 .. contents::
    :local:
@@ -325,7 +325,7 @@ Examples
 
     
     - name: Ensure the message of the day is published
-      herve4m.quay.quay_message:
+      infra.quay_configuration.quay_message:
         content: |
           # Information message
 
@@ -343,7 +343,7 @@ Examples
         quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
     - name: Ensure a message in plain text is published
-      herve4m.quay.quay_message:
+      infra.quay_configuration.quay_message:
         content: System maintenance tomorrow at 6 AM
         format: plain
         severity: info
@@ -352,7 +352,7 @@ Examples
         quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
     - name: Ensure the message severity is upgraded to warning
-      herve4m.quay.quay_message:
+      infra.quay_configuration.quay_message:
         content: System maintenance tomorrow at 6 AM
         severity: warning
         state: present
@@ -360,7 +360,7 @@ Examples
         quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
     - name: Ensure the message content is updated
-      herve4m.quay.quay_message:
+      infra.quay_configuration.quay_message:
         content: System maintenance tomorrow at 7 AM
         # Find the message to update by a matching string
         search_string: tomorrow at 6 AM
@@ -369,7 +369,7 @@ Examples
         quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
     - name: Ensure the existing message as an error priority now
-      herve4m.quay.quay_message:
+      infra.quay_configuration.quay_message:
         # Find the message to update by a matching string
         search_string: incididunt ut labore et dolore
         severity: error
@@ -378,7 +378,7 @@ Examples
         quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
     - name: Ensure the warning message is removed
-      herve4m.quay.quay_message:
+      infra.quay_configuration.quay_message:
         # Find the message to delete by its exact content
         content: System maintenance tomorrow at 7 AM
         state: absent
@@ -386,7 +386,7 @@ Examples
         quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
     - name: Ensure the messages of the day are removed
-      herve4m.quay.quay_message:
+      infra.quay_configuration.quay_message:
         # Find the messages to delete by a matching regular expression
         regexp: 'message\s+of\s+the\s+day'
         state: absent
@@ -394,7 +394,7 @@ Examples
         quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
     - name: Ensure the lorem ipsum error messages are removed
-      herve4m.quay.quay_message:
+      infra.quay_configuration.quay_message:
         # Find the messages to delete by a matching string and severity
         search_string: lorem ipsum
         search_severity: error
@@ -403,7 +403,7 @@ Examples
         quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
     - name: Ensure all the warning messages are removed
-      herve4m.quay.quay_message:
+      infra.quay_configuration.quay_message:
         search_severity: warning
         state: absent
         quay_host: https://quay.example.com
@@ -438,10 +438,10 @@ Collection links
 .. ansible-links::
 
   - title: "Issue Tracker"
-    url: "https://github.com/herve4m/quay-collection/issues"
+    url: "https://github.com/redhat-cop/quay_configuration/issues"
     external: true
   - title: "Repository (Sources)"
-    url: "https://github.com/herve4m/quay-collection"
+    url: "https://github.com/redhat-cop/quay_configuration"
     external: true
 
 

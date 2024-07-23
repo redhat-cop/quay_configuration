@@ -1,7 +1,7 @@
 ---
 # Supporting organization
 - name: Ensure organization ansibletestorg exists
-  herve4m.quay.quay_organization:
+  infra.quay_configuration.quay_organization:
     name: ansibletestorg
     email: ansibletestorg@example.com
     state: present
@@ -11,7 +11,7 @@
 
 # Supporting repository
 - name: Ensure repository ansibletestrepo1 exists
-  herve4m.quay.quay_repository:
+  infra.quay_configuration.quay_repository:
     name: ansibletestorg/ansibletestrepo1
     state: present
     quay_host: "{{ quay_url }}"
@@ -19,7 +19,7 @@
     validate_certs: false
 
 - name: Getting the details of the tags in the repository
-  herve4m.quay.quay_tag_info:
+  infra.quay_configuration.quay_tag_info:
     repository: ansibletestorg/ansibletestrepo1
     quay_host: "{{ quay_url }}"
     quay_token: "{{ quay_token }}"
@@ -31,7 +31,7 @@
     var: t
 
 - name: Getting the details of the coreos/dnsmasq latest tag
-  herve4m.quay.quay_tag_info:
+  infra.quay_configuration.quay_tag_info:
     repository: coreos/dnsmasq
     tag: latest
     quay_host: quay.io
@@ -42,7 +42,7 @@
     var: t
 
 - name: Getting the details of the tags in a non-existing repository
-  herve4m.quay.quay_tag_info:
+  infra.quay_configuration.quay_tag_info:
     repository: nosuchrepository
     quay_host: "{{ quay_url }}"
     quay_token: "{{ quay_token }}"
@@ -59,7 +59,7 @@
     var: t
 
 - name: Ensure the repository is removed
-  herve4m.quay.quay_repository:
+  infra.quay_configuration.quay_repository:
     name: ansibletestorg/ansibletestrepo1
     state: absent
     quay_host: "{{ quay_url }}"
@@ -67,7 +67,7 @@
     validate_certs: false
 
 - name: Ensure the organization is removed
-  herve4m.quay.quay_organization:
+  infra.quay_configuration.quay_organization:
     name: ansibletestorg
     state: absent
     quay_host: "{{ quay_url }}"

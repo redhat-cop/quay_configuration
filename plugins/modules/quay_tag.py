@@ -81,13 +81,13 @@ notes:
   - The token that you provide in I(quay_token) must have the "Administer
     Repositories" permission.
 extends_documentation_fragment:
-  - herve4m.quay.auth
-  - herve4m.quay.auth.login
+  - infra.quay_configuration.auth
+  - infra.quay_configuration.auth.login
 """
 
 EXAMPLES = r"""
 - name: Ensure the latest tag is associated with the image that has tag v1.0.0
-  herve4m.quay.quay_tag:
+  infra.quay_configuration.quay_tag:
     image: production/smallimage:v1.0.0
     tag: latest
     state: present
@@ -95,7 +95,7 @@ EXAMPLES = r"""
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
 - name: Ensure tag v0.0.2 is associated to the image with the specified digest
-  herve4m.quay.quay_tag:
+  infra.quay_configuration.quay_tag:
     image: production/smallimage@sha256:4f6f...e797
     tag: v0.0.2
     state: present
@@ -103,7 +103,7 @@ EXAMPLES = r"""
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
 - name: Ensure tag v0.0.8 expires May 25, 2023 at 16:30
-  herve4m.quay.quay_tag:
+  infra.quay_configuration.quay_tag:
     image: production/smallimage:v0.0.8
     expiration: 202305251630.00
     state: present
@@ -111,7 +111,7 @@ EXAMPLES = r"""
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
 - name: Ensure tag v0.0.8 does not expire anymore
-  herve4m.quay.quay_tag:
+  infra.quay_configuration.quay_tag:
     image: production/smallimage:v0.0.8
     expiration: ""
     state: present
@@ -119,7 +119,7 @@ EXAMPLES = r"""
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
 - name: Ensure tag v0.0.1 does not exist
-  herve4m.quay.quay_tag:
+  infra.quay_configuration.quay_tag:
     image: production/smallimage:v0.0.1
     state: absent
     quay_host: https://quay.example.com

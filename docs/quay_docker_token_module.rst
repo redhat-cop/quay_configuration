@@ -11,32 +11,32 @@
 
 .. Anchors
 
-.. _ansible_collections.herve4m.quay.quay_docker_token_module:
+.. _ansible_collections.infra.quay_configuration.quay_docker_token_module:
 
 .. Anchors: short name for ansible.builtin
 
 .. Title
 
-herve4m.quay.quay_docker_token module -- Manage tokens for accessing Quay Container Registry repositories
+infra.quay_configuration.quay_docker_token module -- Manage tokens for accessing Quay Container Registry repositories
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `herve4m.quay collection <https://galaxy.ansible.com/ui/repo/published/herve4m/quay/>`_ (version 1.3.0).
+    This module is part of the `infra.quay_configuration collection <https://galaxy.ansible.com/ui/repo/published/herve4m/quay/>`_ (version 1.3.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
 
-    To install it, use: :code:`ansible-galaxy collection install herve4m.quay`.
+    To install it, use: :code:`ansible-galaxy collection install infra.quay_configuration`.
 
-    To use it in a playbook, specify: :code:`herve4m.quay.quay_docker_token`.
+    To use it in a playbook, specify: :code:`infra.quay_configuration.quay_docker_token`.
 
 .. version_added
 
 .. rst-class:: ansible-version-added
 
-New in herve4m.quay 0.0.11
+New in infra.quay_configuration 0.0.11
 
 .. contents::
    :local:
@@ -233,7 +233,7 @@ Examples
 
     
     - name: Ensure the token exists for my account
-      herve4m.quay.quay_docker_token:
+      infra.quay_configuration.quay_docker_token:
         name: token_for_pull
         state: present
         quay_host: https://quay.example.com
@@ -247,7 +247,7 @@ Examples
         password: "{{ token_details['token_code'] }}"
 
     - name: Ensure the token does not exist
-      herve4m.quay.quay_docker_token:
+      infra.quay_configuration.quay_docker_token:
         name: token_for_pull
         state: absent
         quay_host: https://quay.example.com
@@ -444,10 +444,10 @@ Collection links
 .. ansible-links::
 
   - title: "Issue Tracker"
-    url: "https://github.com/herve4m/quay-collection/issues"
+    url: "https://github.com/redhat-cop/quay_configuration/issues"
     external: true
   - title: "Repository (Sources)"
-    url: "https://github.com/herve4m/quay-collection"
+    url: "https://github.com/redhat-cop/quay_configuration"
     external: true
 
 

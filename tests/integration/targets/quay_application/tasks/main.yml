@@ -1,7 +1,7 @@
 ---
 # Supporting organization
 - name: Ensure organization ansibletestorg exists
-  herve4m.quay.quay_organization:
+  infra.quay_configuration.quay_organization:
     name: ansibletestorg
     email: ansibletestorg@example.com
     state: present
@@ -10,7 +10,7 @@
     validate_certs: false
 
 - name: Ensure the application ansibletestapp1 exists
-  herve4m.quay.quay_application:
+  infra.quay_configuration.quay_application:
     organization: ansibletestorg
     name: ansibletestapp1
     state: present
@@ -19,7 +19,7 @@
     validate_certs: false
 
 - name: Ensure the application ansibletestapp1 is updated
-  herve4m.quay.quay_application:
+  infra.quay_configuration.quay_application:
     organization: ansibletestorg
     name: ansibletestapp1
     description: Application 1 description
@@ -32,7 +32,7 @@
     validate_certs: false
 
 - name: Ensure the application ansibletestapp1 is updated (no change)
-  herve4m.quay.quay_application:
+  infra.quay_configuration.quay_application:
     organization: ansibletestorg
     name: ansibletestapp1
     description: Application 1 description
@@ -51,7 +51,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure the application ansibletestapp1 is updated 2 (no change)
-  herve4m.quay.quay_application:
+  infra.quay_configuration.quay_application:
     organization: ansibletestorg
     name: ansibletestapp1
     avatar_email: avatarapp1@example.com
@@ -67,7 +67,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure the application ansibletestapp1 is updated 3
-  herve4m.quay.quay_application:
+  infra.quay_configuration.quay_application:
     organization: ansibletestorg
     name: ansibletestapp1
     description: ""
@@ -77,7 +77,7 @@
     validate_certs: false
 
 - name: Ensure the application ansibletestapp1 is renamed (ansibletestapp2)
-  herve4m.quay.quay_application:
+  infra.quay_configuration.quay_application:
     organization: ansibletestorg
     name: ansibletestapp1
     new_name: ansibletestapp2
@@ -88,7 +88,7 @@
     validate_certs: false
 
 - name: Ensure the application ansibletestapp1 does not exist (no change)
-  herve4m.quay.quay_application:
+  infra.quay_configuration.quay_application:
     organization: ansibletestorg
     name: ansibletestapp1
     state: absent
@@ -103,7 +103,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure the application ansibletestapp3 exists (new name)
-  herve4m.quay.quay_application:
+  infra.quay_configuration.quay_application:
     organization: ansibletestorg
     name: doesnotexist
     new_name: ansibletestapp3
@@ -114,7 +114,7 @@
     validate_certs: false
 
 - name: Ensure the applications are removed
-  herve4m.quay.quay_application:
+  infra.quay_configuration.quay_application:
     organization: ansibletestorg
     name: "{{ item }}"
     description: "New ansibletestapp3 application"
@@ -128,7 +128,7 @@
     - ansibletestapp3
 
 - name: Ensure the organization is removed
-  herve4m.quay.quay_organization:
+  infra.quay_configuration.quay_organization:
     name: ansibletestorg
     state: absent
     quay_host: "{{ quay_url }}"

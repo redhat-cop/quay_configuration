@@ -77,13 +77,13 @@ notes:
   - The token that you provide in I(quay_token) must have the "Administer
     Organization" and "Administer User" permissions.
 extends_documentation_fragment:
-  - herve4m.quay.auth
-  - herve4m.quay.auth.login
+  - infra.quay_configuration.auth
+  - infra.quay_configuration.auth.login
 """
 
 EXAMPLES = r"""
 - name: Ensure the organization has a 1.5 TiB quota with 80% and 95% limits
-  herve4m.quay.quay_quota:
+  infra.quay_configuration.quay_quota:
     organization: production
     quota: 1.5 TiB
     warning_pct: 80
@@ -93,7 +93,7 @@ EXAMPLES = r"""
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
 - name: Ensure the production organization has no warning limit
-  herve4m.quay.quay_quota:
+  infra.quay_configuration.quay_quota:
     organization: production
     warning_pct: 0
     state: present
@@ -101,7 +101,7 @@ EXAMPLES = r"""
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
 - name: Ensure the production organization has no quota
-  herve4m.quay.quay_quota:
+  infra.quay_configuration.quay_quota:
     organization: production
     state: absent
     quay_host: https://quay.example.com

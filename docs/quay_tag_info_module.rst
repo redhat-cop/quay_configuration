@@ -11,32 +11,32 @@
 
 .. Anchors
 
-.. _ansible_collections.herve4m.quay.quay_tag_info_module:
+.. _ansible_collections.infra.quay_configuration.quay_tag_info_module:
 
 .. Anchors: short name for ansible.builtin
 
 .. Title
 
-herve4m.quay.quay_tag_info module -- Gather information about tags in a Quay Container Registry repository
+infra.quay_configuration.quay_tag_info module -- Gather information about tags in a Quay Container Registry repository
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `herve4m.quay collection <https://galaxy.ansible.com/ui/repo/published/herve4m/quay/>`_ (version 1.3.0).
+    This module is part of the `infra.quay_configuration collection <https://galaxy.ansible.com/ui/repo/published/herve4m/quay/>`_ (version 1.3.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
 
-    To install it, use: :code:`ansible-galaxy collection install herve4m.quay`.
+    To install it, use: :code:`ansible-galaxy collection install infra.quay_configuration`.
 
-    To use it in a playbook, specify: :code:`herve4m.quay.quay_tag_info`.
+    To use it in a playbook, specify: :code:`infra.quay_configuration.quay_tag_info`.
 
 .. version_added
 
 .. rst-class:: ansible-version-added
 
-New in herve4m.quay 0.0.1
+New in infra.quay_configuration 0.0.1
 
 .. contents::
    :local:
@@ -250,7 +250,7 @@ Examples
 
     
     - name: Retrieve the tags in the production/smallimage repository
-      herve4m.quay.quay_tag_info:
+      infra.quay_configuration.quay_tag_info:
         repository: production/smallimage
         only_active_tags: true
         quay_host: https://quay.example.com
@@ -258,7 +258,7 @@ Examples
       register: tags
 
     - name: Gather info on tag 0.1.2 of the testing image in my personal namespace
-      herve4m.quay.quay_tag_info:
+      infra.quay_configuration.quay_tag_info:
         repository: testimg
         tag: "0.1.2"
         quay_host: https://quay.example.com
@@ -266,7 +266,7 @@ Examples
       register: tag_info
 
     - name: Retrieve the tags from the images with the given digest
-      herve4m.quay.quay_tag_info:
+      infra.quay_configuration.quay_tag_info:
         repository: production/smallimage
         digest: "sha256:53b2...a7c8"
         only_active_tags: true
@@ -445,10 +445,10 @@ Collection links
 .. ansible-links::
 
   - title: "Issue Tracker"
-    url: "https://github.com/herve4m/quay-collection/issues"
+    url: "https://github.com/redhat-cop/quay_configuration/issues"
     external: true
   - title: "Repository (Sources)"
-    url: "https://github.com/herve4m/quay-collection"
+    url: "https://github.com/redhat-cop/quay_configuration"
     external: true
 
 

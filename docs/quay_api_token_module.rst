@@ -11,32 +11,32 @@
 
 .. Anchors
 
-.. _ansible_collections.herve4m.quay.quay_api_token_module:
+.. _ansible_collections.infra.quay_configuration.quay_api_token_module:
 
 .. Anchors: short name for ansible.builtin
 
 .. Title
 
-herve4m.quay.quay_api_token module -- Create OAuth access tokens for accessing the Quay Container Registry API
+infra.quay_configuration.quay_api_token module -- Create OAuth access tokens for accessing the Quay Container Registry API
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `herve4m.quay collection <https://galaxy.ansible.com/ui/repo/published/herve4m/quay/>`_ (version 1.3.0).
+    This module is part of the `infra.quay_configuration collection <https://galaxy.ansible.com/ui/repo/published/herve4m/quay/>`_ (version 1.3.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
 
-    To install it, use: :code:`ansible-galaxy collection install herve4m.quay`.
+    To install it, use: :code:`ansible-galaxy collection install infra.quay_configuration`.
 
-    To use it in a playbook, specify: :code:`herve4m.quay.quay_api_token`.
+    To use it in a playbook, specify: :code:`infra.quay_configuration.quay_api_token`.
 
 .. version_added
 
 .. rst-class:: ansible-version-added
 
-New in herve4m.quay 0.0.12
+New in infra.quay_configuration 0.0.12
 
 .. contents::
    :local:
@@ -90,7 +90,7 @@ Parameters
     </div></td>
     <td><div class="ansible-option-cell">
       <p>The client ID associated with the OAuth application to use for generating the OAuth access token.</p>
-      <p>See the <a href='../../herve4m/quay/quay_application_module.html' class='module'>herve4m.quay.quay_application</a> module to create an application object and to retrieve the associated client ID.</p>
+      <p>See the <a href='../../herve4m/quay/quay_application_module.html' class='module'>infra.quay_configuration.quay_application</a> module to create an application object and to retrieve the associated client ID.</p>
     </div></td>
   </tr>
   <tr class="row-odd">
@@ -221,7 +221,7 @@ Examples
 
     
     - name: Generate an OAuth access token
-      herve4m.quay.quay_api_token:
+      infra.quay_configuration.quay_api_token:
         quay_username: lvasquez
         quay_password: vs9mrD55NP
         # The OAuth application must exist. See the following example that shows
@@ -242,7 +242,7 @@ Examples
     # The OAuth access token of an existing super user is required to create the
     # organization, the application, and the user account.
     - name: Ensure the organization exists
-      herve4m.quay.quay_organization:
+      infra.quay_configuration.quay_organization:
         name: production
         email: prodlist@example.com
         state: present
@@ -250,7 +250,7 @@ Examples
         quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
     - name: Ensure the application extapp exists
-      herve4m.quay.quay_application:
+      infra.quay_configuration.quay_application:
         organization: production
         name: extapp
         state: present
@@ -259,7 +259,7 @@ Examples
       register: app_details
 
     - name: Ensure the user exists
-      herve4m.quay.quay_user:
+      infra.quay_configuration.quay_user:
         username: jziglar
         password: i45fR38GhY
         email: jziglar@example.com
@@ -268,7 +268,7 @@ Examples
         quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
     - name: Generate an OAuth access token for the user
-      herve4m.quay.quay_api_token:
+      infra.quay_configuration.quay_api_token:
         quay_username: jziglar
         quay_password: i45fR38GhY
         client_id: "{{ app_details['client_id'] }}"
@@ -343,10 +343,10 @@ Collection links
 .. ansible-links::
 
   - title: "Issue Tracker"
-    url: "https://github.com/herve4m/quay-collection/issues"
+    url: "https://github.com/redhat-cop/quay_configuration/issues"
     external: true
   - title: "Repository (Sources)"
-    url: "https://github.com/herve4m/quay-collection"
+    url: "https://github.com/redhat-cop/quay_configuration"
     external: true
 
 

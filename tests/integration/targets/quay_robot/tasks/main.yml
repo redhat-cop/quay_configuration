@@ -1,7 +1,7 @@
 ---
 # Supporting organization
 - name: Ensure organization ansibletestorg exists
-  herve4m.quay.quay_organization:
+  infra.quay_configuration.quay_organization:
     name: ansibletestorg
     email: ansibletestorg@example.com
     state: present
@@ -10,7 +10,7 @@
     validate_certs: false
 
 - name: Ensure robot account ansibletestrobot1 exists
-  herve4m.quay.quay_robot:
+  infra.quay_configuration.quay_robot:
     name: ansibletestorg+ansibletestrobot1
     description: Test robot account in ansibletestorg
     state: present
@@ -19,7 +19,7 @@
     validate_certs: false
 
 - name: Ensure robot account ansibletestrobot1 exists (no change)
-  herve4m.quay.quay_robot:
+  infra.quay_configuration.quay_robot:
     name: ansibletestorg+ansibletestrobot1
     state: present
     quay_host: "{{ quay_url }}"
@@ -33,7 +33,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure robot account ansibletestrobot2 exists
-  herve4m.quay.quay_robot:
+  infra.quay_configuration.quay_robot:
     name: ansibletestorg+ansibletestrobot2
     state: present
     quay_host: "{{ quay_url }}"
@@ -41,7 +41,7 @@
     validate_certs: false
 
 - name: Ensure robot account ansibletestrobot3 does not exist (no change)
-  herve4m.quay.quay_robot:
+  infra.quay_configuration.quay_robot:
     name: ansibletestorg+ansibletestrobot3
     state: absent
     quay_host: "{{ quay_url }}"
@@ -55,7 +55,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure robot account ansibletestrobot4 exists in my namespace
-  herve4m.quay.quay_robot:
+  infra.quay_configuration.quay_robot:
     name: ansibletestrobot4
     description: My robot
     state: present
@@ -64,7 +64,7 @@
     validate_certs: false
 
 - name: Ensure robot account ansibletestrobot4 is removed from my namespace
-  herve4m.quay.quay_robot:
+  infra.quay_configuration.quay_robot:
     name: ansibletestrobot4
     description: My robot
     state: absent
@@ -73,7 +73,7 @@
     validate_certs: false
 
 - name: Ensure robot accounts are removed
-  herve4m.quay.quay_robot:
+  infra.quay_configuration.quay_robot:
     name: "{{ item }}"
     state: absent
     quay_host: "{{ quay_url }}"
@@ -84,7 +84,7 @@
     - ansibletestorg+ansibletestrobot2
 
 - name: Ensure the organization is removed
-  herve4m.quay.quay_organization:
+  infra.quay_configuration.quay_organization:
     name: ansibletestorg
     state: absent
     quay_host: "{{ quay_url }}"

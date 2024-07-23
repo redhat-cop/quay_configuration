@@ -1,6 +1,6 @@
 ---
 - name: Ensure the user accounts exist
-  herve4m.quay.quay_user:
+  infra.quay_configuration.quay_user:
     username: "{{ item['username'] }}"
     email: "{{ item['email'] | default(omit) }}"
     password: "{{ item['password'] | default(omit) }}"

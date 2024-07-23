@@ -38,7 +38,7 @@ DOCUMENTATION:
 EXAMPLES: |
   # Build the Docker configuration for lvasquez with password vs9mrD55NP
   # for accessing the registry at quay.example.com
-  {{ 'lvasquez' | herve4m.quay.quay_docker_config('vs9mrD55NP',
+  {{ 'lvasquez' | infra.quay_configuration.quay_docker_config('vs9mrD55NP',
      'https://quay.example.com') }}
 
 RETURN:

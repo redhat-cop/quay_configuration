@@ -150,11 +150,11 @@ releases:
   0.1.2:
     changes:
       minor_changes:
-      - Add the ``herve4m.quay.quay`` module defaults group. To avoid repeating common
+      - Add the ``infra.quay_configuration.quay`` module defaults group. To avoid repeating common
         parameters, such as ``quay_host`` or ``quay_token``, in each task, you can
         define these common module parameters at the top of your play, in the ``module_defaults``
-        section, under the ``group/herve4m.quay.quay`` subsection.
-      release_summary: Adding the ``herve4m.quay.quay`` module defaults group.
+        section, under the ``group/infra.quay_configuration.quay`` subsection.
+      release_summary: Adding the ``infra.quay_configuration.quay`` module defaults group.
     fragments:
     - 021-v0.1.2-summary.yml
     release_date: '2022-10-13'
@@ -167,7 +167,7 @@ releases:
   1.0.0:
     changes:
       bugfixes:
-      - quay_api_token - Convert response headers in lowercase. (https://github.com/herve4m/quay-collection/issues/23)
+      - quay_api_token - Convert response headers in lowercase. (https://github.com/redhat-cop/quay_configuration/issues/23)
       release_summary: Testing against Quay version 3.8.5.
     fragments:
     - 24-lowercaseheaders.yml
@@ -176,7 +176,7 @@ releases:
   1.0.1:
     changes:
       bugfixes:
-      - quay_user - Workaround empty SUPER_USERS configuration parameter. (https://github.com/herve4m/quay-collection/issues/26)
+      - quay_user - Workaround empty SUPER_USERS configuration parameter. (https://github.com/redhat-cop/quay_configuration/issues/26)
       release_summary: Testing against Quay version 3.8.6.
     fragments:
     - 27-v1.0.1-summary.yml
@@ -205,7 +205,7 @@ releases:
     changes:
       minor_changes:
       - Add support for the auto-pruning tags feature in Quay 3.11 for organizations
-        and repositories. The ``herve4m.quay.quay_organization`` and ``herve4m.quay.quay_repository``
+        and repositories. The ``infra.quay_configuration.quay_organization`` and ``infra.quay_configuration.quay_repository``
         modules now have the ``auto_prune_method`` and ``auto_prune_value`` options.
     fragments:
     - PR32-v1.2.0-summary.yml

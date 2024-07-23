@@ -98,13 +98,13 @@ notes:
   - The token that you provide in I(quay_token) must have the
     "Super User Access" permission.
 extends_documentation_fragment:
-  - herve4m.quay.auth
-  - herve4m.quay.auth.login
+  - infra.quay_configuration.auth
+  - infra.quay_configuration.auth.login
 """
 
 EXAMPLES = r"""
 - name: Ensure the message of the day is published
-  herve4m.quay.quay_message:
+  infra.quay_configuration.quay_message:
     content: |
       # Information message
 
@@ -122,7 +122,7 @@ EXAMPLES = r"""
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
 - name: Ensure a message in plain text is published
-  herve4m.quay.quay_message:
+  infra.quay_configuration.quay_message:
     content: System maintenance tomorrow at 6 AM
     format: plain
     severity: info
@@ -131,7 +131,7 @@ EXAMPLES = r"""
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
 - name: Ensure the message severity is upgraded to warning
-  herve4m.quay.quay_message:
+  infra.quay_configuration.quay_message:
     content: System maintenance tomorrow at 6 AM
     severity: warning
     state: present
@@ -139,7 +139,7 @@ EXAMPLES = r"""
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
 - name: Ensure the message content is updated
-  herve4m.quay.quay_message:
+  infra.quay_configuration.quay_message:
     content: System maintenance tomorrow at 7 AM
     # Find the message to update by a matching string
     search_string: tomorrow at 6 AM
@@ -148,7 +148,7 @@ EXAMPLES = r"""
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
 - name: Ensure the existing message as an error priority now
-  herve4m.quay.quay_message:
+  infra.quay_configuration.quay_message:
     # Find the message to update by a matching string
     search_string: incididunt ut labore et dolore
     severity: error
@@ -157,7 +157,7 @@ EXAMPLES = r"""
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
 - name: Ensure the warning message is removed
-  herve4m.quay.quay_message:
+  infra.quay_configuration.quay_message:
     # Find the message to delete by its exact content
     content: System maintenance tomorrow at 7 AM
     state: absent
@@ -165,7 +165,7 @@ EXAMPLES = r"""
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
 - name: Ensure the messages of the day are removed
-  herve4m.quay.quay_message:
+  infra.quay_configuration.quay_message:
     # Find the messages to delete by a matching regular expression
     regexp: 'message\s+of\s+the\s+day'
     state: absent
@@ -173,7 +173,7 @@ EXAMPLES = r"""
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
 - name: Ensure the lorem ipsum error messages are removed
-  herve4m.quay.quay_message:
+  infra.quay_configuration.quay_message:
     # Find the messages to delete by a matching string and severity
     search_string: lorem ipsum
     search_severity: error
@@ -182,7 +182,7 @@ EXAMPLES = r"""
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
 - name: Ensure all the warning messages are removed
-  herve4m.quay.quay_message:
+  infra.quay_configuration.quay_message:
     search_severity: warning
     state: absent
     quay_host: https://quay.example.com

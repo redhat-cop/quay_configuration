@@ -75,13 +75,13 @@ notes:
   - The user account associated with the token that you provide in
     I(quay_token) must have write access to the repository.
 extends_documentation_fragment:
-  - herve4m.quay.auth
-  - herve4m.quay.auth.login
+  - infra.quay_configuration.auth
+  - infra.quay_configuration.auth.login
 """
 
 EXAMPLES = r"""
 - name: Ensure the manifest has the architecture label set
-  herve4m.quay.quay_manifest_label:
+  infra.quay_configuration.quay_manifest_label:
     image: production/smallimage:v1.0.0
     key: architecture
     value: x86_64
@@ -90,7 +90,7 @@ EXAMPLES = r"""
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
 - name: Ensure the manifest has an additional architecture label set
-  herve4m.quay.quay_manifest_label:
+  infra.quay_configuration.quay_manifest_label:
     image: production/smallimage:v1.0.0
     key: architecture
     value: power
@@ -100,7 +100,7 @@ EXAMPLES = r"""
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
 - name: Ensure the manifest has a specific component label removed
-  herve4m.quay.quay_manifest_label:
+  infra.quay_configuration.quay_manifest_label:
     image: production/smallimage@sha256:4f6f...e797
     key: component
     value: front
@@ -109,7 +109,7 @@ EXAMPLES = r"""
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
 - name: Remove all the labels that have a key set to scopes
-  herve4m.quay.quay_manifest_label:
+  infra.quay_configuration.quay_manifest_label:
     image: production/smallimage:v1.0.0
     key: scopes
     state: absent

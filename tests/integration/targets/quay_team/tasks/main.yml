@@ -1,7 +1,7 @@
 ---
 # Supporting organization
 - name: Ensure organization ansibletestorg exists
-  herve4m.quay.quay_organization:
+  infra.quay_configuration.quay_organization:
     name: ansibletestorg
     email: ansibletestorg@example.com
     state: present
@@ -11,7 +11,7 @@
 
 # Supporting user accounts
 - name: Ensure user accounts exist
-  herve4m.quay.quay_user:
+  infra.quay_configuration.quay_user:
     username: "{{ item }}"
     email: "{{ item }}@example.com"
     state: present
@@ -26,7 +26,7 @@
 
 # Supporting robot accounts
 - name: Ensure the robot accounts exist
-  herve4m.quay.quay_robot:
+  infra.quay_configuration.quay_robot:
     name: "{{ item }}"
     state: present
     quay_host: "{{ quay_url }}"
@@ -37,7 +37,7 @@
     - ansibletestorg+ansibletestrobot2
 
 - name: Ensure team ansibletestteam1 exists
-  herve4m.quay.quay_team:
+  infra.quay_configuration.quay_team:
     name: ansibletestteam1
     organization: ansibletestorg
     state: present
@@ -46,7 +46,7 @@
     validate_certs: false
 
 - name: Ensure team ansibletestteam2 exists
-  herve4m.quay.quay_team:
+  infra.quay_configuration.quay_team:
     name: ansibletestteam2
     organization: ansibletestorg
     description: |
@@ -65,7 +65,7 @@
     validate_certs: false
 
 - name: Ensure team ansibletestteam2 is updated
-  herve4m.quay.quay_team:
+  infra.quay_configuration.quay_team:
     name: ansibletestteam2
     organization: ansibletestorg
     role: admin
@@ -80,7 +80,7 @@
     validate_certs: false
 
 - name: Ensure team ansibletestteam2 has no members
-  herve4m.quay.quay_team:
+  infra.quay_configuration.quay_team:
     name: ansibletestteam2
     organization: ansibletestorg
     role: admin
@@ -92,7 +92,7 @@
     validate_certs: false
 
 - name: Ensure team ansibletestteam3 exists
-  herve4m.quay.quay_team:
+  infra.quay_configuration.quay_team:
     name: ansibletestteam3
     organization: ansibletestorg
     state: present
@@ -101,7 +101,7 @@
     validate_certs: false
 
 - name: Ensure team ansibletestteam3 exists (no change)
-  herve4m.quay.quay_team:
+  infra.quay_configuration.quay_team:
     name: ansibletestteam3
     organization: ansibletestorg
     role: member
@@ -117,7 +117,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure non-existing team is deleted (no change)
-  herve4m.quay.quay_team:
+  infra.quay_configuration.quay_team:
     name: nonexistingteam
     organization: ansibletestorg
     state: absent
@@ -132,7 +132,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure the teams are removed
-  herve4m.quay.quay_team:
+  infra.quay_configuration.quay_team:
     name: "{{ item }}"
     organization: ansibletestorg
     state: absent
@@ -145,7 +145,7 @@
     - ansibletestteam3
 
 - name: Ensure user accounts are removed
-  herve4m.quay.quay_user:
+  infra.quay_configuration.quay_user:
     username: "{{ item }}"
     state: absent
     quay_host: "{{ quay_url }}"
@@ -158,7 +158,7 @@
     - ansibletestuser4
 
 - name: Ensure the robot accounts are removed
-  herve4m.quay.quay_robot:
+  infra.quay_configuration.quay_robot:
     name: "{{ item }}"
     state: absent
     quay_host: "{{ quay_url }}"
@@ -169,7 +169,7 @@
     - ansibletestorg+ansibletestrobot2
 
 - name: Ensure the organization is removed
-  herve4m.quay.quay_organization:
+  infra.quay_configuration.quay_organization:
     name: ansibletestorg
     state: absent
     quay_host: "{{ quay_url }}"

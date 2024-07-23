@@ -190,13 +190,13 @@ notes:
   - The user account associated with the token that you provide in
     I(quay_token) must have administrator access to the repository.
 extends_documentation_fragment:
-  - herve4m.quay.auth
-  - herve4m.quay.auth.login
+  - infra.quay_configuration.auth
+  - infra.quay_configuration.auth.login
 """
 
 EXAMPLES = r"""
 - name: Ensure notification of type Quay Notification exists
-  herve4m.quay.quay_notification:
+  infra.quay_configuration.quay_notification:
     repository: production/smallimage
     title: Test Quay Notification on image push
     event: repo_push
@@ -211,7 +211,7 @@ EXAMPLES = r"""
 # You must enable the security scanner capability of your Quay installation
 # to use the vulnerability_found event.
 - name: Ensure notification of type webhook exists
-  herve4m.quay.quay_notification:
+  infra.quay_configuration.quay_notification:
     repository: production/smallimage
     title: Webhook notification on critical image vulnerability
     event: vulnerability_found
@@ -225,7 +225,7 @@ EXAMPLES = r"""
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
 - name: Ensure notification of type Slack exists
-  herve4m.quay.quay_notification:
+  infra.quay_configuration.quay_notification:
     repository: production/smallimage
     title: Notify image push to Slack
     event: repo_push
@@ -237,7 +237,7 @@ EXAMPLES = r"""
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
 - name: Test Slack notification
-  herve4m.quay.quay_notification:
+  infra.quay_configuration.quay_notification:
     repository: production/smallimage
     title: Notify image push to Slack
     test: true
@@ -246,7 +246,7 @@ EXAMPLES = r"""
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
 - name: Reset the failure counter for the Quay Notification
-  herve4m.quay.quay_notification:
+  infra.quay_configuration.quay_notification:
     repository: production/smallimage
     regex: "Quay\\s+Notification\\s"
     reset_failcount: true
@@ -255,7 +255,7 @@ EXAMPLES = r"""
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
 - name: Delete all the notifications triggered by canceled builds
-  herve4m.quay.quay_notification:
+  infra.quay_configuration.quay_notification:
     repository: production/smallimage
     event: build_cancelled
     state: absent
@@ -263,7 +263,7 @@ EXAMPLES = r"""
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
 - name: Delete all the notifications where the title includes "Test"
-  herve4m.quay.quay_notification:
+  infra.quay_configuration.quay_notification:
     repository: production/smallimage
     search_string: Test
     state: absent

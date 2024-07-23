@@ -46,7 +46,7 @@ options:
     description:
       - The client ID associated with the OAuth application to use for
         generating the OAuth access token.
-      - See the M(herve4m.quay.quay_application) module to create an application
+      - See the M(infra.quay_configuration.quay_application) module to create an application
         object and to retrieve the associated client ID.
     required: true
     type: str
@@ -75,12 +75,12 @@ notes:
     access token is produced. The other OAuth access tokens stay valid.
   - You cannot delete OAuth access tokens.
 extends_documentation_fragment:
-  - herve4m.quay.auth
+  - infra.quay_configuration.auth
 """
 
 EXAMPLES = r"""
 - name: Generate an OAuth access token
-  herve4m.quay.quay_api_token:
+  infra.quay_configuration.quay_api_token:
     quay_username: lvasquez
     quay_password: vs9mrD55NP
     # The OAuth application must exist. See the following example that shows
@@ -101,7 +101,7 @@ EXAMPLES = r"""
 # The OAuth access token of an existing super user is required to create the
 # organization, the application, and the user account.
 - name: Ensure the organization exists
-  herve4m.quay.quay_organization:
+  infra.quay_configuration.quay_organization:
     name: production
     email: prodlist@example.com
     state: present
@@ -109,7 +109,7 @@ EXAMPLES = r"""
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
 - name: Ensure the application extapp exists
-  herve4m.quay.quay_application:
+  infra.quay_configuration.quay_application:
     organization: production
     name: extapp
     state: present
@@ -118,7 +118,7 @@ EXAMPLES = r"""
   register: app_details
 
 - name: Ensure the user exists
-  herve4m.quay.quay_user:
+  infra.quay_configuration.quay_user:
     username: jziglar
     password: i45fR38GhY
     email: jziglar@example.com
@@ -127,7 +127,7 @@ EXAMPLES = r"""
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
 - name: Generate an OAuth access token for the user
-  herve4m.quay.quay_api_token:
+  infra.quay_configuration.quay_api_token:
     quay_username: jziglar
     quay_password: i45fR38GhY
     client_id: "{{ app_details['client_id'] }}"

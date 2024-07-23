@@ -11,32 +11,32 @@
 
 .. Anchors
 
-.. _ansible_collections.herve4m.quay.quay_tag_module:
+.. _ansible_collections.infra.quay_configuration.quay_tag_module:
 
 .. Anchors: short name for ansible.builtin
 
 .. Title
 
-herve4m.quay.quay_tag module -- Manage Quay Container Registry image tags
+infra.quay_configuration.quay_tag module -- Manage Quay Container Registry image tags
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `herve4m.quay collection <https://galaxy.ansible.com/ui/repo/published/herve4m/quay/>`_ (version 1.3.0).
+    This module is part of the `infra.quay_configuration collection <https://galaxy.ansible.com/ui/repo/published/herve4m/quay/>`_ (version 1.3.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
 
-    To install it, use: :code:`ansible-galaxy collection install herve4m.quay`.
+    To install it, use: :code:`ansible-galaxy collection install infra.quay_configuration`.
 
-    To use it in a playbook, specify: :code:`herve4m.quay.quay_tag`.
+    To use it in a playbook, specify: :code:`infra.quay_configuration.quay_tag`.
 
 .. version_added
 
 .. rst-class:: ansible-version-added
 
-New in herve4m.quay 0.0.1
+New in infra.quay_configuration 0.0.1
 
 .. contents::
    :local:
@@ -274,7 +274,7 @@ Examples
 
     
     - name: Ensure the latest tag is associated with the image that has tag v1.0.0
-      herve4m.quay.quay_tag:
+      infra.quay_configuration.quay_tag:
         image: production/smallimage:v1.0.0
         tag: latest
         state: present
@@ -282,7 +282,7 @@ Examples
         quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
     - name: Ensure tag v0.0.2 is associated to the image with the specified digest
-      herve4m.quay.quay_tag:
+      infra.quay_configuration.quay_tag:
         image: production/smallimage@sha256:4f6f...e797
         tag: v0.0.2
         state: present
@@ -290,7 +290,7 @@ Examples
         quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
     - name: Ensure tag v0.0.8 expires May 25, 2023 at 16:30
-      herve4m.quay.quay_tag:
+      infra.quay_configuration.quay_tag:
         image: production/smallimage:v0.0.8
         expiration: 202305251630.00
         state: present
@@ -298,7 +298,7 @@ Examples
         quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
     - name: Ensure tag v0.0.8 does not expire anymore
-      herve4m.quay.quay_tag:
+      infra.quay_configuration.quay_tag:
         image: production/smallimage:v0.0.8
         expiration: ""
         state: present
@@ -306,7 +306,7 @@ Examples
         quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
     - name: Ensure tag v0.0.1 does not exist
-      herve4m.quay.quay_tag:
+      infra.quay_configuration.quay_tag:
         image: production/smallimage:v0.0.1
         state: absent
         quay_host: https://quay.example.com
@@ -341,10 +341,10 @@ Collection links
 .. ansible-links::
 
   - title: "Issue Tracker"
-    url: "https://github.com/herve4m/quay-collection/issues"
+    url: "https://github.com/redhat-cop/quay_configuration/issues"
     external: true
   - title: "Repository (Sources)"
-    url: "https://github.com/herve4m/quay-collection"
+    url: "https://github.com/redhat-cop/quay_configuration"
     external: true
 
 

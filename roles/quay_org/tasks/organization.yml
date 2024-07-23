@@ -1,6 +1,6 @@
 ---
 - name: Ensure the organization exists
-  herve4m.quay.quay_organization:
+  infra.quay_configuration.quay_organization:
     name: "{{ quay_org_name }}"
     email: "{{ quay_org_email | default(omit) }}"
     state: present

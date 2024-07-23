@@ -1,7 +1,7 @@
 ---
 # Supporting organization
 - name: Ensure organization ansibletestorg exists
-  herve4m.quay.quay_organization:
+  infra.quay_configuration.quay_organization:
     name: ansibletestorg
     email: ansibletestorg@example.com
     state: present
@@ -98,7 +98,7 @@
       failed_when: false
 
 - name: Ensure the manifest has the label architecture=x86_64
-  herve4m.quay.quay_manifest_label:
+  infra.quay_configuration.quay_manifest_label:
     image: ansibletestorg/ansibletestrepo:latest
     key: architecture
     value: x86_64
@@ -108,7 +108,7 @@
     validate_certs: false
 
 - name: Ensure the manifest has the label architecture=x86_64 1 (no change)
-  herve4m.quay.quay_manifest_label:
+  infra.quay_configuration.quay_manifest_label:
     image: ansibletestorg/ansibletestrepo:latest
     key: architecture
     value: x86_64
@@ -125,7 +125,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure the manifest has the label architecture=x86_64 2 (no change)
-  herve4m.quay.quay_manifest_label:
+  infra.quay_configuration.quay_manifest_label:
     image: ansibletestorg/ansibletestrepo:latest
     key: architecture
     value: x86_64
@@ -142,7 +142,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure the manifest has an additional label architecture=power
-  herve4m.quay.quay_manifest_label:
+  infra.quay_configuration.quay_manifest_label:
     image: ansibletestorg/ansibletestrepo:latest
     key: architecture
     value: power
@@ -154,7 +154,7 @@
 
 # Should remove the other labels with the key architecture
 - name: Ensure the manifest has only the label architecture=power
-  herve4m.quay.quay_manifest_label:
+  infra.quay_configuration.quay_manifest_label:
     image: ansibletestorg/ansibletestrepo:latest
     key: architecture
     value: power
@@ -171,7 +171,7 @@
     fail_msg: The preceding task should have changed something
 
 - name: Ensure the manifest has only the label architecture=power (no change)
-  herve4m.quay.quay_manifest_label:
+  infra.quay_configuration.quay_manifest_label:
     image: ansibletestorg/ansibletestrepo:latest
     key: architecture
     value: power
@@ -188,7 +188,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure the manifest has an additional label architecture=other
-  herve4m.quay.quay_manifest_label:
+  infra.quay_configuration.quay_manifest_label:
     image: ansibletestorg/ansibletestrepo:latest
     key: architecture
     value: other
@@ -199,7 +199,7 @@
     validate_certs: false
 
 - name: Ensure manifest does not have the label architecture=other
-  herve4m.quay.quay_manifest_label:
+  infra.quay_configuration.quay_manifest_label:
     image: ansibletestorg/ansibletestrepo:latest
     key: architecture
     value: other
@@ -209,7 +209,7 @@
     validate_certs: false
 
 - name: Ensure manifest does not have the label architecture=other (no change)
-  herve4m.quay.quay_manifest_label:
+  infra.quay_configuration.quay_manifest_label:
     image: ansibletestorg/ansibletestrepo:latest
     key: architecture
     value: other
@@ -225,7 +225,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure manifest has no label with key architecture
-  herve4m.quay.quay_manifest_label:
+  infra.quay_configuration.quay_manifest_label:
     image: ansibletestorg/ansibletestrepo:latest
     key: architecture
     state: absent
@@ -234,7 +234,7 @@
     validate_certs: false
 
 - name: Ensure manifest has no label with key architecture (no change)
-  herve4m.quay.quay_manifest_label:
+  infra.quay_configuration.quay_manifest_label:
     image: ansibletestorg/ansibletestrepo:latest
     key: architecture
     state: absent
@@ -249,7 +249,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure the repository is removed
-  herve4m.quay.quay_repository:
+  infra.quay_configuration.quay_repository:
     name: ansibletestorg/ansibletestrepo
     state: absent
     quay_host: "{{ quay_url }}"
@@ -257,7 +257,7 @@
     validate_certs: false
 
 - name: Ensure the organization is removed
-  herve4m.quay.quay_organization:
+  infra.quay_configuration.quay_organization:
     name: ansibletestorg
     state: absent
     quay_host: "{{ quay_url }}"

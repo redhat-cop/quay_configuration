@@ -58,13 +58,13 @@ notes:
   - The tokens you create with this module are unrelated to OAUth access tokens
     that you use to access the Quay API.
 extends_documentation_fragment:
-  - herve4m.quay.auth
-  - herve4m.quay.auth.login
+  - infra.quay_configuration.auth
+  - infra.quay_configuration.auth.login
 """
 
 EXAMPLES = r"""
 - name: Ensure the token exists for my account
-  herve4m.quay.quay_docker_token:
+  infra.quay_configuration.quay_docker_token:
     name: token_for_pull
     state: present
     quay_host: https://quay.example.com
@@ -78,7 +78,7 @@ EXAMPLES = r"""
     password: "{{ token_details['token_code'] }}"
 
 - name: Ensure the token does not exist
-  herve4m.quay.quay_docker_token:
+  infra.quay_configuration.quay_docker_token:
     name: token_for_pull
     state: absent
     quay_host: https://quay.example.com

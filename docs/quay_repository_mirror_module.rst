@@ -11,32 +11,32 @@
 
 .. Anchors
 
-.. _ansible_collections.herve4m.quay.quay_repository_mirror_module:
+.. _ansible_collections.infra.quay_configuration.quay_repository_mirror_module:
 
 .. Anchors: short name for ansible.builtin
 
 .. Title
 
-herve4m.quay.quay_repository_mirror module -- Manage Quay Container Registry repository mirror configurations
+infra.quay_configuration.quay_repository_mirror module -- Manage Quay Container Registry repository mirror configurations
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `herve4m.quay collection <https://galaxy.ansible.com/ui/repo/published/herve4m/quay/>`_ (version 1.3.0).
+    This module is part of the `infra.quay_configuration collection <https://galaxy.ansible.com/ui/repo/published/herve4m/quay/>`_ (version 1.3.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
 
-    To install it, use: :code:`ansible-galaxy collection install herve4m.quay`.
+    To install it, use: :code:`ansible-galaxy collection install infra.quay_configuration`.
 
-    To use it in a playbook, specify: :code:`herve4m.quay.quay_repository_mirror`.
+    To use it in a playbook, specify: :code:`infra.quay_configuration.quay_repository_mirror`.
 
 .. version_added
 
 .. rst-class:: ansible-version-added
 
-New in herve4m.quay 0.0.4
+New in infra.quay_configuration 0.0.4
 
 .. contents::
    :local:
@@ -395,7 +395,7 @@ Notes
 .. note::
    - Your Quay administrator must enable the mirroring capability of your Quay installation (\ :literal:`FEATURE\_REPO\_MIRROR`\  in \ :literal:`config.yaml`\ ) to use that module.
    - You cannot modify a repository mirroring configuration if a synchronization is in progress.
-   - There is no API function to remove the configuration. However, you can deactivate mirroring by setting the \ :emphasis:`is\_enabled`\  parameter to \ :literal:`false`\  or by changing the repository mirror state (see the \ :emphasis:`repo\_state`\  parameter in the \ :ref:`herve4m.quay.quay\_repository <ansible_collections.herve4m.quay.quay_repository_module>`\  module). The configuration is preserved when you disable mirroring.
+   - There is no API function to remove the configuration. However, you can deactivate mirroring by setting the \ :emphasis:`is\_enabled`\  parameter to \ :literal:`false`\  or by changing the repository mirror state (see the \ :emphasis:`repo\_state`\  parameter in the \ :ref:`infra.quay_configuration.quay\_repository <ansible_collections.infra.quay_configuration.quay_repository_module>`\  module). The configuration is preserved when you disable mirroring.
    - Supports \ :literal:`check\_mode`\ .
    - The user account associated with the token that you provide in \ :emphasis:`quay\_token`\  must have administrator access to the repository.
 
@@ -411,7 +411,7 @@ Examples
 
     
     - name: Ensure mirroring is set for the existing production/smallimage repo
-      herve4m.quay.quay_repository_mirror:
+      infra.quay_configuration.quay_repository_mirror:
         name: production/smallimage
         external_reference: quay.io/projectquay/quay
         http_proxy: http://proxy.example.com:3128
@@ -424,14 +424,14 @@ Examples
         quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
     - name: Ensure mirroring is disabled for the production/smallimage repository
-      herve4m.quay.quay_repository_mirror:
+      infra.quay_configuration.quay_repository_mirror:
         name: production/smallimage
         is_enabled: false
         quay_host: https://quay.example.com
         quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
     - name: Immediate trigger a synchronization of the repository
-      herve4m.quay.quay_repository_mirror:
+      infra.quay_configuration.quay_repository_mirror:
         name: production/smallimage
         force_sync: true
         quay_host: https://quay.example.com
@@ -466,10 +466,10 @@ Collection links
 .. ansible-links::
 
   - title: "Issue Tracker"
-    url: "https://github.com/herve4m/quay-collection/issues"
+    url: "https://github.com/redhat-cop/quay_configuration/issues"
     external: true
   - title: "Repository (Sources)"
-    url: "https://github.com/herve4m/quay-collection"
+    url: "https://github.com/redhat-cop/quay_configuration"
     external: true
 
 

@@ -41,13 +41,13 @@ options:
     required: true
     type: str
 extends_documentation_fragment:
-  - herve4m.quay.auth
-  - herve4m.quay.auth.login
+  - infra.quay_configuration.auth
+  - infra.quay_configuration.auth.login
 """
 
 EXAMPLES = r"""
 - name: Retrieve the layers of the coreos/dnsmasq:latest image
-  herve4m.quay.quay_layer_info:
+  infra.quay_configuration.quay_layer_info:
     image: coreos/dnsmasq:latest
     quay_host: quay.io
   register: layers

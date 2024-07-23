@@ -1,7 +1,7 @@
 ---
 # Supporting organization
 - name: Ensure organization ansibletestorg exists
-  herve4m.quay.quay_organization:
+  infra.quay_configuration.quay_organization:
     name: ansibletestorg
     email: ansibletestorg@example.com
     state: present
@@ -11,7 +11,7 @@
 
 # Supporting user accounts
 - name: Ensure user accounts exist
-  herve4m.quay.quay_user:
+  infra.quay_configuration.quay_user:
     username: "{{ item }}"
     email: "{{ item }}@example.com"
     state: present
@@ -26,7 +26,7 @@
 
 # Supporting robot accounts
 - name: Ensure the robot accounts exist
-  herve4m.quay.quay_robot:
+  infra.quay_configuration.quay_robot:
     name: ansibletestorg+ansibletestrobot1
     state: present
     quay_host: "{{ quay_url }}"
@@ -35,7 +35,7 @@
 
 # Supporting team
 - name: Ensure teams exist
-  herve4m.quay.quay_team:
+  infra.quay_configuration.quay_team:
     name: ansibletestteam1
     organization: ansibletestorg
     role: admin
@@ -45,7 +45,7 @@
     validate_certs: false
 
 - name: Ensure repository ansibletestrepo1 exists
-  herve4m.quay.quay_repository:
+  infra.quay_configuration.quay_repository:
     name: ansibletestorg/ansibletestrepo1
     visibility: private
     description: |
@@ -66,7 +66,7 @@
     validate_certs: false
 
 - name: Ensure repository ansibletestrepo1 is updated (no change)
-  herve4m.quay.quay_repository:
+  infra.quay_configuration.quay_repository:
     name: ansibletestorg/ansibletestrepo1
     visibility: private
     description: |
@@ -93,7 +93,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure repository ansibletestrepo2 exists
-  herve4m.quay.quay_repository:
+  infra.quay_configuration.quay_repository:
     name: ansibletestorg/ansibletestrepo2
     visibility: public
     description: Test description
@@ -108,7 +108,7 @@
     validate_certs: false
 
 - name: Ensure repository ansibletestrepo2 is updated
-  herve4m.quay.quay_repository:
+  infra.quay_configuration.quay_repository:
     name: ansibletestorg/ansibletestrepo2
     visibility: public
     description: ""
@@ -127,7 +127,7 @@
     validate_certs: false
 
 - name: Ensure repository ansibletestrepo3 exists (in admin)
-  herve4m.quay.quay_repository:
+  infra.quay_configuration.quay_repository:
     name: ansibletestrepo3
     visibility: public
     description: "In user namespace"
@@ -141,7 +141,7 @@
     validate_certs: false
 
 - name: Ensure repository ansibletestrepo3 has no star (no change)
-  herve4m.quay.quay_repository:
+  infra.quay_configuration.quay_repository:
     name: ansibletestrepo3
     star: false
     state: present
@@ -156,7 +156,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure repository ansibletestrepo3 has a star
-  herve4m.quay.quay_repository:
+  infra.quay_configuration.quay_repository:
     name: ansibletestrepo3
     star: true
     state: present
@@ -165,7 +165,7 @@
     validate_certs: false
 
 - name: Ensure repository ansibletestrepo3 is removed (from admin)
-  herve4m.quay.quay_repository:
+  infra.quay_configuration.quay_repository:
     name: ansibletestrepo3
     state: absent
     quay_host: "{{ quay_url }}"
@@ -173,7 +173,7 @@
     validate_certs: false
 
 - name: Ensure non-existing repository is deleted (no change)
-  herve4m.quay.quay_repository:
+  infra.quay_configuration.quay_repository:
     name: nonexistingorg/nonexistingrepo
     state: absent
     quay_host: "{{ quay_url }}"
@@ -187,7 +187,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure repository ansibletestrepo4 exists
-  herve4m.quay.quay_repository:
+  infra.quay_configuration.quay_repository:
     name: ansibletestorg/ansibletestrepo4
     auto_prune_method: date
     auto_prune_value: 5d
@@ -197,7 +197,7 @@
     validate_certs: false
 
 - name: Ensure repository ansibletestrepo4 exists (no change 1)
-  herve4m.quay.quay_repository:
+  infra.quay_configuration.quay_repository:
     name: ansibletestorg/ansibletestrepo4
     auto_prune_method: date
     auto_prune_value: 5  d
@@ -213,7 +213,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure repository ansibletestrepo4 exists (no change 2)
-  herve4m.quay.quay_repository:
+  infra.quay_configuration.quay_repository:
     name: ansibletestorg/ansibletestrepo4
     state: present
     quay_host: "{{ quay_url }}"
@@ -227,7 +227,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure repository ansibletestrepo4 auto-prunes tags by date
-  herve4m.quay.quay_repository:
+  infra.quay_configuration.quay_repository:
     name: ansibletestorg/ansibletestrepo4
     auto_prune_method: date
     auto_prune_value: 4w
@@ -237,7 +237,7 @@
     validate_certs: false
 
 - name: Ensure repository ansibletestrepo4 auto-prunes tags by number
-  herve4m.quay.quay_repository:
+  infra.quay_configuration.quay_repository:
     name: ansibletestorg/ansibletestrepo4
     auto_prune_method: tags
     auto_prune_value: 20
@@ -247,7 +247,7 @@
     validate_certs: false
 
 - name: Ensure repository ansibletestrepo4 does not auto-prune
-  herve4m.quay.quay_repository:
+  infra.quay_configuration.quay_repository:
     name: ansibletestorg/ansibletestrepo4
     auto_prune_method: none
     auto_prune_value: 20
@@ -257,7 +257,7 @@
     validate_certs: false
 
 - name: Ensure repository ansibletestrepo4 does not auto-prune (no change)
-  herve4m.quay.quay_repository:
+  infra.quay_configuration.quay_repository:
     name: ansibletestorg/ansibletestrepo4
     auto_prune_method: none
     auto_prune_value: 4d
@@ -273,7 +273,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure repositories are removed
-  herve4m.quay.quay_repository:
+  infra.quay_configuration.quay_repository:
     name: "ansibletestorg/{{ item }}"
     state: absent
     quay_host: "{{ quay_url }}"
@@ -286,7 +286,7 @@
     - ansibletestrepo4
 
 - name: Ensure the teams are removed
-  herve4m.quay.quay_team:
+  infra.quay_configuration.quay_team:
     name: ansibletestteam1
     organization: ansibletestorg
     state: absent
@@ -295,7 +295,7 @@
     validate_certs: false
 
 - name: Ensure user accounts are removed
-  herve4m.quay.quay_user:
+  infra.quay_configuration.quay_user:
     username: "{{ item }}"
     state: absent
     quay_host: "{{ quay_url }}"
@@ -308,7 +308,7 @@
     - ansibletestuser5
 
 - name: Ensure the robot accounts are removed
-  herve4m.quay.quay_robot:
+  infra.quay_configuration.quay_robot:
     name: ansibletestorg+ansibletestrobot1
     state: absent
     quay_host: "{{ quay_url }}"
@@ -316,7 +316,7 @@
     validate_certs: false
 
 - name: Ensure the organization is removed
-  herve4m.quay.quay_organization:
+  infra.quay_configuration.quay_organization:
     name: ansibletestorg
     state: absent
     quay_host: "{{ quay_url }}"

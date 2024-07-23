@@ -1,6 +1,6 @@
 ---
 - name: Ensure organization testansible1 exists
-  herve4m.quay.quay_organization:
+  infra.quay_configuration.quay_organization:
     name: testansible1
     email: testansible1@example.com
     state: present
@@ -9,7 +9,7 @@
     validate_certs: false
 
 - name: Ensure organization testansible2 exists
-  herve4m.quay.quay_organization:
+  infra.quay_configuration.quay_organization:
     name: testansible2
     email: testansible2@example.com
     time_machine_expiration: "7d"
@@ -19,7 +19,7 @@
 
 # Renaming requires superuser permissions
 - name: Ensure organization testansible2 is renamed
-  herve4m.quay.quay_organization:
+  infra.quay_configuration.quay_organization:
     name: testansible2
     new_name: testansible3
     quay_host: "{{ quay_url }}"
@@ -27,7 +27,7 @@
     validate_certs: false
 
 - name: Ensure organization testansible2 is renamed (no change)
-  herve4m.quay.quay_organization:
+  infra.quay_configuration.quay_organization:
     name: testansible2
     new_name: testansible3
     quay_host: "{{ quay_url }}"
@@ -41,7 +41,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure organization testansible3 has a new time machine expiration
-  herve4m.quay.quay_organization:
+  infra.quay_configuration.quay_organization:
     name: testansible3
     time_machine_expiration: "1d"
     quay_host: "{{ quay_url }}"
@@ -49,7 +49,7 @@
     validate_certs: false
 
 - name: Ensure organization testansible3 has the same expiration (no change)
-  herve4m.quay.quay_organization:
+  infra.quay_configuration.quay_organization:
     name: testansible3
     time_machine_expiration: "1d"
     auto_prune_method: none
@@ -64,7 +64,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure organization testansible4 exists
-  herve4m.quay.quay_organization:
+  infra.quay_configuration.quay_organization:
     name: nonexistingname
     email: testansible4@example.com
     new_name: testansible4
@@ -75,7 +75,7 @@
     validate_certs: false
 
 - name: Ensure organization testansible5 has an auto-prune policy by tags (30)
-  herve4m.quay.quay_organization:
+  infra.quay_configuration.quay_organization:
     name: testansible5
     email: testansible5@example.com
     state: present
@@ -87,7 +87,7 @@
     validate_certs: false
 
 - name: Ensure organization testansible5 has an auto-prune policy by tags (42)
-  herve4m.quay.quay_organization:
+  infra.quay_configuration.quay_organization:
     name: testansible5
     state: present
     auto_prune_method: tags
@@ -97,7 +97,7 @@
     validate_certs: false
 
 - name: Ensure organization testansible5 has an auto-prune policy (no change) 1
-  herve4m.quay.quay_organization:
+  infra.quay_configuration.quay_organization:
     name: testansible5
     state: present
     auto_prune_method: tags
@@ -113,7 +113,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure organization testansible5 has an auto-prune policy (no change) 2
-  herve4m.quay.quay_organization:
+  infra.quay_configuration.quay_organization:
     name: testansible5
     state: present
     time_machine_expiration: "1month"
@@ -128,7 +128,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure organization testansible5 has an auto-prune policy by date
-  herve4m.quay.quay_organization:
+  infra.quay_configuration.quay_organization:
     name: testansible5
     email: testansible5@example.com
     state: present
@@ -139,7 +139,7 @@
     validate_certs: false
 
 - name: Ensure organization testansible5 has an auto-prune policy (new date)
-  herve4m.quay.quay_organization:
+  infra.quay_configuration.quay_organization:
     name: testansible5
     email: testansible5@example.com
     state: present
@@ -150,7 +150,7 @@
     validate_certs: false
 
 - name: Ensure organization testansible5 has an auto-prune policy (no change)
-  herve4m.quay.quay_organization:
+  infra.quay_configuration.quay_organization:
     name: testansible5
     state: present
     auto_prune_method: date
@@ -166,7 +166,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure organization testansible5 has no auto-prune policy
-  herve4m.quay.quay_organization:
+  infra.quay_configuration.quay_organization:
     name: testansible5
     state: present
     auto_prune_method: none
@@ -176,7 +176,7 @@
     validate_certs: false
 
 - name: Ensure organization testansible5 has no auto-prune policy (no change)
-  herve4m.quay.quay_organization:
+  infra.quay_configuration.quay_organization:
     name: testansible5
     state: present
     auto_prune_method: none
@@ -192,7 +192,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure non-existing organization is deleted (no change)
-  herve4m.quay.quay_organization:
+  infra.quay_configuration.quay_organization:
     name: nonexistingorganization
     state: absent
     quay_host: "{{ quay_url }}"
@@ -206,7 +206,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure the organizations are removed
-  herve4m.quay.quay_organization:
+  infra.quay_configuration.quay_organization:
     name: "{{ item }}"
     state: absent
     quay_host: "{{ quay_url }}"

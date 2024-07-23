@@ -33,7 +33,7 @@ options:
   name:
     description:
       - Name of the team to synchronize or unsynchronize with an OIDC group.
-        That team must exist (see the M(herve4m.quay.quay_team) module to
+        That team must exist (see the M(infra.quay_configuration.quay_team) module to
         create it).
     required: true
     type: str
@@ -66,13 +66,13 @@ notes:
   - The token that you provide in I(quay_token) must have the "Administer
     Organization" and "Administer User" permissions.
 extends_documentation_fragment:
-  - herve4m.quay.auth
-  - herve4m.quay.auth.login
+  - infra.quay_configuration.auth
+  - infra.quay_configuration.auth.login
 """
 
 EXAMPLES = r"""
 - name: Ensure team operators exists before activating OIDC synchronization
-  herve4m.quay.quay_team:
+  infra.quay_configuration.quay_team:
     name: operators
     organization: production
     role: creator
@@ -87,7 +87,7 @@ EXAMPLES = r"""
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
 - name: Ensure team operators is synchronized with the op1 OIDC group
-  herve4m.quay.quay_team_oidc:
+  infra.quay_configuration.quay_team_oidc:
     name: operators
     organization: production
     sync: true
@@ -96,7 +96,7 @@ EXAMPLES = r"""
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
 - name: Ensure team operators is not synchronized anymore with an OIDC group
-  herve4m.quay.quay_team_oidc:
+  infra.quay_configuration.quay_team_oidc:
     name: operators
     organization: production
     sync: false

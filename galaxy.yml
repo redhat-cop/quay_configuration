@@ -1,10 +1,11 @@
 ---
-namespace: herve4m
-name: quay
-version: 1.3.0
+namespace: infra
+name: quay_configuration
+version: 2.0.0
 readme: README.md
 authors:
   - Hervé Quatremain <rv4m@yahoo.co.uk>
+  - Tom Page <tpage@redhat.com>
 description: Ansible modules to manage Quay Container Registry installations
 license:
   - GPL-3.0-or-later
@@ -12,13 +13,13 @@ tags:
   - application
   - quay
   - registry
-repository: https://github.com/herve4m/quay-collection
+repository: https://github.com/redhat-cop/quay_configuration
 
 # The URL to any online docs
-documentation: https://github.com/herve4m/quay-collection
+documentation: https://github.com/redhat-cop/quay_configuration
 
 # The URL to the home page of the collection/project
-homepage: https://github.com/herve4m/quay-collection
+homepage: https://github.com/redhat-cop/quay_configuration
 
 # The URL to the collection issue tracker
-issues: https://github.com/herve4m/quay-collection/issues
+issues: https://github.com/redhat-cop/quay_configuration/issues

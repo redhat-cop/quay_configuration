@@ -119,19 +119,19 @@ notes:
   - There is no API function to remove the configuration. However, you can
     deactivate mirroring by setting the I(is_enabled) parameter to C(false) or
     by changing the repository mirror state (see the I(repo_state) parameter in
-    the M(herve4m.quay.quay_repository) module).
+    the M(infra.quay_configuration.quay_repository) module).
     The configuration is preserved when you disable mirroring.
   - Supports C(check_mode).
   - The user account associated with the token that you provide in
     I(quay_token) must have administrator access to the repository.
 extends_documentation_fragment:
-  - herve4m.quay.auth
-  - herve4m.quay.auth.login
+  - infra.quay_configuration.auth
+  - infra.quay_configuration.auth.login
 """
 
 EXAMPLES = r"""
 - name: Ensure mirroring is set for the existing production/smallimage repo
-  herve4m.quay.quay_repository_mirror:
+  infra.quay_configuration.quay_repository_mirror:
     name: production/smallimage
     external_reference: quay.io/projectquay/quay
     http_proxy: http://proxy.example.com:3128
@@ -144,14 +144,14 @@ EXAMPLES = r"""
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
 - name: Ensure mirroring is disabled for the production/smallimage repository
-  herve4m.quay.quay_repository_mirror:
+  infra.quay_configuration.quay_repository_mirror:
     name: production/smallimage
     is_enabled: false
     quay_host: https://quay.example.com
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
 - name: Immediate trigger a synchronization of the repository
-  herve4m.quay.quay_repository_mirror:
+  infra.quay_configuration.quay_repository_mirror:
     name: production/smallimage
     force_sync: true
     quay_host: https://quay.example.com

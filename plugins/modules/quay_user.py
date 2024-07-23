@@ -93,13 +93,13 @@ notes:
   - You cannot delete or modify superuser accounts.
   - You cannot revoke superuser privileges with this module.
 extends_documentation_fragment:
-  - herve4m.quay.auth
-  - herve4m.quay.auth.login
+  - infra.quay_configuration.auth
+  - infra.quay_configuration.auth.login
 """
 
 EXAMPLES = r"""
 - name: Ensure the user exists
-  herve4m.quay.quay_user:
+  infra.quay_configuration.quay_user:
     username: lvasquez
     email: lvasquez@example.com
     password: vs9mrD55NP
@@ -108,14 +108,14 @@ EXAMPLES = r"""
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
 - name: Ensure the user is removed
-  herve4m.quay.quay_user:
+  infra.quay_configuration.quay_user:
     username: dwilde
     state: absent
     quay_host: https://quay.example.com
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
 - name: Ensure the user is a superuser
-  herve4m.quay.quay_user:
+  infra.quay_configuration.quay_user:
     username: jziglar
     email: jziglar@example.com
     state: present
@@ -125,7 +125,7 @@ EXAMPLES = r"""
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
 - name: Ensure the user account is disabled
-  herve4m.quay.quay_user:
+  infra.quay_configuration.quay_user:
     username: chorwitz
     email: chorwitz@example.com
     state: present

@@ -35,7 +35,7 @@ Prepare and submit pull requests as follows:
 5. Add a changelog fragment file in the `changelogs/fragments/` directory.
    See the [Changelogs](https://docs.ansible.com/ansible/latest/community/development_process.html#changelogs) document for guidance.
 6. Push your code change to your forked repository.
-7. Use the GitHub web UI to navigate to the original repository https://github.com/herve4m/quay-collection/pulls (not your forked repository).
+7. Use the GitHub web UI to navigate to the original repository https://github.com/redhat-cop/quay_configuration/pulls (not your forked repository).
    Open a pull request.
 8. All pull requests go to a validation process.
    Make sure to run `pre-commit` before submitting your code.

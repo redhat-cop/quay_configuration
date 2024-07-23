@@ -11,32 +11,32 @@
 
 .. Anchors
 
-.. _ansible_collections.herve4m.quay.quay_repository_module:
+.. _ansible_collections.infra.quay_configuration.quay_repository_module:
 
 .. Anchors: short name for ansible.builtin
 
 .. Title
 
-herve4m.quay.quay_repository module -- Manage Quay Container Registry repositories
+infra.quay_configuration.quay_repository module -- Manage Quay Container Registry repositories
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `herve4m.quay collection <https://galaxy.ansible.com/ui/repo/published/herve4m/quay/>`_ (version 1.3.0).
+    This module is part of the `infra.quay_configuration collection <https://galaxy.ansible.com/ui/repo/published/herve4m/quay/>`_ (version 1.3.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
 
-    To install it, use: :code:`ansible-galaxy collection install herve4m.quay`.
+    To install it, use: :code:`ansible-galaxy collection install infra.quay_configuration`.
 
-    To use it in a playbook, specify: :code:`herve4m.quay.quay_repository`.
+    To use it in a playbook, specify: :code:`infra.quay_configuration.quay_repository`.
 
 .. version_added
 
 .. rst-class:: ansible-version-added
 
-New in herve4m.quay 0.0.1
+New in infra.quay_configuration 0.0.1
 
 .. contents::
    :local:
@@ -309,7 +309,7 @@ Parameters
     <td><div class="ansible-option-cell">
       <p>If <code class='docutils literal notranslate'>NORMAL</code>, then the repository is in the default state (read/write).</p>
       <p>If <code class='docutils literal notranslate'>READ_ONLY</code>, then the repository is read-only.</p>
-      <p>If <code class='docutils literal notranslate'>MIRROR</code>, then the repository is a mirror and you can configure it by using the <a href='../../herve4m/quay/quay_repository_mirror_module.html' class='module'>herve4m.quay.quay_repository_mirror</a> module.</p>
+      <p>If <code class='docutils literal notranslate'>MIRROR</code>, then the repository is a mirror and you can configure it by using the <a href='../../herve4m/quay/quay_repository_mirror_module.html' class='module'>infra.quay_configuration.quay_repository_mirror</a> module.</p>
       <p>You must enable the mirroring capability of your Quay installation to use this <em>repo_state</em> parameter.</p>
       <p class="ansible-option-line"><strong class="ansible-option-choices">Choices:</strong></p>
       <ul class="simple">
@@ -438,7 +438,7 @@ Examples
 
     
     - name: Ensure repository smallimage exists in the production organization
-      herve4m.quay.quay_repository:
+      infra.quay_configuration.quay_repository:
         name: production/smallimage
         visibility: private
         description: |
@@ -461,7 +461,7 @@ Examples
         quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
     - name: Ensure repository bigimage exists in my namespace
-      herve4m.quay.quay_repository:
+      infra.quay_configuration.quay_repository:
         name: bigimage
         visibility: public
         perms:
@@ -473,14 +473,14 @@ Examples
         quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
     - name: Ensure repository development/testimg does not exist
-      herve4m.quay.quay_repository:
+      infra.quay_configuration.quay_repository:
         name: development/testimg
         state: absent
         quay_host: https://quay.example.com
         quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
     - name: Ensure the repository has the exact set of permissions
-      herve4m.quay.quay_repository:
+      infra.quay_configuration.quay_repository:
         name: production/smallimage
         perms:
           - name: operators
@@ -501,7 +501,7 @@ Examples
         quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
     - name: Ensure the repository has a star and tags older that 4 weeks are pruned
-      herve4m.quay.quay_repository:
+      infra.quay_configuration.quay_repository:
         name: production/smallimage
         star: true
         auto_prune_method: date
@@ -513,7 +513,7 @@ Examples
     # You must enable the mirroring capability of your Quay installation
     # to use the repo_state parameter.
     - name: Ensure the repository is prepared for mirroring
-      herve4m.quay.quay_repository:
+      infra.quay_configuration.quay_repository:
         name: production/smallimage
         repo_state: MIRROR
         state: present
@@ -549,10 +549,10 @@ Collection links
 .. ansible-links::
 
   - title: "Issue Tracker"
-    url: "https://github.com/herve4m/quay-collection/issues"
+    url: "https://github.com/redhat-cop/quay_configuration/issues"
     external: true
   - title: "Repository (Sources)"
-    url: "https://github.com/herve4m/quay-collection"
+    url: "https://github.com/redhat-cop/quay_configuration"
     external: true
 
 

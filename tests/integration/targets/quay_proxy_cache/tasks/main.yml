@@ -1,7 +1,7 @@
 ---
 # Supporting organization
 - name: Ensure organization ansibletestorg exists
-  herve4m.quay.quay_organization:
+  infra.quay_configuration.quay_organization:
     name: ansibletestorg
     email: ansibletestorg@example.com
     state: present
@@ -10,7 +10,7 @@
     validate_certs: false
 
 - name: Ensure non-existing proxy cache configuration is deleted (no change)
-  herve4m.quay.quay_proxy_cache:
+  infra.quay_configuration.quay_proxy_cache:
     organization: ansibletestorg
     state: absent
     quay_host: "{{ quay_url }}"
@@ -24,7 +24,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure proxy cache configuration exists (1)
-  herve4m.quay.quay_proxy_cache:
+  infra.quay_configuration.quay_proxy_cache:
     organization: ansibletestorg
     registry: quay.io/projectquay
     expiration: 172800
@@ -44,7 +44,7 @@
     fail_msg: The preceding task should have changed something
 
 - name: Ensure proxy cache configuration exists (2)
-  herve4m.quay.quay_proxy_cache:
+  infra.quay_configuration.quay_proxy_cache:
     organization: ansibletestorg
     registry: quay.io/projectquay
     expiration: 172800
@@ -64,7 +64,7 @@
     fail_msg: The preceding task should have changed something
 
 - name: Ensure proxy cache configuration is deleted
-  herve4m.quay.quay_proxy_cache:
+  infra.quay_configuration.quay_proxy_cache:
     organization: ansibletestorg
     state: absent
     quay_host: "{{ quay_url }}"
@@ -78,7 +78,7 @@
     fail_msg: The preceding task should have changed something
 
 - name: Ensure non-existing proxy cache configuration is deleted (no change) (2)
-  herve4m.quay.quay_proxy_cache:
+  infra.quay_configuration.quay_proxy_cache:
     organization: ansibletestorg
     state: absent
     quay_host: "{{ quay_url }}"
@@ -92,7 +92,7 @@
     fail_msg: The preceding task should not have changed anything
 
 - name: Ensure the organization is removed
-  herve4m.quay.quay_organization:
+  infra.quay_configuration.quay_organization:
     name: ansibletestorg
     state: absent
     quay_host: "{{ quay_url }}"

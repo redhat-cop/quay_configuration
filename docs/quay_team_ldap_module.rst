@@ -11,32 +11,32 @@
 
 .. Anchors
 
-.. _ansible_collections.herve4m.quay.quay_team_ldap_module:
+.. _ansible_collections.infra.quay_configuration.quay_team_ldap_module:
 
 .. Anchors: short name for ansible.builtin
 
 .. Title
 
-herve4m.quay.quay_team_ldap module -- Synchronize Quay Container Registry teams with LDAP groups
+infra.quay_configuration.quay_team_ldap module -- Synchronize Quay Container Registry teams with LDAP groups
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `herve4m.quay collection <https://galaxy.ansible.com/ui/repo/published/herve4m/quay/>`_ (version 1.3.0).
+    This module is part of the `infra.quay_configuration collection <https://galaxy.ansible.com/ui/repo/published/herve4m/quay/>`_ (version 1.3.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
 
-    To install it, use: :code:`ansible-galaxy collection install herve4m.quay`.
+    To install it, use: :code:`ansible-galaxy collection install infra.quay_configuration`.
 
-    To use it in a playbook, specify: :code:`herve4m.quay.quay_team_ldap`.
+    To use it in a playbook, specify: :code:`infra.quay_configuration.quay_team_ldap`.
 
 .. version_added
 
 .. rst-class:: ansible-version-added
 
-New in herve4m.quay 0.0.9
+New in infra.quay_configuration 0.0.9
 
 .. contents::
    :local:
@@ -125,7 +125,7 @@ Parameters
       </p>
     </div></td>
     <td><div class="ansible-option-cell">
-      <p>Name of the team to synchronize or unsynchronize with an LDAP group. That team must exist (see the <a href='../../herve4m/quay/quay_team_module.html' class='module'>herve4m.quay.quay_team</a> module to create it).</p>
+      <p>Name of the team to synchronize or unsynchronize with an LDAP group. That team must exist (see the <a href='../../herve4m/quay/quay_team_module.html' class='module'>infra.quay_configuration.quay_team</a> module to create it).</p>
     </div></td>
   </tr>
   <tr class="row-odd">
@@ -278,7 +278,7 @@ Examples
 
     
     - name: Ensure team operators exists before activating LDAP synchronization
-      herve4m.quay.quay_team:
+      infra.quay_configuration.quay_team:
         name: operators
         organization: production
         role: creator
@@ -293,7 +293,7 @@ Examples
         quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
     - name: Ensure team operators is synchronized with the op1 LDAP group
-      herve4m.quay.quay_team_ldap:
+      infra.quay_configuration.quay_team_ldap:
         name: operators
         organization: production
         sync: true
@@ -302,7 +302,7 @@ Examples
         quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
     - name: Ensure team operators is not synchronized anymore with an LDAP group
-      herve4m.quay.quay_team_ldap:
+      infra.quay_configuration.quay_team_ldap:
         name: operators
         organization: production
         sync: false
@@ -340,10 +340,10 @@ Collection links
 .. ansible-links::
 
   - title: "Issue Tracker"
-    url: "https://github.com/herve4m/quay-collection/issues"
+    url: "https://github.com/redhat-cop/quay_configuration/issues"
     external: true
   - title: "Repository (Sources)"
-    url: "https://github.com/herve4m/quay-collection"
+    url: "https://github.com/redhat-cop/quay_configuration"
     external: true
 
 

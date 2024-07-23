@@ -86,13 +86,13 @@ notes:
   - The token that you provide in I(quay_token) must have the "Administer
     Organization" and "Administer User" permissions.
 extends_documentation_fragment:
-  - herve4m.quay.auth
-  - herve4m.quay.auth.login
+  - infra.quay_configuration.auth
+  - infra.quay_configuration.auth.login
 """
 
 EXAMPLES = r"""
 - name: Create default admin permission for user
-  herve4m.quay.quay_default_perm:
+  infra.quay_configuration.quay_default_perm:
     organization: production
     name: lvasquez
     type: user
@@ -102,7 +102,7 @@ EXAMPLES = r"""
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
 - name: Create default write permission for robot
-  herve4m.quay.quay_default_perm:
+  infra.quay_configuration.quay_default_perm:
     organization: production
     name: production+automationrobot
     type: user
@@ -112,7 +112,7 @@ EXAMPLES = r"""
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
 - name: Create default read permission for team
-  herve4m.quay.quay_default_perm:
+  infra.quay_configuration.quay_default_perm:
     organization: production
     name: managers
     type: team
@@ -122,7 +122,7 @@ EXAMPLES = r"""
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
 - name: Grant read permission for the managers team when dwilde creates repo
-  herve4m.quay.quay_default_perm:
+  infra.quay_configuration.quay_default_perm:
     organization: production
     name: managers
     type: team
@@ -133,7 +133,7 @@ EXAMPLES = r"""
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
 - name: Ensure default permission for robot is removed
-  herve4m.quay.quay_default_perm:
+  infra.quay_configuration.quay_default_perm:
     organization: production
     name: production+automationrobot
     type: user

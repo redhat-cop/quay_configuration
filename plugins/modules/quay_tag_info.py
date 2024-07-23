@@ -63,13 +63,13 @@ options:
     type: bool
     default: no
 extends_documentation_fragment:
-  - herve4m.quay.auth
-  - herve4m.quay.auth.login
+  - infra.quay_configuration.auth
+  - infra.quay_configuration.auth.login
 """
 
 EXAMPLES = r"""
 - name: Retrieve the tags in the production/smallimage repository
-  herve4m.quay.quay_tag_info:
+  infra.quay_configuration.quay_tag_info:
     repository: production/smallimage
     only_active_tags: true
     quay_host: https://quay.example.com
@@ -77,7 +77,7 @@ EXAMPLES = r"""
   register: tags
 
 - name: Gather info on tag 0.1.2 of the testing image in my personal namespace
-  herve4m.quay.quay_tag_info:
+  infra.quay_configuration.quay_tag_info:
     repository: testimg
     tag: "0.1.2"
     quay_host: https://quay.example.com
@@ -85,7 +85,7 @@ EXAMPLES = r"""
   register: tag_info
 
 - name: Retrieve the tags from the images with the given digest
-  herve4m.quay.quay_tag_info:
+  infra.quay_configuration.quay_tag_info:
     repository: production/smallimage
     digest: "sha256:53b2...a7c8"
     only_active_tags: true
