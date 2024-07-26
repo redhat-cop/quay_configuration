@@ -7,7 +7,7 @@
     :trim:
 
 .. meta::
-  :antsibull-docs: 2.11.0
+  :antsibull-docs: 2.12.0
 
 .. Anchors
 
@@ -18,17 +18,17 @@
 .. Title
 
 infra.quay_configuration.quay_first_user module -- Create the first user account
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `infra.quay_configuration collection <https://galaxy.ansible.com/ui/repo/published/herve4m/quay/>`_ (version 1.3.0).
+    This module is part of the `infra.quay_configuration collection <https://galaxy.ansible.com/ui/repo/published/infra/quay_configuration/>`_ (version 2.0.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
 
-    To install it, use: :code:`ansible-galaxy collection install infra.quay_configuration`.
+    To install it, use: :code:`ansible-galaxy collection install infra.quay\_configuration`.
 
     To use it in a playbook, specify: :code:`infra.quay_configuration.quay_first_user`.
 
@@ -36,7 +36,7 @@ infra.quay_configuration.quay_first_user module -- Create the first user account
 
 .. rst-class:: ansible-version-added
 
-New in infra.quay_configuration 0.0.7
+New in infra.quay\_configuration 0.0.7
 
 .. contents::
    :local:
@@ -155,7 +155,7 @@ Parameters
     </div></td>
     <td><div class="ansible-option-cell">
       <p>Name of the user account to create.</p>
-      <p>You probably want that user account to have superuser permissions so that you can use the returned token to create additional objects. To do so, add the account name to the <code class='docutils literal notranslate'>SUPER_USERS</code> section in the <code class='docutils literal notranslate'>config.yaml</code> file before using the <a href='../../herve4m/quay/quay_first_user_module.html' class='module'>infra.quay_configuration.quay_first_user</a> module.</p>
+      <p>You probably want that user account to have superuser permissions so that you can use the returned token to create additional objects. To do so, add the account name to the <code class='docutils literal notranslate'>SUPER_USERS</code> section in the <code class='docutils literal notranslate'>config.yaml</code> file before using the <a href='../../infra/quay_configuration/quay_first_user_module.html' class='module'>infra.quay_configuration.quay_first_user</a> module.</p>
     </div></td>
   </tr>
   <tr class="row-odd">

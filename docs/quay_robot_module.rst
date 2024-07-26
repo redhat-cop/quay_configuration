@@ -7,7 +7,7 @@
     :trim:
 
 .. meta::
-  :antsibull-docs: 2.11.0
+  :antsibull-docs: 2.12.0
 
 .. Anchors
 
@@ -18,17 +18,17 @@
 .. Title
 
 infra.quay_configuration.quay_robot module -- Manage Quay Container Registry robot accounts
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `infra.quay_configuration collection <https://galaxy.ansible.com/ui/repo/published/herve4m/quay/>`_ (version 1.3.0).
+    This module is part of the `infra.quay_configuration collection <https://galaxy.ansible.com/ui/repo/published/infra/quay_configuration/>`_ (version 2.0.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
 
-    To install it, use: :code:`ansible-galaxy collection install infra.quay_configuration`.
+    To install it, use: :code:`ansible-galaxy collection install infra.quay\_configuration`.
 
     To use it in a playbook, specify: :code:`infra.quay_configuration.quay_robot`.
 
@@ -36,7 +36,7 @@ infra.quay_configuration.quay_robot module -- Manage Quay Container Registry rob
 
 .. rst-class:: ansible-version-added
 
-New in infra.quay_configuration 0.0.1
+New in infra.quay\_configuration 0.0.1
 
 .. contents::
    :local:
@@ -307,7 +307,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
     </div></td>
     <td><div class="ansible-option-cell">
       <p>Token name.</p>
-      <p>From this name and the token, in <em>token</em>, you can construct a Docker configuration file that you can use to manage images in the container image registry. See <a href='../../herve4m/quay/quay_docker_config_filter.html' class='module'>infra.quay_configuration.quay_docker_config</a>.</p>
+      <p>From this name and the token, in <em>token</em>, you can construct a Docker configuration file that you can use to manage images in the container image registry. See <a href='../../infra/quay_configuration/quay_docker_config_filter.html' class='module'>infra.quay_configuration.quay_docker_config</a>.</p>
       <p class="ansible-option-line"><strong class="ansible-option-returned-bold">Returned:</strong> changed</p>
       <p class="ansible-option-line ansible-option-sample"><strong class="ansible-option-sample-bold">Sample:</strong> <code class="ansible-value literal notranslate ansible-option-sample">&#34;production+robotprod1&#34;</code></p>
     </div></td>

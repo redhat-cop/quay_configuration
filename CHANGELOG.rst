@@ -4,6 +4,19 @@ Quay Container Registry Collection Release Notes
 
 .. contents:: Topics
 
+v2.0.0
+======
+
+Release Summary
+---------------
+
+Renaming the ``herve4m.quay`` collection to ``infra.quay_configuration``, and moving the developments to a new GitHub repository (https://github.com/redhat-cop/quay_configuration).
+
+Breaking Changes / Porting Guide
+--------------------------------
+
+- The name of the collection changes to ``infra.quay_configuration``.
+
 v1.3.0
 ======
 

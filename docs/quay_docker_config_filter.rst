@@ -7,7 +7,7 @@
     :trim:
 
 .. meta::
-  :antsibull-docs: 2.11.0
+  :antsibull-docs: 2.12.0
 
 .. Anchors
 
@@ -18,17 +18,17 @@
 .. Title
 
 infra.quay_configuration.quay_docker_config filter -- Build a Docker configuration in JSON format
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This filter plugin is part of the `infra.quay_configuration collection <https://galaxy.ansible.com/ui/repo/published/herve4m/quay/>`_ (version 1.3.0).
+    This filter plugin is part of the `infra.quay_configuration collection <https://galaxy.ansible.com/ui/repo/published/infra/quay_configuration/>`_ (version 2.0.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
 
-    To install it, use: :code:`ansible-galaxy collection install infra.quay_configuration`.
+    To install it, use: :code:`ansible-galaxy collection install infra.quay\_configuration`.
 
     To use it in a playbook, specify: :code:`infra.quay_configuration.quay_docker_config`.
 
@@ -36,7 +36,7 @@ infra.quay_configuration.quay_docker_config filter -- Build a Docker configurati
 
 .. rst-class:: ansible-version-added
 
-New in infra.quay_configuration 1.3.0
+New in infra.quay\_configuration 1.3.0
 
 .. contents::
    :local:
