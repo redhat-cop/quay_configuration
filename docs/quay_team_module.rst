@@ -7,7 +7,7 @@
     :trim:
 
 .. meta::
-  :antsibull-docs: 2.11.0
+  :antsibull-docs: 2.12.0
 
 .. Anchors
 
@@ -18,17 +18,17 @@
 .. Title
 
 infra.quay_configuration.quay_team module -- Manage Quay Container Registry teams
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `infra.quay_configuration collection <https://galaxy.ansible.com/ui/repo/published/herve4m/quay/>`_ (version 1.3.0).
+    This module is part of the `infra.quay_configuration collection <https://galaxy.ansible.com/ui/repo/published/infra/quay_configuration/>`_ (version 2.0.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
 
-    To install it, use: :code:`ansible-galaxy collection install infra.quay_configuration`.
+    To install it, use: :code:`ansible-galaxy collection install infra.quay\_configuration`.
 
     To use it in a playbook, specify: :code:`infra.quay_configuration.quay_team`.
 
@@ -36,7 +36,7 @@ infra.quay_configuration.quay_team module -- Manage Quay Container Registry team
 
 .. rst-class:: ansible-version-added
 
-New in infra.quay_configuration 0.0.1
+New in infra.quay\_configuration 0.0.1
 
 .. contents::
    :local:
@@ -123,7 +123,7 @@ Parameters
     </div></td>
     <td><div class="ansible-option-cell">
       <p>List of the user or robot accounts in the team. Use the syntax <code class='docutils literal notranslate'>organization</code>+<code class='docutils literal notranslate'>robotshortname</code> for robot accounts.</p>
-      <p>If the team is synchronized with an LDAP group (see the <a href='../../herve4m/quay/quay_team_ldap_module.html' class='module'>infra.quay_configuration.quay_team_ldap</a> module), then you can only add or remove robot accounts.</p>
+      <p>If the team is synchronized with an LDAP group (see the <a href='../../infra/quay_configuration/quay_team_ldap_module.html' class='module'>infra.quay_configuration.quay_team_ldap</a> module), then you can only add or remove robot accounts.</p>
     </div></td>
   </tr>
   <tr class="row-odd">
@@ -297,7 +297,7 @@ Notes
 -----
 
 .. note::
-   - To synchronize teams with LDAP groups, see the \ :ref:`infra.quay_configuration.quay\_team\_ldap <ansible_collections.infra.quay_configuration.quay_team_ldap_module>`\  module.
+   - To synchronize teams with LDAP groups, see the \ :ref:`infra.quay\_configuration.quay\_team\_ldap <ansible_collections.infra.quay_configuration.quay_team_ldap_module>`\  module.
    - Supports \ :literal:`check\_mode`\ .
    - The token that you provide in \ :emphasis:`quay\_token`\  must have the "Administer Organization" and "Administer User" permissions.
 

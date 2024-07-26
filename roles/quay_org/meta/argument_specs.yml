@@ -221,8 +221,8 @@ argument_specs:
                 C(organization)+C(robotshortname) for robot accounts.
               - If the team is synchronized with an LDAP or OIDC group (see the
                 M(infra.quay_configuration.quay_team_ldap) and
-                M(infra.quay_configuration.quay_team_oidc) modules), then you can only add
-                or remove robot accounts.
+                M(infra.quay_configuration.quay_team_oidc) modules), then you
+                can only add or remove robot accounts.
             type: list
             elements: str
       quay_org_default_perms:

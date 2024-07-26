@@ -7,7 +7,7 @@
     :trim:
 
 .. meta::
-  :antsibull-docs: 2.11.0
+  :antsibull-docs: 2.12.0
 
 .. Anchors
 
@@ -18,17 +18,17 @@
 .. Title
 
 infra.quay_configuration.quay_repository_mirror module -- Manage Quay Container Registry repository mirror configurations
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `infra.quay_configuration collection <https://galaxy.ansible.com/ui/repo/published/herve4m/quay/>`_ (version 1.3.0).
+    This module is part of the `infra.quay_configuration collection <https://galaxy.ansible.com/ui/repo/published/infra/quay_configuration/>`_ (version 2.0.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
 
-    To install it, use: :code:`ansible-galaxy collection install infra.quay_configuration`.
+    To install it, use: :code:`ansible-galaxy collection install infra.quay\_configuration`.
 
     To use it in a playbook, specify: :code:`infra.quay_configuration.quay_repository_mirror`.
 
@@ -36,7 +36,7 @@ infra.quay_configuration.quay_repository_mirror module -- Manage Quay Container 
 
 .. rst-class:: ansible-version-added
 
-New in infra.quay_configuration 0.0.4
+New in infra.quay\_configuration 0.0.4
 
 .. contents::
    :local:
@@ -395,7 +395,7 @@ Notes
 .. note::
    - Your Quay administrator must enable the mirroring capability of your Quay installation (\ :literal:`FEATURE\_REPO\_MIRROR`\  in \ :literal:`config.yaml`\ ) to use that module.
    - You cannot modify a repository mirroring configuration if a synchronization is in progress.
-   - There is no API function to remove the configuration. However, you can deactivate mirroring by setting the \ :emphasis:`is\_enabled`\  parameter to \ :literal:`false`\  or by changing the repository mirror state (see the \ :emphasis:`repo\_state`\  parameter in the \ :ref:`infra.quay_configuration.quay\_repository <ansible_collections.infra.quay_configuration.quay_repository_module>`\  module). The configuration is preserved when you disable mirroring.
+   - There is no API function to remove the configuration. However, you can deactivate mirroring by setting the \ :emphasis:`is\_enabled`\  parameter to \ :literal:`false`\  or by changing the repository mirror state (see the \ :emphasis:`repo\_state`\  parameter in the \ :ref:`infra.quay\_configuration.quay\_repository <ansible_collections.infra.quay_configuration.quay_repository_module>`\  module). The configuration is preserved when you disable mirroring.
    - Supports \ :literal:`check\_mode`\ .
    - The user account associated with the token that you provide in \ :emphasis:`quay\_token`\  must have administrator access to the repository.
 

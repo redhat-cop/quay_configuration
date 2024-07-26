@@ -19,18 +19,18 @@ jobs:
 
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.12'
 
       - name: Install required packages
         run: pip install -Iv ansible
 
       - uses: actions/checkout@v4
         with:
-          path: ansible_collections/herve4m/quay
+          path: ansible_collections/infra/quay_configuration
 
       - name: Run sanity tests
         run: >
           ANSIBLE_TEST_PREFER_PODMAN=1 ansible-test sanity
           --docker default -v --color
-        working-directory: ./ansible_collections/herve4m/quay
+        working-directory: ./ansible_collections/infra/quay_configuration
 ...

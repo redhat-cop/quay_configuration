@@ -1,15 +1,15 @@
 
 
 .. meta::
-  :antsibull-docs: 2.11.0
+  :antsibull-docs: 2.12.0
 
 
 .. _plugins_in_infra.quay_configuration:
 
-infra.quay_configuration
-============
+Infra.Quay_Configuration
+========================
 
-Collection version 1.3.0
+Collection version 2.0.0
 
 .. contents::
    :local:
@@ -20,9 +20,10 @@ Description
 
 Ansible modules to manage Quay Container Registry installations
 
-**Author:**
+**Authors:**
 
 * Hervé Quatremain <rv4m@yahoo.co.uk>
+* Tom Page <tpage@redhat.com>
 
 **Supported ansible-core versions:**
 
