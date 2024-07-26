@@ -12,21 +12,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          path: ansible_collections/herve4m/quay
+          path: ansible_collections/infra/quay_configuration
 
       - name: Set access rights to Quay configuration file
         run: |
           chmod 777 quay-config
           chmod 666 quay-config/config.yaml
-        working-directory: ./ansible_collections/herve4m/quay/tests
+        working-directory: ./ansible_collections/infra/quay_configuration/tests
 
       - name: Deploy Quay
         run: docker-compose up -d
-        working-directory: ./ansible_collections/herve4m/quay/tests
+        working-directory: ./ansible_collections/infra/quay_configuration/tests
 
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.12'
 
       - name: Install required packages
         run: pip install -Iv ansible
@@ -42,15 +42,15 @@ jobs:
         run: >
           ansible-test integration -v --color --continue-on-error --diff
           --requirements --coverage
-        working-directory: ./ansible_collections/herve4m/quay
+        working-directory: ./ansible_collections/infra/quay_configuration
 
       - name: Generate coverage report
         run: >
           ansible-test coverage xml -v --requirements --group-by command
           --group-by version
-        working-directory: ./ansible_collections/herve4m/quay
+        working-directory: ./ansible_collections/infra/quay_configuration
 
-      # See the repots at https://codecov.io/gh/herve4m/quay
+      # See the repots at https://codecov.io/gh/infra/quay_configuration
       - uses: codecov/codecov-action@v4
         with:
           fail_ci_if_error: false
