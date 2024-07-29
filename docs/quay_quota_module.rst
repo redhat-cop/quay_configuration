@@ -23,7 +23,7 @@ infra.quay_configuration.quay_quota module -- Manage Quay Container Registry org
 .. Collection note
 
 .. note::
-    This module is part of the `infra.quay_configuration collection <https://galaxy.ansible.com/ui/repo/published/infra/quay_configuration/>`_ (version 2.0.0).
+    This module is part of the `infra.quay_configuration collection <https://galaxy.ansible.com/ui/repo/published/infra/quay_configuration/>`_ (version 2.1.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
