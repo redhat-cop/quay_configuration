@@ -21,7 +21,7 @@ jobs:
         working-directory: ./ansible_collections/infra/quay_configuration/tests
 
       - name: Deploy Quay
-        run: docker-compose up -d
+        run: docker compose up -d
         working-directory: ./ansible_collections/infra/quay_configuration/tests
 
       - uses: actions/setup-python@v5
