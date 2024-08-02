@@ -1,7 +1,7 @@
 ---
-namespace: infra
-name: quay_configuration
-version: 2.1.0
+namespace: {{ collection_namespace }}
+name: {{ collection_name }}
+version: {{ collection_version }}
 readme: README.md
 authors:
   - Hervé Quatremain <herve.quatremain@redhat.com>
@@ -13,14 +13,14 @@ tags:
   - application
   - quay
   - registry
-repository: https://github.com/redhat-cop/quay_configuration
+repository: {{ collection_repo }}
 
 # The URL to any online docs
-documentation: https://github.com/redhat-cop/quay_configuration
+documentation: {{ collection_repo }}
 
 # The URL to the home page of the collection/project
-homepage: https://github.com/redhat-cop/quay_configuration
+homepage: {{ collection_repo }}
 
 # The URL to the collection issue tracker
-issues: https://github.com/redhat-cop/quay_configuration/issues
+issues: {{ collection_repo }}/issues
 ...
