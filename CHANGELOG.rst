@@ -4,6 +4,19 @@ Quay Container Registry Collection Release Notes
 
 .. contents:: Topics
 
+v2.2.0
+======
+
+Release Summary
+---------------
+
+Support creating OAuth access tokens for other users.
+
+Minor Changes
+-------------
+
+- Add the ``for_user`` option to the ``infra.quay_configuration.quay_api_token`` module. With this option you can assign OAuth API tokens to other users (Quay 3.12 and later).
+
 v2.1.0
 ======
 
