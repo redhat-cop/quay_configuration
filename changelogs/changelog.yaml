@@ -244,3 +244,13 @@ releases:
     fragments:
     - PR2-v2.1.0-summary.yml
     release_date: '2024-07-29'
+  2.2.0:
+    changes:
+      minor_changes:
+      - Add the ``for_user`` option to the ``infra.quay_configuration.quay_api_token``
+        module. With this option you can assign OAuth API tokens to other users (Quay
+        3.12 and later).
+      release_summary: Support creating OAuth access tokens for other users.
+    fragments:
+    - PR5-v2.2.0-summary.yml
+    release_date: '2024-08-05'
