@@ -1,5 +1,6 @@
 ---
-# This workflow action build and then publish the collection to Ansible Galaxy
+# This workflow action builds and then publishes the collection
+# to Ansible Galaxy.
 name: Release
 
 on:
