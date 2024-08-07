@@ -1,0 +1,25 @@
+---
+# This workflow action builds and then publishes the collection
+# to Ansible Galaxy.
+name: Release
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  release:
+    uses:
+      redhat-cop/ansible_collections_tooling/.github/workflows/release.yml@main
+    with:
+      collection_namespace: infra
+      collection_name: quay_configuration
+      collection_version: ${{ github.ref_name }}
+      collection_repo: https://github.com/redhat-cop/quay_configuration
+    secrets:
+      # Ansible Galaxy key that is used to publish the collection
+      api_key: ${{ secrets.GALAXY_INFRA_KEY }}
+      # GitHub token used to copy the collection tar to the GitHub release
+      token: ${{ secrets.GITHUB_TOKEN }}
+...
