@@ -44,17 +44,17 @@ options:
     type: str
   sync:
     description:
-      - If C(yes), then the team members are retrieved from the OIDC group
-        that you define in I(group_name). The pre-existing members are removed
+      - If V(true), then the team members are retrieved from the OIDC group
+        that you define in O(group_name). The pre-existing members are removed
         from the team before the synchronization process starts.
         Existing robot account members are not removed.
-      - If C(no), then the synchronization from OIDC is disabled.
+      - If V(false), then the synchronization from OIDC is disabled.
     type: bool
-    default: yes
+    default: true
   group_name:
     description:
       - OIDC group name.
-      - I(group_name) is required when I(sync) is C(yes).
+      - O(group_name) is required when O(sync) is V(true).
     type: str
 notes:
   - The module requires Quay version 3.11 or later.
@@ -63,7 +63,7 @@ notes:
     C(config.yaml)), and enables team synchronization (C(FEATURE_TEAM_SYNCING)
     to C(true) in C(config.yaml)).
   - Supports C(check_mode).
-  - The token that you provide in I(quay_token) must have the "Administer
+  - The token that you provide in O(quay_token) must have the "Administer
     Organization" and "Administer User" permissions.
 extends_documentation_fragment:
   - infra.quay_configuration.auth

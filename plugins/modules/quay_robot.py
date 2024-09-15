@@ -47,7 +47,7 @@ options:
         personal namespace.
       - You can create and delete robot accounts in your personal namespace,
         but not in the personal namespace of other users. The token you use in
-        I(quay_token) determines the user account you are using.
+        O(quay_token) determines the user account you are using.
     required: true
     type: str
   description:
@@ -57,17 +57,17 @@ options:
     type: str
   state:
     description:
-      - If C(absent), then the module deletes the robot account.
+      - If V(absent), then the module deletes the robot account.
       - The module does not fail if the account does not exist, because the
         state is already as expected.
-      - If C(present), then the module creates the robot account if it does not
+      - If V(present), then the module creates the robot account if it does not
         already exist.
     type: str
     default: present
     choices: [absent, present]
 notes:
   - Supports C(check_mode).
-  - The token that you provide in I(quay_token) must have the "Administer
+  - The token that you provide in O(quay_token) must have the "Administer
     Organization" and "Administer User" permissions.
 extends_documentation_fragment:
   - infra.quay_configuration.auth
@@ -111,7 +111,7 @@ RETURN = r"""
 name:
   description:
     - Token name.
-    - From this name and the token, in I(token), you can construct a Docker
+    - From this name and the token, in RV(token), you can construct a Docker
       configuration file that you can use to manage images in the container
       image registry. See P(infra.quay_configuration.quay_docker_config#filter).
   returned: changed

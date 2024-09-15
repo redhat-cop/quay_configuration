@@ -47,24 +47,24 @@ options:
     type: str
   value:
     description:
-      - Label's value. Required when C(state=present).
+      - Label's value. Required when O(state=present).
     type: str
   replace:
     description:
-      - Only used when C(state=present).
-      - If C(yes), then the module deletes all the labels that use the key you
-        define in the I(key) parameter before adding the new label.
-      - If C(no), then the module adds the new label even if existing labels
-        already use the key you define in the I(key) parameter. Quay supports
+      - Only used when O(state=present).
+      - If V(true), then the module deletes all the labels that use the key you
+        define in the O(key) parameter before adding the new label.
+      - If V(false), then the module adds the new label even if existing labels
+        already use the key you define in the O(key) parameter. Quay supports
         multiple labels with the same key.
     type: bool
-    default: yes
+    default: true
   state:
     description:
-      - If C(absent), then the module deletes the labels that match the I(key)
-        and I(value) parameters. If you do not provide the I(value) parameter,
-        then the module deletes all the labels with the I(key) parameter.
-      - If C(present), then the module adds a label to the manifest.
+      - If V(absent), then the module deletes the labels that match the O(key)
+        and O(value) parameters. If you do not provide the O(value) parameter,
+        then the module deletes all the labels with the O(key) parameter.
+      - If V(present), then the module adds a label to the manifest.
     type: str
     default: present
     choices: [absent, present]
@@ -73,7 +73,7 @@ notes:
     updated. They are read-only.
   - Supports C(check_mode).
   - The user account associated with the token that you provide in
-    I(quay_token) must have write access to the repository.
+    O(quay_token) must have write access to the repository.
 extends_documentation_fragment:
   - infra.quay_configuration.auth
   - infra.quay_configuration.auth.login
@@ -136,13 +136,13 @@ value:
 source_type:
   description:
     - Whether the label has been set by the Containerfile/Dockerfile manifest
-      (C(manifest)), or by an API call or from the web UI (C(api)).
+      (V(manifest)), or by an API call or from the web UI (V(api)).
     - Labels set in Containerfile/Dockerfile manifests are read-only.
   returned: always
   type: str
   sample: api
 media_type:
-  description: Format of the label (C(text/plain) or C(application/json)).
+  description: Format of the label (V(text/plain) or V(application/json)).
   returned: always
   type: str
   sample: text/plain

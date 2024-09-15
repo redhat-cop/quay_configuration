@@ -51,7 +51,7 @@ options:
       - User's email address.
       - If your Quay administrator has enabled the mailing capability of your
         Quay installation (C(FEATURE_MAILING) to C(true) in C(config.yaml)),
-        then this I(email) parameter is mandatory.
+        then this O(email) parameter is mandatory.
     type: str
   password:
     description:
@@ -61,7 +61,7 @@ options:
     type: str
   enabled:
     description:
-      - Enable (C(true)) or disable (C(false)) the user account.
+      - Enable (V(true)) or disable (V(false)) the user account.
       - When their account is disabled, the user cannot log in to the web UI
         and cannot push or pull container images.
     type: bool
@@ -75,11 +75,11 @@ options:
     aliases: ['is_superuser']
   state:
     description:
-      - If C(absent), then the module deletes the user.
+      - If V(absent), then the module deletes the user.
       - You cannot delete superuser accounts.
       - The module does not fail if the user does not exist, because the state
         is already as expected.
-      - If C(present), then the module creates the user if it does not already
+      - If V(present), then the module creates the user if it does not already
         exist.
       - If the user account already exists, then the module updates its state.
       - You cannot update superuser accounts.
@@ -88,7 +88,7 @@ options:
     choices: [absent, present]
 notes:
   - Supports C(check_mode).
-  - The token that you provide in I(quay_token) must have the
+  - The token that you provide in O(quay_token) must have the
     "Super User Access" permission.
   - You cannot delete or modify superuser accounts.
   - You cannot revoke superuser privileges with this module.

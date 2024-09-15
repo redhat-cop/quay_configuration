@@ -42,11 +42,11 @@ options:
     type: str
   visibility:
     description:
-      - If C(public), then anyone can pull images from the repository.
-      - If C(private), then nobody can access the repository and you need to
+      - If V(public), then anyone can pull images from the repository.
+      - If V(private), then nobody can access the repository and you need to
         explicitly grant access to users, robots, and teams.
       - If you do not set the parameter when you create a repository, then
-        it defaults to C(private).
+        it defaults to V(private).
     type: str
     choices: [public, private]
   description:
@@ -61,7 +61,7 @@ options:
     suboptions:
       type:
         description:
-          - Specifies the type of the account. Choose C(user) for both user and
+          - Specifies the type of the account. Choose V(user) for both user and
             robot accounts.
         type: str
         choices: [user, team]
@@ -80,26 +80,26 @@ options:
         default: read
   append:
     description:
-      - If C(yes), then add the permission defined in I(perms) to the
+      - If V(true), then add the permission defined in O(perms) to the
         repository.
-      - If C(no), then the module sets the permissions specified in I(perms),
+      - If V(false), then the module sets the permissions specified in O(perms),
         removing all others permissions from the repository.
     type: bool
-    default: yes
+    default: true
   star:
     description:
-      - If C(yes), then add a star to the repository. If C(no), then remove
+      - If V(true), then add a star to the repository. If V(false), then remove
         the star.
-      - To star or unstar a repository you must provide the I(quay_token)
+      - To star or unstar a repository you must provide the O(quay_token)
         parameter to authenticate. If you are not authenticated, then the
-        module ignores the I(star) parameter.
+        module ignores the O(star) parameter.
     type: bool
   state:
     description:
-      - If C(absent), then the module deletes the repository.
+      - If V(absent), then the module deletes the repository.
       - The module does not fail if the repository does not exist, because the
         state is already as expected.
-      - If C(present), then the module creates the repository if it does not
+      - If V(present), then the module creates the repository if it does not
         already exist.
       - If the repository already exists, then the module updates its state.
     type: str
@@ -107,20 +107,20 @@ options:
     choices: [absent, present]
   repo_state:
     description:
-      - If C(NORMAL), then the repository is in the default state (read/write).
-      - If C(READ_ONLY), then the repository is read-only.
-      - If C(MIRROR), then the repository is a mirror and you can configure it
+      - If V(NORMAL), then the repository is in the default state (read/write).
+      - If V(READ_ONLY), then the repository is read-only.
+      - If V(MIRROR), then the repository is a mirror and you can configure it
         by using the M(infra.quay_configuration.quay_repository_mirror) module.
       - You must enable the mirroring capability of your Quay installation to
-        use this I(repo_state) parameter.
+        use this O(repo_state) parameter.
     type: str
     choices: [NORMAL, READ_ONLY, MIRROR]
 notes:
   - Your Quay administrator must enable the mirroring capability of your Quay
     installation (C(FEATURE_REPO_MIRROR) in C(config.yaml)) to use the
-    I(repo_state) parameter.
+    O(repo_state) parameter.
   - Supports C(check_mode).
-  - The token that you provide in I(quay_token) must have the "Administer
+  - The token that you provide in O(quay_token) must have the "Administer
     Repositories" and "Create Repositories" permissions.
 extends_documentation_fragment:
   - infra.quay_configuration.auth

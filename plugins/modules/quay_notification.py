@@ -64,7 +64,7 @@ options:
   method:
     description:
       - Notification method. Each method requires a specific set of options
-        that you define by using the I(config) parameter.
+        that you define by using the O(config) parameter.
       - The email notification method is only available on Quay installations
         where the mailing capability has been activated (C(FEATURE_MAILING) to
         C(true) in C(config.yaml)).
@@ -83,7 +83,7 @@ options:
     suboptions:
       type:
         description:
-          - Specifies the type of the account defined in I(name).
+          - Specifies the type of the account defined in O(config.name).
           - Only applies to the Quay Notification method.
         type: str
         choices: [user, team, org]
@@ -122,9 +122,9 @@ options:
         type: str
   vulnerability_level:
     description:
-      - Only used when I(event) is C(vulnerability_found).
+      - Only used when O(event) is V(vulnerability_found).
       - The notification is triggered when the vulnerability has a level equal
-        or higher to the level you define is I(vulnerability_level).
+        or higher to the level that you define in O(vulnerability_level).
     type: str
     choices:
       - critical
@@ -135,7 +135,7 @@ options:
       - unknown
   image_expiry_days:
     description:
-      - Only used when I(event) is C(repo_image_expiry).
+      - Only used when O(event) is V(repo_image_expiry).
       - The notification is triggered when the image expires in the specified
         number of days.
     type: int
@@ -146,26 +146,26 @@ options:
         notifications. This does not have to match the entire title.
       - The module uses that regular expression to select the notifications to
         process.
-      - For C(state=present), the module resets the failure counter (if
-        I(reset_failcount) is C(true)) or initiates a test (if I(test) is
-        C(true)) of all the matching notifications.
-      - For C(state=absent), the module deletes all the notifications that
+      - For O(state=present), the module resets the failure counter (if
+        O(reset_failcount) is V(true)) or initiates a test (if O(test) is
+        V(true)) of all the matching notifications.
+      - For O(state=absent), the module deletes all the notifications that
         match.
       - Uses Python regular expressions. See
         U(https://docs.python.org/3/library/re.html).
-      - Mutually exclusive with I(search_string).
+      - Mutually exclusive with O(search_string).
     type: str
     aliases: [regex]
   search_string:
     description:
       - The literal string to search in the title of the existing
         notifications. This does not have to match the entire line.
-      - For C(state=present), the module resets the failure counter (if
-        I(reset_failcount) is C(true)) or initiates a test (if I(test) is
-        C(true)) of all the matching notifications.
-      - For C(state=absent), the module deletes all the notifications that
+      - For O(state=present), the module resets the failure counter (if
+        O(reset_failcount) is V(true)) or initiates a test (if O(test) is
+        V(true)) of all the matching notifications.
+      - For O(state=absent), the module deletes all the notifications that
         match.
-      - Mutually exclusive with I(regexp).
+      - Mutually exclusive with O(regexp).
     type: str
   reset_failcount:
     description:
@@ -179,15 +179,15 @@ options:
     default: false
   state:
     description:
-      - If C(absent), then the module deletes the notification.
-      - The module uses the I(title), I(regex), or I(search_string) parameters
+      - If V(absent), then the module deletes the notification.
+      - The module uses the O(title), O(regex), or O(search_string) parameters
         to select the notifications to process. You can also omit those
-        parameters and use instead the I(event) and I(method) options to select
+        parameters and use instead the O(event) and O(method) options to select
         all the notifications triggered by a specific event or using a specific
         method.
-      - If C(present), then the module creates the notification if it does not
+      - If V(present), then the module creates the notification if it does not
         already exist.
-      - If the notification already exists and I(reset_failcount) or I(test)
+      - If the notification already exists and O(reset_failcount) or O(test)
         are set, then the module resets the failure counter or initiates a test
         of the notification.
     type: str
@@ -197,11 +197,11 @@ notes:
   - Supports C(check_mode).
   - Your Quay administrator must enable the image garbage collection capability
     of your Quay installation (C(FEATURE_GARBAGE_COLLECTION) in C(config.yaml))
-    to use the C(repo_image_expiry) event.
-  - Using the C(repo_image_expiry) event and the I(image_expiry_days) parameter
+    to use the V(repo_image_expiry) event.
+  - Using the V(repo_image_expiry) event and the O(image_expiry_days) parameter
     requires Quay version 3.12 or later.
   - The user account associated with the token that you provide in
-    I(quay_token) must have administrator access to the repository.
+    O(quay_token) must have administrator access to the repository.
 extends_documentation_fragment:
   - infra.quay_configuration.auth
   - infra.quay_configuration.auth.login

@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# Copyright: (c) 2021, 2022 Hervé Quatremain <herve.quatremain@redhat.com>
+# Copyright: (c) 2021, 2022, 2024 Hervé Quatremain <herve.quatremain@redhat.com>
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 # For accessing the API documentation from a running system, use the swagger-ui
@@ -40,7 +40,7 @@ options:
   is_enabled:
     description:
       - Defines whether the mirror configuration is active or inactive.
-      - C(false) by default.
+      - V(false) by default.
     type: bool
   external_reference:
     description:
@@ -65,12 +65,12 @@ options:
     description:
       - The date and time at which the first synchronization should be
         initiated.
-      - The format for the I(sync_start_date) parameter is ISO 8601 UTC, such
+      - The format for the O(sync_start_date) parameter is ISO 8601 UTC, such
         as 2021-12-02T21:06:00Z.
-      - If you do not provide the I(sync_start_date) parameter when you
+      - If you do not provide the O(sync_start_date) parameter when you
         configure a new repository mirror, then the synchronization is
         immediately active, and a synchronization is initiated if the
-        I(is_enabled) parameter is C(true).
+        O(is_enabled) parameter is V(true).
     type: str
   robot_username:
     description:
@@ -85,7 +85,7 @@ options:
   verify_tls:
     description:
       - Defines whether TLS of the external registry should be verified.
-      - C(true) by default.
+      - V(true) by default.
     type: bool
   http_proxy:
     description:
@@ -103,7 +103,7 @@ options:
     description:
       - Comma-separated list of hosts for which the proxy should not be used.
       - Only relevant when you also specify a proxy configuration by setting
-        the I(http_proxy) or I(https_proxy) variables.
+        the O(http_proxy) or O(https_proxy) variables.
       - See the C(curl) documentation for more details.
     type: str
   force_sync:
@@ -117,13 +117,14 @@ notes:
   - You cannot modify a repository mirroring configuration if a synchronization
     is in progress.
   - There is no API function to remove the configuration. However, you can
-    deactivate mirroring by setting the I(is_enabled) parameter to C(false) or
-    by changing the repository mirror state (see the I(repo_state) parameter in
-    the M(infra.quay_configuration.quay_repository) module).
+    deactivate mirroring by setting the O(is_enabled) parameter to V(false) or
+    by changing the repository mirror state (see the
+    O(infra.quay_configuration.quay_repository#module:repo_state)
+    parameter in the M(infra.quay_configuration.quay_repository) module).
     The configuration is preserved when you disable mirroring.
   - Supports C(check_mode).
   - The user account associated with the token that you provide in
-    I(quay_token) must have administrator access to the repository.
+    O(quay_token) must have administrator access to the repository.
 extends_documentation_fragment:
   - infra.quay_configuration.auth
   - infra.quay_configuration.auth.login

@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# Copyright: (c) 2021, 2022 Hervé Quatremain <herve.quatremain@redhat.com>
+# Copyright: (c) 2021, 2022, 2024 Hervé Quatremain <herve.quatremain@redhat.com>
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 # For accessing the API documentation from a running system, use the swagger-ui
@@ -43,13 +43,13 @@ options:
     description:
       - Severity of the message.
       - If you do not set this parameter, then the module creates the message
-        with the C(info) severity.
+        with the V(info) severity.
     type: str
     choices: [info, warning, error]
   format:
     description:
-      - Format of the text in I(content).
-      - If you do not set this parameter, then the module uses the C(plain)
+      - Format of the text in O(content).
+      - If you do not set this parameter, then the module uses the V(plain)
         format.
     type: str
     aliases: [media_type]
@@ -58,44 +58,44 @@ options:
     description:
       - The regular expression to look for in the existing messages. This does
         not have to match an entire line.
-      - For C(state=present), if several messages match, then the module
+      - For O(state=present), if several messages match, then the module
         updates one and deletes the others.
-      - For C(state=absent), the module deletes all the messages that match.
+      - For O(state=absent), the module deletes all the messages that match.
       - Uses Python regular expressions. See
         U(https://docs.python.org/3/library/re.html).
-      - Mutually exclusive with I(search_string).
+      - Mutually exclusive with O(search_string).
     type: str
     aliases: [regex]
   search_string:
     description:
       - The literal string to look for in the existing messages. This does not
         have to match an entire line.
-      - For C(state=present), if several messages match, then the module
+      - For O(state=present), if several messages match, then the module
         updates one and deletes the others.
-      - For C(state=absent), the module deletes all the messages that match.
-      - Mutually exclusive with I(regexp).
+      - For O(state=absent), the module deletes all the messages that match.
+      - Mutually exclusive with O(regexp).
     type: str
   search_severity:
     description:
       - Search messages by their severity level.
-      - If you also set I(search_string), I(regexp), or I(content), messages
+      - If you also set O(search_string), O(regexp), or O(content), messages
         must match all those criteria.
     type: str
     choices: [info, warning, error]
   state:
     description:
-      - If C(absent), then the module deletes all the messages which content
-        matches I(search_string), I(regexp), I(content), or I(search_severity).
-      - If C(present), then the module creates the message if it does not
-        already exist (that is, if no message matches I(search_string),
-        I(regexp), or I(content)). Is several messages match, only one is
+      - If V(absent), then the module deletes all the messages which content
+        matches O(search_string), O(regexp), O(content), or O(search_severity).
+      - If V(present), then the module creates the message if it does not
+        already exist (that is, if no message matches O(search_string),
+        O(regexp), or O(content)). Is several messages match, only one is
         updated and the others are deleted.
     type: str
     default: present
     choices: [absent, present]
 notes:
   - Supports C(check_mode).
-  - The token that you provide in I(quay_token) must have the
+  - The token that you provide in O(quay_token) must have the
     "Super User Access" permission.
 extends_documentation_fragment:
   - infra.quay_configuration.auth

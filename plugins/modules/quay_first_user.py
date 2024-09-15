@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# Copyright: (c) 2021, 2022 Hervé Quatremain <herve.quatremain@redhat.com>
+# Copyright: (c) 2021, 2022, 2024 Hervé Quatremain <herve.quatremain@redhat.com>
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 # For accessing the API documentation from a running system, use the swagger-ui
@@ -46,8 +46,8 @@ options:
       - You probably want that user account to have superuser permissions so
         that you can use the returned token to create additional objects.
         To do so, add the account name to the C(SUPER_USERS) section in the
-        C(config.yaml) file before using the M(infra.quay_configuration.quay_first_user)
-        module.
+        C(config.yaml) file before using the
+        M(infra.quay_configuration.quay_first_user) module.
     required: true
     type: str
   email:
@@ -55,7 +55,7 @@ options:
       - User's email address.
       - If your Quay administrator has enabled the mailing capability of your
         Quay installation (C(FEATURE_MAILING) to C(true) in C(config.yaml)),
-        then this I(email) parameter is mandatory.
+        then this O(email) parameter is mandatory.
     type: str
   password:
     description:
@@ -66,12 +66,12 @@ options:
     type: str
   create_token:
     description:
-      - If C(yes), then an OAuth access token is created and returned. You can
+      - If V(true), then an OAuth access token is created and returned. You can
         use that returned token with the other Quay modules, by setting it in
-        the I(quay_token) parameter. The token is valid for 2 hours 30 minutes.
-      - If C(no), then no access token is created.
+        the C(quay_token) parameter. The token is valid for 2 hours 30 minutes.
+      - If V(false), then no access token is created.
     type: bool
-    default: no
+    default: false
 notes:
   - The module requires Quay version 3.6 or later.
   - To use the module, you must enable the first user creation feature of your
@@ -104,7 +104,7 @@ access_token:
   description:
     - The access token that you can use for subsequent module calls.
     - The token is valid for 2 hours 30 minutes.
-  returned: only when you set the I(create_token) parameter to C(yes)
+  returned: only when you set the O(create_token) parameter to V(true)
   type: str
   sample: W2YX0V838JZ5FHHUH82Q25FZZMRX8YTB1MTN56P3
 email:

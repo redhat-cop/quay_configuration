@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# Copyright: (c) 2022 Hervé Quatremain <herve.quatremain@redhat.com>
+# Copyright: (c) 2022, 2024 Hervé Quatremain <herve.quatremain@redhat.com>
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 # For accessing the API documentation from a running system, use the swagger-ui
@@ -44,15 +44,15 @@ options:
     type: str
   sync:
     description:
-      - If C(yes), then the team members are retrieved from the LDAP group
-        that you define in I(group_dn). The pre-existing members are removed
+      - If V(true), then the team members are retrieved from the LDAP group
+        that you define in O(group_dn). The pre-existing members are removed
         from the team before the synchronization process starts.
         Existing robot account members are not removed.
-      - If C(no), then the synchronization from LDAP is disabled. Existing
-        team members (from LDAP) are kept, except if you set I(keep_users) to
-        C(no).
+      - If V(false), then the synchronization from LDAP is disabled. Existing
+        team members (from LDAP) are kept, except if you set O(keep_users) to
+        V(false).
     type: bool
-    default: yes
+    default: true
   group_dn:
     description:
       - LDAP group distinguished name (DN), relative to the base DN that you
@@ -60,24 +60,24 @@ options:
         C(LDAP_BASE_DN) parameter.
       - For example, if the LDAP group DN is
         C(cn=group1,ou=groups,dc=example,dc=org) and the base DN is
-        C(dc=example,dc=org), then you must set I(group_dn) to
-        C(cn=group1,ou=groups).
-      - I(group_dn) is required when I(sync) is C(yes).
+        C(dc=example,dc=org), then you must set O(group_dn) to
+        V(cn=group1,ou=groups).
+      - O(group_dn) is required when O(sync) is V(true).
     type: str
   keep_users:
     description:
-      - If C(yes), then the current team members are kept after the
+      - If V(true), then the current team members are kept after the
         synchronization is disabled.
-      - If C(no), then the team members are removed (except robot accounts).
-      - I(keep_users) is only used when I(sync) is C(no).
+      - If V(false), then the team members are removed (except robot accounts).
+      - O(keep_users) is only used when O(sync) is V(false).
     type: bool
-    default: yes
+    default: true
 notes:
   - The module requires that your Quay administrator configures the Quay
     authentication method to LDAP (C(AUTHENTICATION_TYPE) to C(LDAP) in
     C(config.yaml) and the C(LDAP_*) parameters correctly set).
   - Supports C(check_mode).
-  - The token that you provide in I(quay_token) must have the "Administer
+  - The token that you provide in O(quay_token) must have the "Administer
     Organization" and "Administer User" permissions.
 extends_documentation_fragment:
   - infra.quay_configuration.auth

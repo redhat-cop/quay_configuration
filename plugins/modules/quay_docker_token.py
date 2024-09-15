@@ -44,10 +44,10 @@ options:
     type: str
   state:
     description:
-      - If C(absent), then the module deletes the token.
+      - If V(absent), then the module deletes the token.
       - The module does not fail if the token does not exist, because the
         state is already as expected.
-      - If C(present), then the module creates the token if it does not
+      - If V(present), then the module creates the token if it does not
         already exist.
       - If the token already exists, then the module returns its details.
     type: str
@@ -139,14 +139,14 @@ created:
 last_accessed:
   description:
     - Last date and time the token was used.
-    - If the token has not been used yet, then I(last_accessed) is C(null).
+    - If the token has not been used yet, then RV(last_accessed) is V(null).
   returned: always
   type: str
   sample: Wed, 25 May 2022 12:49:45 -0000
 expiration:
   description:
     - Expiration date and time of the token.
-    - By default, tokens do not expire. In that case I(expiration) is C(null).
+    - By default, tokens do not expire. In that case RV(expiration) is V(null).
     - Your Quay administrator might have activated expiration by setting the
       C(APP_SPECIFIC_TOKEN_EXPIRATION) directive in the C(config.yaml)
       configuration file.

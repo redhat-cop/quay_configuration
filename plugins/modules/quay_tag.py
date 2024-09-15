@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# Copyright: (c) 2021, 2022 Hervé Quatremain <herve.quatremain@redhat.com>
+# Copyright: (c) 2021, 2022, 2024 Hervé Quatremain <herve.quatremain@redhat.com>
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 # For accessing the API documentation from a running system, use the swagger-ui
@@ -38,47 +38,47 @@ options:
         organization or a personal namespace.
       - If you omit the namespace part, then the module looks for the
         repository in your personal namespace.
-      - If you omit the tag and the digest part, then C(latest) is assumed.
+      - If you omit the tag and the digest part, then V(latest) is assumed.
     required: true
     type: str
   tag:
     description:
-      - When C(state=present), the I(tag) parameter provides the new tag to add
+      - When O(state=present), the O(tag) parameter provides the new tag to add
         to the image. If another image already uses that tag, then the module
         removes the tag from that other image first.
-      - When C(state=absent), the I(tag) parameter indicates the tag to remove.
-        If you do not set that I(tag) parameter, then the module removes the
-        tag that you give in the image name with the I(image) parameter.
-      - When you specify the image by its digest, in the I(image) parameter,
-        then that I(tag) parameter is mandatory.
+      - When O(state=absent), the O(tag) parameter indicates the tag to remove.
+        If you do not set that O(tag) parameter, then the module removes the
+        tag that you give in the image name with the O(image) parameter.
+      - When you specify the image by its digest, in the O(image) parameter,
+        then that O(tag) parameter is mandatory.
     type: str
   expiration:
     description:
       - Expiration date and time for the tag. The format is C(YYYYMMDDHHMM.SS)
-        but you can change it by setting the I(expiration_format) parameter.
+        but you can change it by setting the O(expiration_format) parameter.
       - You cannot set an expiration date more that two years in the future.
         If you do so, then Quay forces the date at that two years boundary.
       - You cannot set an expiration date in the past.
     type: str
   expiration_format:
     description:
-      - Indicate the time format used in the I(expiration) parameter.
+      - Indicate the time format used in the O(expiration) parameter.
       - Based on default Python format (see
         U(https://docs.python.org/3/library/time.html#time.strftime)).
     type: str
     default: "%Y%m%d%H%M.%S"
   state:
     description:
-      - If C(absent), then the module deletes the image which tag is given in
-        the I(tag) parameter, or if not set, in the image name.
-      - If C(present), then the module adds the tag in the I(tag) parameter to
+      - If V(absent), then the module deletes the image which tag is given in
+        the O(tag) parameter, or if not set, in the image name.
+      - If V(present), then the module adds the tag in the O(tag) parameter to
         the image.
     type: str
     default: present
     choices: [absent, present]
 notes:
   - Supports C(check_mode).
-  - The token that you provide in I(quay_token) must have the "Administer
+  - The token that you provide in O(quay_token) must have the "Administer
     Repositories" permission.
 extends_documentation_fragment:
   - infra.quay_configuration.auth

@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# Copyright: (c) 2021, 2022 Hervé Quatremain <herve.quatremain@redhat.com>
+# Copyright: (c) 2021, 2022, 2024 Hervé Quatremain <herve.quatremain@redhat.com>
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 # For accessing the API documentation from a running system, use the swagger-ui
@@ -48,7 +48,7 @@ options:
     type: str
   type:
     description:
-      - Type of the account defined in I(name). Choose C(user)
+      - Type of the account defined in O(name). Choose V(user)
         for both user and robot accounts.
     type: str
     choices: [user, team]
@@ -57,33 +57,33 @@ options:
     description:
       - Permission that Quay automatically grants to the user or team on new
         created repositories in the organization.
-      - If you do not provide that parameter, then the module uses C(read) by
+      - If you do not provide that parameter, then the module uses V(read) by
         default.
     type: str
     choices: [read, write, admin]
   creator:
     description:
       - Quay applies the default permission only when repositories are created
-        by the user that you define in I(creator).
-      - By default, if you do not provide that I(creator) parameter, then Quay
+        by the user that you define in O(creator).
+      - By default, if you do not provide that O(creator) parameter, then Quay
         applies the default permission to all new repositories, whoever creates
         them.
-      - You cannot use robot accounts or teams for the I(creator) parameter.
+      - You cannot use robot accounts or teams for the O(creator) parameter.
         You can only use regular user accounts.
     type: str
   state:
     description:
-      - If C(absent), then the module deletes the default permission.
-      - If C(present), then the module creates the default permission if it
+      - If V(absent), then the module deletes the default permission.
+      - If V(present), then the module creates the default permission if it
         does not already exist.
       - If the default permission already exists, then the module updates its
-        role parameter (C(read), C(write), or C(admin)).
+        role parameter (V(read), V(write), or V(admin)).
     type: str
     default: present
     choices: [absent, present]
 notes:
   - Supports C(check_mode).
-  - The token that you provide in I(quay_token) must have the "Administer
+  - The token that you provide in O(quay_token) must have the "Administer
     Organization" and "Administer User" permissions.
 extends_documentation_fragment:
   - infra.quay_configuration.auth
