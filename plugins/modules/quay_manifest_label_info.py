@@ -92,13 +92,13 @@ labels:
     source_type:
       description:
         - Whether the label has been set by the Containerfile/Dockerfile
-          manifest (C(manifest)), or by an API call or from the web UI (C(api)).
+          manifest (V(manifest)), or by an API call or from the web UI (V(api)).
         - Labels set in Containerfile/Dockerfile manifests are read-only.
       returned: always
       type: str
       sample: api
     media_type:
-      description: Format of the label (C(text/plain) or C(application/json)).
+      description: Format of the label (V(text/plain) or V(application/json)).
       returned: always
       type: str
       sample: text/plain

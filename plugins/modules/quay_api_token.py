@@ -32,14 +32,14 @@ options:
     description:
       - The username to use for authenticating against the API.
       - If you do not set the parameter, then the module tries the
-        C(QUAY_USERNAME) environment variable.
+        E(QUAY_USERNAME) environment variable.
     type: str
     required: true
   quay_password:
     description:
       - The password to use for authenticating against the API.
       - If you do not set the parameter, then the module tries the
-        C(QUAY_PASSWORD) environment variable.
+        E(QUAY_PASSWORD) environment variable.
     type: str
     required: true
   client_id:
@@ -52,7 +52,7 @@ options:
     type: str
   rights:
     description:
-      - List of permissions to grant to the user account. C(all) means all the
+      - List of permissions to grant to the user account. V(all) means all the
         permissions.
     type: list
     elements: str
@@ -77,13 +77,13 @@ options:
     type: str
     required: false
 notes:
-  - Supports C(check_mode).
-  - I(for_user) requires Quay version 3.12 or later.
+  - Supports O(check_mode).
+  - O(for_user) requires Quay version 3.12 or later.
   - Your Quay administrator must enable the OAuth assignment capability
     of your Quay installation (C(FEATURE_ASSIGN_OAUTH_TOKEN) in C(config.yaml))
-    to use the I(for_user) option in Quay version 3.12 or later.
+    to use the O(for_user) option in Quay version 3.12 or later.
   - The generated OAuth access token acts on behalf of the user account you use
-    with the module (in I(for_user) if set, otherwise in I(quay_username)).
+    with the module (in O(for_user) if set, otherwise in O(quay_username)).
   - The user must have admin rights to the application's organization, by being
     the creator of this organization, or by belonging to a team with admin
     rights.
@@ -186,7 +186,7 @@ EXAMPLES = r"""
 RETURN = r"""
 access_token:
   description: The OAuth access token.
-  returned: only when I(for_user) is not set
+  returned: only when O(for_user) is not set
   type: str
   sample: CywbRGkh1ttYkRRy9VL0Aw0yU9q7J62vIeo7WCFw
  """

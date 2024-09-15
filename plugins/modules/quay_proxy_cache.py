@@ -57,9 +57,9 @@ options:
   insecure:
     description:
       - Whether to allow insecure connections to the remote registry.
-      - If C(yes), then the module does not validate SSL certificates.
+      - If V(true), then the module does not validate SSL certificates.
     type: bool
-    default: no
+    default: false
   expiration:
     description:
       - Tag expiration in seconds for cached images.
@@ -68,10 +68,10 @@ options:
     default: 86400
   state:
     description:
-      - If C(absent), then the module removes the proxy cache configuration.
+      - If V(absent), then the module removes the proxy cache configuration.
       - The module does not fail if the proxy cache configuration does not exist,
         because the state is already as expected.
-      - If C(present), then the module creates the proxy cache configuration.
+      - If V(present), then the module creates the proxy cache configuration.
       - If a proxy cache configuration already exists, then the module deletes it
         first.
     type: str
@@ -81,11 +81,11 @@ notes:
   - The module requires Quay version 3.7 or later.
   - To use the module, you must enable the proxy cache feature of your
     Quay installation (C(FEATURE_PROXY_CACHE) in C(config.yaml)).
-  - When you set I(state) to C(present), the module always reports a changed
+  - When you set O(state) to V(present), the module always reports a changed
     status, because it cannot retrieve the current password for the remote
-    registry to compare it with the I(password) parameter.
-  - Supports C(check_mode).
-  - The token that you provide in I(quay_token) must have the "Administer
+    registry to compare it with the O(password) parameter.
+  - Supports O(check_mode).
+  - The token that you provide in O(quay_token) must have the "Administer
     Organization" permission.
 extends_documentation_fragment:
   - infra.quay_configuration.auth

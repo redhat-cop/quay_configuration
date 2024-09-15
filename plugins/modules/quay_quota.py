@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# Copyright: (c) 2022 Hervé Quatremain <herve.quatremain@redhat.com>
+# Copyright: (c) 2022, 2024 Hervé Quatremain <herve.quatremain@redhat.com>
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 # For accessing the API documentation from a running system, use the swagger-ui
@@ -47,7 +47,7 @@ options:
     description:
       - Warning (soft) limit as a percentage of the quota.
       - Quay notifies the users when the limit is reached.
-      - Set I(warning_pct) to C(0) to remove the warning limit.
+      - Set O(warning_pct) to V(0) to remove the warning limit.
     required: false
     type: int
   reject_pct:
@@ -55,14 +55,14 @@ options:
       - Reject (hard) limit as a percentage of the quota.
       - Quay terminates any image push in the organization when the limit is
         reached.
-      - Set I(reject_pct) to C(0) to remove the reject limit.
+      - Set O(reject_pct) to V(0) to remove the reject limit.
     required: false
     type: int
   state:
     description:
-      - If C(absent), then the module deletes the quota and limits for the
+      - If V(absent), then the module deletes the quota and limits for the
         given organization.
-      - If C(present), then the module establishes the quota and limits for the
+      - If V(present), then the module establishes the quota and limits for the
         given organization.
       - If quota and limits are already set, then the module updates them.
     type: str
@@ -73,8 +73,8 @@ notes:
   - The module requires that your Quay administrator enables quota management
     for your installation (by setting C(FEATURE_QUOTA_MANAGEMENT) to C(True) in
     C(config.yaml)).
-  - Supports C(check_mode).
-  - The token that you provide in I(quay_token) must have the "Administer
+  - Supports O(check_mode).
+  - The token that you provide in O(quay_token) must have the "Administer
     Organization" and "Administer User" permissions.
 extends_documentation_fragment:
   - infra.quay_configuration.auth

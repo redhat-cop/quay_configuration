@@ -45,7 +45,7 @@ options:
   role:
     description:
       - Role of the team within the organization. If not set, then the new team
-        has the C(member) role.
+        has the V(member) role.
     type: str
     choices: [member, creator, admin]
   description:
@@ -63,17 +63,17 @@ options:
     elements: str
   append:
     description:
-      - If C(yes), then add the users specified in I(members) to the team.
-      - If C(no), then the module sets the team members to users specified in
-        I(members), removing all others users from the team.
+      - If V(true), then add the users specified in O(members) to the team.
+      - If V(false), then the module sets the team members to users specified
+        in O(members), removing all others users from the team.
     type: bool
-    default: yes
+    default: true
   state:
     description:
-      - If C(absent), then the module deletes the team.
+      - If V(absent), then the module deletes the team.
       - The module does not fail if the team does not exist, because the
         state is already as expected.
-      - If C(present), then the module creates the team if it does not
+      - If V(present), then the module creates the team if it does not
         already exist.
       - If the team already exists, then the module updates its state.
     type: str
@@ -82,8 +82,8 @@ options:
 notes:
   - To synchronize teams with LDAP groups, see the
     M(infra.quay_configuration.quay_team_ldap) module.
-  - Supports C(check_mode).
-  - The token that you provide in I(quay_token) must have the "Administer
+  - Supports O(check_mode).
+  - The token that you provide in O(quay_token) must have the "Administer
     Organization" and "Administer User" permissions.
 extends_documentation_fragment:
   - infra.quay_configuration.auth

@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# Copyright: (c) 2021, 2022 Hervé Quatremain <herve.quatremain@redhat.com>
+# Copyright: (c) 2021, 2022, 2024 Hervé Quatremain <herve.quatremain@redhat.com>
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 # For accessing the API documentation from a running system, use the swagger-ui
@@ -43,25 +43,25 @@ options:
     description:
       - Gather information on that specific tag instead of returning data on
         all the tags in the repository.
-      - Mutually exclusive with I(digest).
+      - Mutually exclusive with O(digest).
     type: str
   digest:
     description:
       - Gather information on the images with that digest instead of returning
         data on all the tags in the repository.
-      - Mutually exclusive with I(tag).
+      - Mutually exclusive with O(tag).
     type: str
   only_active_tags:
     description:
-      - If C(yes), then the module only collects information on tags that have
-        not expired and have not been deleted. If C(no), then the module
+      - If V(true), then the module only collects information on tags that have
+        not expired and have not been deleted. If V(false), then the module
         returns information on all the tags.
-      - You can identify expired and deleted tags (when I(only_active_tags) is
-        C(no)) in the returned data by inspecting the C(end_ts) or
-        C(expiration) tag attributes. Those attributes provide the expiration
+      - You can identify expired and deleted tags (when O(only_active_tags) is
+        V(false)) in the returned data by inspecting the RV(end_ts) or
+        RV(expiration) tag attributes. Those attributes provide the expiration
         or deletion date.
     type: bool
-    default: no
+    default: false
 extends_documentation_fragment:
   - infra.quay_configuration.auth
   - infra.quay_configuration.auth.login
@@ -134,8 +134,8 @@ tags:
     end_ts:
       description:
         - Time in seconds since the epoch of the tag expiration.
-        - The module only returns expired tags when the I(only_active_tags)
-          parameter is C(no).
+        - The module only returns expired tags when the O(only_active_tags)
+          parameter is V(false).
       type: int
       returned: only when an expiration date has been explicitly assigned
       sample: 1640336040

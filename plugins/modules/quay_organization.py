@@ -42,8 +42,8 @@ options:
     description:
       - New name for the organization.
       - Setting this option changes the name of the organization which current
-        name is provided in I(name).
-      - The token you use to connect to the API (in I(quay_token)) must have
+        name is provided in O(name).
+      - The token you use to connect to the API (in O(quay_token)) must have
         the "Super User Access" permission.
     type: str
   email:
@@ -51,7 +51,7 @@ options:
       - Email address to associate with the new organization.
       - If your Quay administrator has enabled the mailing capability of your
         Quay installation (C(FEATURE_MAILING) to C(true) in C(config.yaml)),
-        then this I(email) parameter is mandatory.
+        then this O(email) parameter is mandatory.
       - You cannot use the same address as your account email.
     type: str
   time_machine_expiration:
@@ -62,23 +62,23 @@ options:
     choices: [0s, 1d, 7d, 14d, 1month]
   state:
     description:
-      - If C(absent), then the module deletes the organization.
+      - If V(absent), then the module deletes the organization.
       - The module does not fail if the organization does not exist, because the
         state is already as expected.
-      - If C(present), then the module creates the organization if it does not
+      - If V(present), then the module creates the organization if it does not
         already exist.
       - If the organization already exists, then the module updates its state.
     type: str
     default: present
     choices: [absent, present]
 notes:
-  - Supports C(check_mode).
+  - Supports O(check_mode).
   - Your Quay administrator must enable the auto-prune capability of your Quay
     installation (C(FEATURE_AUTO_PRUNE) in C(config.yaml)) to use the
-    I(auto_prune_method) and I(auto_prune_value) parameters.
-  - Using I(auto_prune_method) and I(auto_prune_value) requires Quay version
+    O(auto_prune_method) and O(auto_prune_value) parameters.
+  - Using O(auto_prune_method) and O(auto_prune_value) requires Quay version
     3.11 or later.
-  - The token that you provide in I(quay_token) must have the "Administer
+  - The token that you provide in O(quay_token) must have the "Administer
     Organization" and "Administer User" permissions.
   - To rename organizations, the token must also have the "Super User Access"
     permission.

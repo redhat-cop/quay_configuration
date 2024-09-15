@@ -45,7 +45,7 @@ options:
     description:
       - New name for the application.
       - Setting this option changes the name of the application which current
-        name is provided in I(name).
+        name is provided in O(name).
     type: str
   description:
     description:
@@ -65,18 +65,18 @@ options:
     type: str
   state:
     description:
-      - If C(absent), then the module deletes the application.
+      - If V(absent), then the module deletes the application.
       - The module does not fail if the application does not exist, because the
         state is already as expected.
-      - If C(present), then the module creates the application if it does not
+      - If V(present), then the module creates the application if it does not
         already exist.
       - If the application already exists, then the module updates its state.
     type: str
     default: present
     choices: [absent, present]
 notes:
-  - Supports C(check_mode).
-  - The token that you provide in I(quay_token) must have the "Administer
+  - Supports O(check_mode).
+  - The token that you provide in O(quay_token) must have the "Administer
     Organization" permission.
 extends_documentation_fragment:
   - infra.quay_configuration.auth

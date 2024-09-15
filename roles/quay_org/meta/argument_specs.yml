@@ -14,7 +14,7 @@ argument_specs:
           - URL for accessing the API. U(https://quay.example.com:8443) for
             example.
           - If you do not set the parameter, then the role uses the
-            C(QUAY_HOST) environment variable.
+            E(QUAY_HOST) environment variable.
           - If you do no set the environment variable either, then the role
             uses the U(http://127.0.0.1) URL.
         type: str
@@ -22,37 +22,37 @@ argument_specs:
       quay_org_validate_certs:
         description:
           - Whether to allow insecure connections to the API.
-          - If C(no), then the role does not validate SSL certificates.
+          - If V(false), then the role does not validate SSL certificates.
           - If you do not set the parameter, then the role tries the
-            C(QUAY_VERIFY_SSL) environment variable (C(yes), C(1), and C(True)
-            mean yes, and C(no), C(0), C(False), and no value mean no).
+            E(QUAY_VERIFY_SSL) environment variable (V(yes), V(1), and V(True)
+            mean true, and V(no), V(0), V(False), and no value mean false).
         type: bool
         default: true
       quay_org_token:
         description:
           - OAuth access token for authenticating against the API.
           - If you do not set the parameter, then the role tries the
-            C(QUAY_TOKEN) environment variable.
-          - Mutually exclusive with I(quay_org_username) and
-            I(quay_org_password).
+            E(QUAY_TOKEN) environment variable.
+          - Mutually exclusive with O(quay_org_username) and
+            O(quay_org_password).
         type: str
       quay_org_username:
         description:
           - The username to use for authenticating against the API.
           - If you do not set the parameter, then the role tries the
-            C(QUAY_USERNAME) environment variable.
-          - If you set I(quay_org_username), then you also need to set
-            I(quay_org_password).
-          - Mutually exclusive with I(quay_org_token).
+            E(QUAY_USERNAME) environment variable.
+          - If you set O(quay_org_username), then you also need to set
+            O(quay_org_password).
+          - Mutually exclusive with O(quay_org_token).
         type: str
       quay_org_password:
         description:
           - The password to use for authenticating against the API.
           - If you do not set the parameter, then the role tries the
-            C(QUAY_PASSWORD) environment variable.
-          - If you set I(quay_org_password), then you also need to set
-            I(quay_org_username).
-          - Mutually exclusive with I(quay_org_token).
+            E(QUAY_PASSWORD) environment variable.
+          - If you set O(quay_org_password), then you also need to set
+            O(quay_org_username).
+          - Mutually exclusive with O(quay_org_token).
         type: str
       quay_org_name:
         description:
@@ -67,31 +67,31 @@ argument_specs:
           - Email address to associate with the new organization.
           - If your Quay administrator has enabled the mailing capability of
             your Quay installation (C(FEATURE_MAILING) to C(true) in
-            C(config.yaml)), then this I(quay_org_email) parameter is mandatory.
+            C(config.yaml)), then this O(quay_org_email) parameter is mandatory.
           - You cannot use the same address as your account email.
         type: str
       quay_org_auto_prune_method:
         description:
           - Method to use for the auto-pruning tags policy.
-          - If C(none), then the module ensures that no policy is in place. The
+          - If V(none), then the module ensures that no policy is in place. The
             tags are not pruned.
-          - If C(tags), then the policy keeps only the number of tags that you
-            specify in I(quay_org_auto_prune_value).
-          - If C(date), then the policy deletes the tags older than the time
-            period that you specify in I(quay_org_auto_prune_value).
-          - I(quay_org_auto_prune_value) is required when
-            I(quay_org_auto_prune_method) is C(tags) or C(date).
+          - If V(tags), then the policy keeps only the number of tags that you
+            specify in O(quay_org_auto_prune_value).
+          - If V(date), then the policy deletes the tags older than the time
+            period that you specify in O(quay_org_auto_prune_value).
+          - O(quay_org_auto_prune_value) is required when
+            O(quay_org_auto_prune_method) is V(tags) or V(date).
         type: str
         choices: [none, tags, date]
       quay_org_auto_prune_value:
         description:
-          - Number of tags to keep when I(quay_org_auto_prune_value) is C(tags).
+          - Number of tags to keep when O(quay_org_auto_prune_value) is V(tags).
             The value must be 1 or more.
-          - Period of time when I(quay_org_auto_prune_value) is C(date). The
+          - Period of time when O(quay_org_auto_prune_value) is V(date). The
             value must be 1 or more, and must be followed by a suffix; s (for
             second), m (for minute), h (for hour), d (for day), or w (for week).
-          - I(quay_org_auto_prune_method) is required when
-            I(quay_org_auto_prune_value) is set.
+          - O(quay_org_auto_prune_method) is required when
+            O(quay_org_auto_prune_value) is set.
         type: str
       quay_org_cache_registry:
         description:
@@ -115,7 +115,7 @@ argument_specs:
       quay_org_cache_insecure:
         description:
           - Whether to allow insecure connections to the remote registry.
-          - If C(yes), then the module does not validate SSL certificates.
+          - If V(true), then the module does not validate SSL certificates.
         type: bool
         default: false
       quay_org_cache_expiration:
@@ -135,14 +135,14 @@ argument_specs:
         description:
           - Warning (soft) limit as a percentage of the quota.
           - Quay notifies the users when the limit is reached.
-          - Set I(quay_org_warning_pct) to C(0) to remove the warning limit.
+          - Set O(quay_org_warning_pct) to V(0) to remove the warning limit.
         type: int
       quay_org_reject_pct:
         description:
           - Reject (hard) limit as a percentage of the quota.
           - Quay terminates any image push in the organization when the limit
             is reached.
-          - Set I(quay_org_reject_pct) to C(0) to remove the reject limit.
+          - Set O(quay_org_reject_pct) to V(0) to remove the reject limit.
         type: int
       quay_org_users:
         description:
@@ -160,7 +160,7 @@ argument_specs:
               - User's email address.
               - If your Quay administrator has enabled the mailing capability
                 of your Quay installation (C(FEATURE_MAILING) to C(true) in
-                C(config.yaml)), then this I(email) parameter is mandatory.
+                C(config.yaml)), then this O(email) parameter is mandatory.
             type: str
           password:
             description:
@@ -208,7 +208,7 @@ argument_specs:
           role:
             description:
               - Role of the team within the organization. If not set, then the
-                new team has the C(member) role.
+                new team has the V(member) role.
             type: str
             choices: [member, creator, admin]
           description:
@@ -243,7 +243,7 @@ argument_specs:
             type: str
           type:
             description:
-              - Type of the account defined in I(name). Choose C(user)
+              - Type of the account defined in O(name). Choose V(user)
                 for both user and robot accounts.
             type: str
             choices: [user, team]
@@ -253,17 +253,17 @@ argument_specs:
               - Permission that Quay automatically grants to the user or team
                 on new created repositories in the organization.
               - If you do not provide that parameter, then the role uses
-                C(read) by default.
+                V(read) by default.
             type: str
             choices: [read, write, admin]
           creator:
             description:
               - Quay applies the default permission only when repositories are
-                created by the user that you define in I(creator).
-              - By default, if you do not provide that I(creator) parameter,
+                created by the user that you define in O(creator).
+              - By default, if you do not provide that O(creator) parameter,
                 then Quay applies the default permission to all new
                 repositories, whoever creates them.
-              - You cannot use robot accounts or teams for the I(creator)
+              - You cannot use robot accounts or teams for the O(creator)
                 parameter. You can only use regular user accounts.
             type: str
       quay_org_applications:
@@ -308,35 +308,35 @@ argument_specs:
             type: str
           visibility:
             description:
-              - If C(public), then anyone can pull images from the repository.
-              - If C(private), then nobody can access the repository and you
+              - If V(public), then anyone can pull images from the repository.
+              - If V(private), then nobody can access the repository and you
                 need to explicitly grant access to users, robots, and teams.
               - If you do not set the parameter when you create a repository,
-                then it defaults to C(private).
+                then it defaults to V(private).
             type: str
             choices: [public, private]
           auto_prune_method:
             description:
               - Method to use for the auto-pruning tags policy.
-              - If C(none), then the module ensures that no policy is in place.
+              - If V(none), then the module ensures that no policy is in place.
                 The tags are not pruned.
-              - If C(tags), then the policy keeps only the number of tags that
-                you specify in I(auto_prune_value).
-              - If C(date), then the policy deletes the tags older than the
-                time period that you specify in I(auto_prune_value).
-              - I(auto_prune_value) is required when I(auto_prune_method) is
-                C(tags) or C(date).
+              - If V(tags), then the policy keeps only the number of tags that
+                you specify in O(auto_prune_value).
+              - If V(date), then the policy deletes the tags older than the
+                time period that you specify in O(auto_prune_value).
+              - O(auto_prune_value) is required when O(auto_prune_method) is
+                V(tags) or V(date).
             type: str
             choices: [none, tags, date]
           auto_prune_value:
             description:
-              - Number of tags to keep when I(auto_prune_value) is C(tags).
+              - Number of tags to keep when O(auto_prune_value) is V(tags).
                 The value must be 1 or more.
-              - Period of time when I(auto_prune_value) is C(date). The value
+              - Period of time when O(auto_prune_value) is V(date). The value
                 must be 1 or more, and must be followed by a suffix; s (for
                 second), m (for minute), h (for hour), d (for day), or w (for
                 week).
-              - I(auto_prune_method) is required when I(auto_prune_value) is
+              - O(auto_prune_method) is required when O(auto_prune_value) is
                 set.
             type: str
           description:
@@ -352,7 +352,7 @@ argument_specs:
             options:
               type:
                 description:
-                  - Specifies the type of the account. Choose C(user) for both
+                  - Specifies the type of the account. Choose V(user) for both
                     user and robot accounts.
                 type: str
                 choices: [user, team]
@@ -371,13 +371,13 @@ argument_specs:
                 default: read
           repo_state:
             description:
-              - If C(NORMAL), then the repository is in the default state
+              - If V(NORMAL), then the repository is in the default state
                 (read/write).
-              - If C(READ_ONLY), then the repository is read-only.
-              - If C(MIRROR), then the repository is a mirror and you can
+              - If V(READ_ONLY), then the repository is read-only.
+              - If V(MIRROR), then the repository is a mirror and you can
                 configure it by using the
                 M(infra.quay_configuration.quay_repository_mirror) module.
               - You must enable the mirroring capability of your Quay
-                installation to use this I(repo_state) parameter.
+                installation to use this O(repo_state) parameter.
             type: str
             choices: [NORMAL, READ_ONLY, MIRROR]
