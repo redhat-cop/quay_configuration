@@ -118,10 +118,11 @@ notes:
     is in progress.
   - There is no API function to remove the configuration. However, you can
     deactivate mirroring by setting the O(is_enabled) parameter to V(false) or
-    by changing the repository mirror state (see the O(repo_state) parameter in
-    the M(infra.quay_configuration.quay_repository) module).
+    by changing the repository mirror state (see the
+    O(infra.quay_configuration.quay_repository#module:repo_state)
+    parameter in the M(infra.quay_configuration.quay_repository) module).
     The configuration is preserved when you disable mirroring.
-  - Supports O(check_mode).
+  - Supports C(check_mode).
   - The user account associated with the token that you provide in
     O(quay_token) must have administrator access to the repository.
 extends_documentation_fragment:

@@ -119,7 +119,7 @@ notes:
   - Your Quay administrator must enable the mirroring capability of your Quay
     installation (C(FEATURE_REPO_MIRROR) in C(config.yaml)) to use the
     O(repo_state) parameter.
-  - Supports O(check_mode).
+  - Supports C(check_mode).
   - The token that you provide in O(quay_token) must have the "Administer
     Repositories" and "Create Repositories" permissions.
 extends_documentation_fragment:

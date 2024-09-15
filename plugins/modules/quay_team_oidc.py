@@ -62,7 +62,7 @@ notes:
     authentication method to OIDC (C(AUTHENTICATION_TYPE) to C(OIDC) in
     C(config.yaml)), and enables team synchronization (C(FEATURE_TEAM_SYNCING)
     to C(true) in C(config.yaml)).
-  - Supports O(check_mode).
+  - Supports C(check_mode).
   - The token that you provide in O(quay_token) must have the "Administer
     Organization" and "Administer User" permissions.
 extends_documentation_fragment:

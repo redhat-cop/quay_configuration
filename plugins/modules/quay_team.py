@@ -82,7 +82,7 @@ options:
 notes:
   - To synchronize teams with LDAP groups, see the
     M(infra.quay_configuration.quay_team_ldap) module.
-  - Supports O(check_mode).
+  - Supports C(check_mode).
   - The token that you provide in O(quay_token) must have the "Administer
     Organization" and "Administer User" permissions.
 extends_documentation_fragment:

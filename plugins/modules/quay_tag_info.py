@@ -57,9 +57,9 @@ options:
         not expired and have not been deleted. If V(false), then the module
         returns information on all the tags.
       - You can identify expired and deleted tags (when O(only_active_tags) is
-        V(false)) in the returned data by inspecting the RV(end_ts) or
-        RV(expiration) tag attributes. Those attributes provide the expiration
-        or deletion date.
+        V(false)) in the returned data by inspecting the RV(tags[].end_ts) or
+        RV(tags[].expiration) tag attributes. Those attributes provide the
+        expiration or deletion date.
     type: bool
     default: false
 extends_documentation_fragment:

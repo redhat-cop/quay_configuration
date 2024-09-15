@@ -54,7 +54,7 @@ options:
     default: present
     choices: [absent, present]
 notes:
-  - Supports O(check_mode).
+  - Supports C(check_mode).
   - The tokens you create with this module are unrelated to OAUth access tokens
     that you use to access the Quay API.
 extends_documentation_fragment:

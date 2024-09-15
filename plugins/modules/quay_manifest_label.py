@@ -71,7 +71,7 @@ options:
 notes:
   - Labels defined in the Containerfile/Dockerfile cannot be deleted or
     updated. They are read-only.
-  - Supports O(check_mode).
+  - Supports C(check_mode).
   - The user account associated with the token that you provide in
     O(quay_token) must have write access to the repository.
 extends_documentation_fragment:

@@ -72,7 +72,7 @@ options:
     default: present
     choices: [absent, present]
 notes:
-  - Supports O(check_mode).
+  - Supports C(check_mode).
   - Your Quay administrator must enable the auto-prune capability of your Quay
     installation (C(FEATURE_AUTO_PRUNE) in C(config.yaml)) to use the
     O(auto_prune_method) and O(auto_prune_value) parameters.

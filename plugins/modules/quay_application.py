@@ -75,7 +75,7 @@ options:
     default: present
     choices: [absent, present]
 notes:
-  - Supports O(check_mode).
+  - Supports C(check_mode).
   - The token that you provide in O(quay_token) must have the "Administer
     Organization" permission.
 extends_documentation_fragment:

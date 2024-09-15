@@ -84,7 +84,7 @@ notes:
   - When you set O(state) to V(present), the module always reports a changed
     status, because it cannot retrieve the current password for the remote
     registry to compare it with the O(password) parameter.
-  - Supports O(check_mode).
+  - Supports C(check_mode).
   - The token that you provide in O(quay_token) must have the "Administer
     Organization" permission.
 extends_documentation_fragment:

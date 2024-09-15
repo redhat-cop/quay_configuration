@@ -83,7 +83,7 @@ options:
     suboptions:
       type:
         description:
-          - Specifies the type of the account defined in O(name).
+          - Specifies the type of the account defined in O(config.name).
           - Only applies to the Quay Notification method.
         type: str
         choices: [user, team, org]
@@ -194,7 +194,7 @@ options:
     default: present
     choices: [absent, present]
 notes:
-  - Supports O(check_mode).
+  - Supports C(check_mode).
   - Your Quay administrator must enable the image garbage collection capability
     of your Quay installation (C(FEATURE_GARBAGE_COLLECTION) in C(config.yaml))
     to use the V(repo_image_expiry) event.

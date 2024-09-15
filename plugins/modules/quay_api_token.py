@@ -77,7 +77,7 @@ options:
     type: str
     required: false
 notes:
-  - Supports O(check_mode).
+  - Supports C(check_mode).
   - O(for_user) requires Quay version 3.12 or later.
   - Your Quay administrator must enable the OAuth assignment capability
     of your Quay installation (C(FEATURE_ASSIGN_OAUTH_TOKEN) in C(config.yaml))

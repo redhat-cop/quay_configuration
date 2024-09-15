@@ -68,7 +68,7 @@ options:
     description:
       - If V(true), then an OAuth access token is created and returned. You can
         use that returned token with the other Quay modules, by setting it in
-        the O(quay_token) parameter. The token is valid for 2 hours 30 minutes.
+        the C(quay_token) parameter. The token is valid for 2 hours 30 minutes.
       - If V(false), then no access token is created.
     type: bool
     default: false
@@ -80,7 +80,7 @@ notes:
     authentication (C(AUTHENTICATION_TYPE) to C(Database) in C(config.yaml)).
   - Use the module just after installing Quay, when the database is empty.
     The module fails if user accounts are already defined in the database.
-  - Supports O(check_mode).
+  - Supports C(check_mode).
 extends_documentation_fragment:
   - infra.quay_configuration.auth
 """
