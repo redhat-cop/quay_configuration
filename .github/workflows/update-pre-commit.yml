@@ -9,6 +9,8 @@ jobs:
   pre-commit:
     permissions:
       contents: write
+      pull-requests: write
+      repository-projects: write
     uses:
       redhat-cop/ansible_collections_tooling/.github/workflows/update_precommit.yml@main
     with:
