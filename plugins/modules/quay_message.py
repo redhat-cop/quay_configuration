@@ -94,10 +94,18 @@ options:
     default: present
     choices: [absent, present]
 notes:
-  - Supports C(check_mode).
   - The token that you provide in O(quay_token) must have the
     "Super User Access" permission.
+attributes:
+  check_mode:
+    support: full
+  diff_mode:
+    support: none
+  platform:
+    support: full
+    platforms: all
 extends_documentation_fragment:
+  - ansible.builtin.action_common_attributes
   - infra.quay_configuration.auth
   - infra.quay_configuration.auth.login
 """

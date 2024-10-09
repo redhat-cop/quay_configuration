@@ -46,7 +46,16 @@ options:
       - Gather information on the labels with that specific key instead of
         returning data on all the labels in the manifest.
     type: str
+attributes:
+  check_mode:
+    support: full
+  diff_mode:
+    support: none
+  platform:
+    support: full
+    platforms: all
 extends_documentation_fragment:
+  - ansible.builtin.action_common_attributes
   - infra.quay_configuration.auth
   - infra.quay_configuration.auth.login
 """

@@ -107,7 +107,7 @@ options:
       template:
         description:
           - JSON data for the body content of the webhook POST method.
-        type: str
+        type: jsonarg
       room_id:
         description:
           - Chat room ID required for the HipChat notification method.
@@ -194,7 +194,6 @@ options:
     default: present
     choices: [absent, present]
 notes:
-  - Supports C(check_mode).
   - Your Quay administrator must enable the image garbage collection capability
     of your Quay installation (C(FEATURE_GARBAGE_COLLECTION) in C(config.yaml))
     to use the V(repo_image_expiry) event.
@@ -202,7 +201,16 @@ notes:
     requires Quay version 3.12 or later.
   - The user account associated with the token that you provide in
     O(quay_token) must have administrator access to the repository.
+attributes:
+  check_mode:
+    support: full
+  diff_mode:
+    support: none
+  platform:
+    support: full
+    platforms: all
 extends_documentation_fragment:
+  - ansible.builtin.action_common_attributes
   - infra.quay_configuration.auth
   - infra.quay_configuration.auth.login
 """
@@ -232,7 +240,7 @@ EXAMPLES = r"""
     method: webhook
     config:
       url: https://webhook.example.com/webhook/12345
-      template: "{{ lookup('file', 'post.json') | string }}"
+      template: "{{ lookup('ansible.builtin.file', 'post.json') }}"
     state: present
     quay_host: https://quay.example.com
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
@@ -248,7 +256,7 @@ EXAMPLES = r"""
     method: webhook
     config:
       url: https://webhook.example.com/webhook/12345
-      template: "{{ lookup('file', 'post.json') | string }}"
+      template: "{{ lookup('ansible.builtin.file', 'post.json') }}"
     state: present
     quay_host: https://quay.example.com
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
@@ -361,7 +369,7 @@ def main():
                 # Slack and webhook notification
                 url=dict(),
                 # webhook notification
-                template=dict(),
+                template=dict(type="jsonarg"),
                 # HipChat notification
                 room_id=dict(),
                 notification_token=dict(no_log=True),

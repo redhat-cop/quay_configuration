@@ -82,10 +82,18 @@ options:
 notes:
   - To synchronize teams with LDAP groups, see the
     M(infra.quay_configuration.quay_team_ldap) module.
-  - Supports C(check_mode).
   - The token that you provide in O(quay_token) must have the "Administer
     Organization" and "Administer User" permissions.
+attributes:
+  check_mode:
+    support: full
+  diff_mode:
+    support: none
+  platform:
+    support: full
+    platforms: all
 extends_documentation_fragment:
+  - ansible.builtin.action_common_attributes
   - infra.quay_configuration.auth
   - infra.quay_configuration.auth.login
 """

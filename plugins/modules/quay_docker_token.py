@@ -54,10 +54,18 @@ options:
     default: present
     choices: [absent, present]
 notes:
-  - Supports C(check_mode).
   - The tokens you create with this module are unrelated to OAUth access tokens
     that you use to access the Quay API.
+attributes:
+  check_mode:
+    support: full
+  diff_mode:
+    support: none
+  platform:
+    support: full
+    platforms: all
 extends_documentation_fragment:
+  - ansible.builtin.action_common_attributes
   - infra.quay_configuration.auth
   - infra.quay_configuration.auth.login
 """

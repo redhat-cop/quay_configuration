@@ -73,10 +73,18 @@ notes:
   - The module requires that your Quay administrator enables quota management
     for your installation (by setting C(FEATURE_QUOTA_MANAGEMENT) to C(True) in
     C(config.yaml)).
-  - Supports C(check_mode).
   - The token that you provide in O(quay_token) must have the "Administer
     Organization" and "Administer User" permissions.
+attributes:
+  check_mode:
+    support: full
+  diff_mode:
+    support: none
+  platform:
+    support: full
+    platforms: all
 extends_documentation_fragment:
+  - ansible.builtin.action_common_attributes
   - infra.quay_configuration.auth
   - infra.quay_configuration.auth.login
 """

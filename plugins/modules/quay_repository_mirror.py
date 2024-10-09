@@ -122,10 +122,18 @@ notes:
     O(infra.quay_configuration.quay_repository#module:repo_state)
     parameter in the M(infra.quay_configuration.quay_repository) module).
     The configuration is preserved when you disable mirroring.
-  - Supports C(check_mode).
   - The user account associated with the token that you provide in
     O(quay_token) must have administrator access to the repository.
+attributes:
+  check_mode:
+    support: full
+  diff_mode:
+    support: none
+  platform:
+    support: full
+    platforms: all
 extends_documentation_fragment:
+  - ansible.builtin.action_common_attributes
   - infra.quay_configuration.auth
   - infra.quay_configuration.auth.login
 """
@@ -350,7 +358,10 @@ def main():
     if is_enabled is not None:
         new_fields["is_enabled"] = is_enabled
     if image_tags is not None:
-        new_fields["root_rule"] = {"rule_kind": "tag_glob_csv", "rule_value": image_tags}
+        new_fields["root_rule"] = {
+            "rule_kind": "tag_glob_csv",
+            "rule_value": image_tags,
+        }
 
     try:
         registry_config = copy.deepcopy(mirror_details["external_registry_config"])
