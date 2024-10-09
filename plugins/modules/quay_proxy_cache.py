@@ -84,10 +84,18 @@ notes:
   - When you set O(state) to V(present), the module always reports a changed
     status, because it cannot retrieve the current password for the remote
     registry to compare it with the O(password) parameter.
-  - Supports C(check_mode).
   - The token that you provide in O(quay_token) must have the "Administer
     Organization" permission.
+attributes:
+  check_mode:
+    support: full
+  diff_mode:
+    support: none
+  platform:
+    support: full
+    platforms: all
 extends_documentation_fragment:
+  - ansible.builtin.action_common_attributes
   - infra.quay_configuration.auth
   - infra.quay_configuration.auth.login
 """

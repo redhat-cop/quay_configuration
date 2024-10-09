@@ -80,8 +80,16 @@ notes:
     authentication (C(AUTHENTICATION_TYPE) to C(Database) in C(config.yaml)).
   - Use the module just after installing Quay, when the database is empty.
     The module fails if user accounts are already defined in the database.
-  - Supports C(check_mode).
+attributes:
+  check_mode:
+    support: full
+  diff_mode:
+    support: none
+  platform:
+    support: full
+    platforms: all
 extends_documentation_fragment:
+  - ansible.builtin.action_common_attributes
   - infra.quay_configuration.auth
 """
 
@@ -144,7 +152,11 @@ def main():
     password = module.params.get("password")
     create_token = module.params.get("create_token")
 
-    new_fields = {"username": username, "password": password, "access_token": create_token}
+    new_fields = {
+        "username": username,
+        "password": password,
+        "access_token": create_token,
+    }
     if email:
         new_fields["email"] = email
     data = module.create("user", username, "user/initialize", new_fields, auto_exit=False)

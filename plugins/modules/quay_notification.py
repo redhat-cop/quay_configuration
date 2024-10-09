@@ -194,7 +194,6 @@ options:
     default: present
     choices: [absent, present]
 notes:
-  - Supports C(check_mode).
   - Your Quay administrator must enable the image garbage collection capability
     of your Quay installation (C(FEATURE_GARBAGE_COLLECTION) in C(config.yaml))
     to use the V(repo_image_expiry) event.
@@ -202,7 +201,16 @@ notes:
     requires Quay version 3.12 or later.
   - The user account associated with the token that you provide in
     O(quay_token) must have administrator access to the repository.
+attributes:
+  check_mode:
+    support: full
+  diff_mode:
+    support: none
+  platform:
+    support: full
+    platforms: all
 extends_documentation_fragment:
+  - ansible.builtin.action_common_attributes
   - infra.quay_configuration.auth
   - infra.quay_configuration.auth.login
 """

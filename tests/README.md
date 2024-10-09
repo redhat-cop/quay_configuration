@@ -11,7 +11,7 @@ Those tests consist of running the roles (playbooks) defined under the `integrat
 If you want to run one of these playbooks manually against your Quay installation, then prepare your environment as follows:
 
 * Make a copy of the `sample_manual_test.yml` playbook model and then update your copy.
-  Change the role to run and provide the connection parameters to your Quay installation.
+  Change the role to run, and provide the connection parameters to your Quay installation.
 * Install the Quay Container Registry collection in your environment by using the `ansible-galaxy collection install` command.
 * Run your copy of the playbook with the `ansible-playbook` command.
 

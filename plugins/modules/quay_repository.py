@@ -119,10 +119,18 @@ notes:
   - Your Quay administrator must enable the mirroring capability of your Quay
     installation (C(FEATURE_REPO_MIRROR) in C(config.yaml)) to use the
     O(repo_state) parameter.
-  - Supports C(check_mode).
   - The token that you provide in O(quay_token) must have the "Administer
     Repositories" and "Create Repositories" permissions.
+attributes:
+  check_mode:
+    support: full
+  diff_mode:
+    support: none
+  platform:
+    support: full
+    platforms: all
 extends_documentation_fragment:
+  - ansible.builtin.action_common_attributes
   - infra.quay_configuration.auth
   - infra.quay_configuration.auth.login
   - infra.quay_configuration.autoprune
@@ -466,7 +474,8 @@ def main():
         #
         # If no policy is defined, then the returned data is {"policies": []}
         prune_details = module.get_object_path(
-            "repository/{full_repo_name}/autoprunepolicy/", full_repo_name=full_repo_name
+            "repository/{full_repo_name}/autoprunepolicy/",
+            full_repo_name=full_repo_name,
         )
         try:
             policies = prune_details["policies"]

@@ -71,10 +71,18 @@ options:
 notes:
   - Labels defined in the Containerfile/Dockerfile cannot be deleted or
     updated. They are read-only.
-  - Supports C(check_mode).
   - The user account associated with the token that you provide in
     O(quay_token) must have write access to the repository.
+attributes:
+  check_mode:
+    support: full
+  diff_mode:
+    support: none
+  platform:
+    support: full
+    platforms: all
 extends_documentation_fragment:
+  - ansible.builtin.action_common_attributes
   - infra.quay_configuration.auth
   - infra.quay_configuration.auth.login
 """

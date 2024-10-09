@@ -76,10 +76,18 @@ notes:
   - The module requires that your Quay administrator configures the Quay
     authentication method to LDAP (C(AUTHENTICATION_TYPE) to C(LDAP) in
     C(config.yaml) and the C(LDAP_*) parameters correctly set).
-  - Supports C(check_mode).
   - The token that you provide in O(quay_token) must have the "Administer
     Organization" and "Administer User" permissions.
+attributes:
+  check_mode:
+    support: full
+  diff_mode:
+    support: none
+  platform:
+    support: full
+    platforms: all
 extends_documentation_fragment:
+  - ansible.builtin.action_common_attributes
   - infra.quay_configuration.auth
   - infra.quay_configuration.auth.login
 """

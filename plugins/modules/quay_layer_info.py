@@ -40,7 +40,16 @@ options:
       - If you omit the tag and the digest part, then C(latest) is assumed.
     required: true
     type: str
+attributes:
+  check_mode:
+    support: full
+  diff_mode:
+    support: none
+  platform:
+    support: full
+    platforms: all
 extends_documentation_fragment:
+  - ansible.builtin.action_common_attributes
   - infra.quay_configuration.auth
   - infra.quay_configuration.auth.login
 """

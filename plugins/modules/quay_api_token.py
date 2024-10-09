@@ -77,7 +77,6 @@ options:
     type: str
     required: false
 notes:
-  - Supports C(check_mode).
   - O(for_user) requires Quay version 3.12 or later.
   - Your Quay administrator must enable the OAuth assignment capability
     of your Quay installation (C(FEATURE_ASSIGN_OAUTH_TOKEN) in C(config.yaml))
@@ -90,7 +89,16 @@ notes:
   - The module is not idempotent. Every time you run it, an additional OAuth
     access token is produced. The other OAuth access tokens stay valid.
   - You cannot delete OAuth access tokens.
+attributes:
+  check_mode:
+    support: full
+  diff_mode:
+    support: none
+  platform:
+    support: full
+    platforms: all
 extends_documentation_fragment:
+  - ansible.builtin.action_common_attributes
   - infra.quay_configuration.auth
 """
 
