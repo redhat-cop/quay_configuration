@@ -107,7 +107,7 @@ options:
       template:
         description:
           - JSON data for the body content of the webhook POST method.
-        type: str
+        type: jsonarg
       room_id:
         description:
           - Chat room ID required for the HipChat notification method.
@@ -240,7 +240,7 @@ EXAMPLES = r"""
     method: webhook
     config:
       url: https://webhook.example.com/webhook/12345
-      template: "{{ lookup('file', 'post.json') | string }}"
+      template: "{{ lookup('ansible.builtin.file', 'post.json') }}"
     state: present
     quay_host: https://quay.example.com
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
@@ -256,7 +256,7 @@ EXAMPLES = r"""
     method: webhook
     config:
       url: https://webhook.example.com/webhook/12345
-      template: "{{ lookup('file', 'post.json') | string }}"
+      template: "{{ lookup('ansible.builtin.file', 'post.json') }}"
     state: present
     quay_host: https://quay.example.com
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
@@ -369,7 +369,7 @@ def main():
                 # Slack and webhook notification
                 url=dict(),
                 # webhook notification
-                template=dict(),
+                template=dict(type="jsonarg"),
                 # HipChat notification
                 room_id=dict(),
                 notification_token=dict(no_log=True),
