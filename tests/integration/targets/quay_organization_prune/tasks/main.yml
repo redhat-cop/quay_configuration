@@ -1,7 +1,7 @@
 ---
 - name: ERROR EXPECTED Non-existing organization
   infra.quay_configuration.quay_organization_prune:
-    organization: nonexisting
+    namespace: nonexisting
     method: tags
     value: 5
     tag_pattern: "unstable"
@@ -19,7 +19,7 @@
 
 - name: ERROR EXPECTED Wrong number of tags
   infra.quay_configuration.quay_organization_prune:
-    organization: ansibletestorg
+    namespace: ansibletestorg
     method: tags
     value: wrong
     tag_pattern: "unstable"
@@ -37,7 +37,7 @@
 
 - name: ERROR EXPECTED Wrong date
   infra.quay_configuration.quay_organization_prune:
-    organization: ansibletestorg
+    namespace: ansibletestorg
     method: date
     value: wrong
     tag_pattern: "unstable"
@@ -55,7 +55,7 @@
 
 - name: Ensure a policy does not exist in a non-existing org (no change)
   infra.quay_configuration.quay_organization_prune:
-    organization: nonexisting
+    namespace: nonexisting
     method: tags
     value: 5
     tag_pattern: "unstable"
@@ -73,7 +73,7 @@
 
 - name: Ensure a tag auto-pruning policy exists
   infra.quay_configuration.quay_organization_prune:
-    organization: ansibletestorg
+    namespace: ansibletestorg
     method: tags
     value: 5
     tag_pattern: "unstable"
@@ -84,7 +84,7 @@
 
 - name: Ensure a tag auto-pruning policy exists (no change)
   infra.quay_configuration.quay_organization_prune:
-    organization: ansibletestorg
+    namespace: ansibletestorg
     method: tags
     value: 5
     tag_pattern: "unstable"
@@ -101,7 +101,7 @@
 
 - name: Ensure a date auto-pruning policy exists 1
   infra.quay_configuration.quay_organization_prune:
-    organization: ansibletestorg
+    namespace: ansibletestorg
     method: date
     value: 5d
     quay_host: "{{ quay_url }}"
@@ -110,7 +110,7 @@
 
 - name: Ensure a date auto-pruning policy exists 2
   infra.quay_configuration.quay_organization_prune:
-    organization: ansibletestorg
+    namespace: ansibletestorg
     method: date
     value: 6w
     tag_pattern: "nightly"
@@ -121,7 +121,7 @@
 
 - name: Ensure non-existing policy is removed (no change)
   infra.quay_configuration.quay_organization_prune:
-    organization: ansibletestorg
+    namespace: ansibletestorg
     method: date
     value: 42w
     tag_pattern: "nightly"
@@ -139,7 +139,7 @@
 
 - name: Ensure a tag auto-pruning policy is removed
   infra.quay_configuration.quay_organization_prune:
-    organization: ansibletestorg
+    namespace: ansibletestorg
     method: tags
     value: 5
     tag_pattern: "unstable"
@@ -151,7 +151,7 @@
 
 - name: Ensure only one tag auto-pruning policy exists
   infra.quay_configuration.quay_organization_prune:
-    organization: ansibletestorg
+    namespace: ansibletestorg
     method: tags
     value: 50
     tag_pattern: "foobar"
@@ -163,7 +163,7 @@
 
 - name: Ensure only one tag auto-pruning policy exists (no change)
   infra.quay_configuration.quay_organization_prune:
-    organization: ansibletestorg
+    namespace: ansibletestorg
     method: tags
     value: 50
     tag_pattern: "foobar"
@@ -181,7 +181,7 @@
 
 - name: Ensure a date auto-pruning policy exists
   infra.quay_configuration.quay_organization_prune:
-    organization: ansibletestorg
+    namespace: ansibletestorg
     method: date
     value: 42w
     tag_pattern: "nightly"
@@ -192,7 +192,7 @@
 
 - name: Ensure only one tag auto-pruning policy is set
   infra.quay_configuration.quay_organization_prune:
-    organization: ansibletestorg
+    namespace: ansibletestorg
     method: tags
     value: 50
     tag_pattern: "foobar"
@@ -204,7 +204,7 @@
 
 - name: Ensure the tag auto-pruning policy is removed
   infra.quay_configuration.quay_organization_prune:
-    organization: ansibletestorg
+    namespace: ansibletestorg
     method: tags
     value: 50
     tag_pattern: "foobar"

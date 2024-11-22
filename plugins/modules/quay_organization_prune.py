@@ -31,10 +31,9 @@ description:
 version_added: '2.3.0'
 author: Hervé Quatremain (@herve4m)
 options:
-  organization:
+  namespace:
     description:
-      - Namepace (organization or personal namespace). This namespace must
-        exist.
+      - Organization or personal namespace. This namespace must exist.
     required: true
     type: str
   append:
@@ -76,7 +75,7 @@ extends_documentation_fragment:
 EXAMPLES = r"""
 - name: Ensure the organization keeps only five unstable images
   infra.quay_configuration.quay_organization_prune:
-    organization: production
+    namespace: production
     method: tags
     value: 5
     # Auto-pruning tags that contain "unstable" in their names
@@ -88,7 +87,7 @@ EXAMPLES = r"""
 
 - name: Ensure the organization also prunes all tags older that seven weeks
   infra.quay_configuration.quay_organization_prune:
-    organization: production
+    namespace: production
     method: date
     value: 7w
     state: present
@@ -97,7 +96,7 @@ EXAMPLES = r"""
 
 - name: Ensure the organization has only the defined auto-pruning policy
   infra.quay_configuration.quay_organization_prune:
-    organization: development
+    namespace: development
     method: date
     value: 8d
     tag_pattern: "nightly"
@@ -108,7 +107,7 @@ EXAMPLES = r"""
 
 - name: Ensure the auto-pruning policy is removed
   infra.quay_configuration.quay_organization_prune:
-    organization: development
+    namespace: development
     method: date
     value: 8d
     tag_pattern: "nightly"
@@ -118,7 +117,7 @@ EXAMPLES = r"""
 
 - name: Ensure an auto-pruning policy exists in lvasquez's personal namespace
   infra.quay_configuration.quay_organization_prune:
-    organization: lvasquez
+    namespace: lvasquez
     method: date
     value: 8d
     tag_pattern: "nightly"
@@ -140,7 +139,7 @@ from ..module_utils.api_module import APIModule
 
 def main():
     argument_spec = dict(
-        organization=dict(required=True),
+        namespace=dict(required=True),
         append=dict(type="bool", default=True),
         method=dict(choices=["tags", "date"], required=True),
         value=dict(required=True),
@@ -153,7 +152,7 @@ def main():
     module = APIModule(argument_spec=argument_spec, supports_check_mode=True)
 
     # Extract our parameters
-    organization = module.params.get("organization")
+    namespace = module.params.get("namespace")
     append = module.params.get("append")
     method = module.params.get("method")
     value = module.params.get("value")
@@ -165,12 +164,12 @@ def main():
     data = module.process_prune_parameters(method, value, tag_pattern, tag_pattern_matches)
 
     # Check whether namespace exists (organization or user account)
-    if not module.get_namespace(organization):
+    if not module.get_namespace(namespace):
         if state == "absent":
             module.exit_json(changed=False)
         module.fail_json(
-            msg="The {orgname} organization or user namespace does not exist.".format(
-                orgname=organization
+            msg="The {orgname} organization or personal namespace does not exist.".format(
+                orgname=namespace
             )
         )
 
@@ -197,7 +196,7 @@ def main():
     #   ]
     # }
     policies = module.get_object_path(
-        "organization/{orgname}/autoprunepolicy/", orgname=organization
+        "organization/{orgname}/autoprunepolicy/", orgname=namespace
     )
 
     # Finding a matching auto-pruning policy
@@ -220,7 +219,7 @@ def main():
             "auto-pruning policy",
             method,
             "organization/{orgname}/autoprunepolicy/{uuid}",
-            orgname=organization,
+            orgname=namespace,
             uuid=policy_details.get("uuid", "") if policy_details else "",
         )
 
@@ -239,7 +238,7 @@ def main():
                     policy.get("method"),
                     "organization/{orgname}/autoprunepolicy/{uuid}",
                     auto_exit=False,
-                    orgname=organization,
+                    orgname=namespace,
                     uuid=policy.get("uuid"),
                 )
                 deletions = True
@@ -252,7 +251,7 @@ def main():
         "organization/{orgname}/autoprunepolicy/",
         data,
         auto_exit=False,
-        orgname=organization,
+        orgname=namespace,
     )
     module.exit_json(changed=True, id=resp.get("uuid"))
 
