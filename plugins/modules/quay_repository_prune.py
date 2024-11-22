@@ -251,6 +251,11 @@ def main():
     if append and policy_details:
         module.exit_json(changed=False, id=policy_details.get("uuid"))
 
+    if not policies:
+        module.fail_json(
+            msg="The {repo} repository does not exist.".format(repo=full_repo_name)
+        )
+
     # Remove all the auto-pruning policies, except the one that the user
     # specifies
     if not append:
