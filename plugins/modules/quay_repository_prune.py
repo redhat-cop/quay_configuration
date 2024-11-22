@@ -23,17 +23,21 @@ __metaclass__ = type
 
 DOCUMENTATION = r"""
 ---
-module: quay_organization_prune
-short_description: Manage auto-pruning policies for organizations and user namespaces
+module: quay_repository_prune
+short_description: Manage auto-pruning policies for repositories
 description:
-  - Create or delete auto-pruning policies for organizations and personal
-    namespaces in Quay Container Registry.
+  - Create or delete auto-pruning policies for repositories in Quay Container
+    Registry.
 version_added: '2.3.0'
 author: Hervé Quatremain (@herve4m)
 options:
-  namespace:
+  repository:
     description:
-      - Organization or personal namespace. This namespace must exist.
+      - Name of the existing repository to configure. The format for the name is
+        C(namespace)/C(shortname). The namespace can be an organization or a
+        personal namespace.
+      - If you omit the namespace part in the name, then the module looks for
+        the repository in your personal namespace.
     required: true
     type: str
   append:
@@ -56,7 +60,7 @@ options:
     choices: [absent, present]
 notes:
   - The token that you provide in O(quay_token) must have the "Administer
-    Organization" permission.
+    Repositories" permission.
 attributes:
   check_mode:
     support: full
@@ -73,9 +77,9 @@ extends_documentation_fragment:
 """
 
 EXAMPLES = r"""
-- name: Ensure the organization keeps only five unstable images
-  infra.quay_configuration.quay_organization_prune:
-    namespace: production
+- name: Ensure the repository keeps only five unstable images
+  infra.quay_configuration.quay_repository_prune:
+    repository: production/smallimage
     method: tags
     value: 5
     # Auto-pruning tags that contain "unstable" in their names
@@ -85,18 +89,18 @@ EXAMPLES = r"""
     quay_host: https://quay.example.com
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
-- name: Ensure the organization also prunes all tags older that seven weeks
-  infra.quay_configuration.quay_organization_prune:
-    namespace: production
+- name: Ensure the repository also prunes all tags older that seven weeks
+  infra.quay_configuration.quay_repository_prune:
+    repository: production/smallimage
     method: date
     value: 7w
     state: present
     quay_host: https://quay.example.com
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
-- name: Ensure the organization has only the defined auto-pruning policy
-  infra.quay_configuration.quay_organization_prune:
-    namespace: development
+- name: Ensure the repository has only the defined auto-pruning policy
+  infra.quay_configuration.quay_repository_prune:
+    repository: development/frontend
     method: date
     value: 8d
     tag_pattern: "nightly"
@@ -106,8 +110,8 @@ EXAMPLES = r"""
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
 - name: Ensure the auto-pruning policy is removed
-  infra.quay_configuration.quay_organization_prune:
-    namespace: development
+  infra.quay_configuration.quay_repository_prune:
+    repository: development/frontend
     method: date
     value: 8d
     tag_pattern: "nightly"
@@ -115,9 +119,9 @@ EXAMPLES = r"""
     quay_host: https://quay.example.com
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
-- name: Ensure an auto-pruning policy exists in lvasquez's personal namespace
-  infra.quay_configuration.quay_organization_prune:
-    namespace: lvasquez
+- name: Ensure an auto-pruning policy exists for lvasquez's test repository
+  infra.quay_configuration.quay_repository_prune:
+    repository: lvasquez/test
     method: date
     value: 8d
     tag_pattern: "nightly"
@@ -139,7 +143,7 @@ from ..module_utils.api_module import APIModule
 
 def main():
     argument_spec = dict(
-        namespace=dict(required=True),
+        repository=dict(required=True),
         append=dict(type="bool", default=True),
         method=dict(choices=["tags", "date"], required=True),
         value=dict(required=True),
@@ -152,7 +156,7 @@ def main():
     module = APIModule(argument_spec=argument_spec, supports_check_mode=True)
 
     # Extract our parameters
-    namespace = module.params.get("namespace")
+    repository = module.params.get("repository")
     append = module.params.get("append")
     method = module.params.get("method")
     value = module.params.get("value")
@@ -163,19 +167,40 @@ def main():
     # Convert the parameters to a dictionary that can be used with the API
     data = module.process_prune_parameters(method, value, tag_pattern, tag_pattern_matches)
 
+    # Extract namespace and repository from the repository parameter
+    my_name = module.who_am_i()
+    try:
+        namespace, repo_shortname = repository.split("/", 1)
+    except ValueError:
+        # No namespace part in the repository name. Therefore, the repository
+        # is in the user's personal namespace
+        if my_name:
+            namespace = my_name
+            repo_shortname = repository
+        else:
+            module.fail_json(
+                msg=(
+                    "The `repository' parameter must include the"
+                    " organization: <organization>/{name}."
+                ).format(name=repository)
+            )
+
     # Check whether namespace exists (organization or user account)
-    if not module.get_namespace(namespace):
+    namespace_details = module.get_namespace(namespace)
+    if not namespace_details:
         if state == "absent":
             module.exit_json(changed=False)
         module.fail_json(
-            msg="The {orgname} organization or personal namespace does not exist.".format(
-                orgname=namespace
-            )
+            msg="The {namespace} namespace does not exist.".format(namespace=namespace)
         )
 
-    # Get the auto-pruning policies for the organization
+    full_repo_name = "{namespace}/{repository}".format(
+        namespace=namespace, repository=repo_shortname
+    )
+
+    # Get the auto-pruning policies for the repository
     #
-    # GET /api/v1/organization/{orgname}/autoprunepolicy/
+    # GET /api/v1/repository/{namespace}/{repository}/autoprunepolicy/
     #
     # {
     #   "policies": [
@@ -196,7 +221,7 @@ def main():
     #   ]
     # }
     policies = module.get_object_path(
-        "organization/{orgname}/autoprunepolicy/", orgname=namespace
+        "repository/{full_repo_name}/autoprunepolicy/", full_repo_name=full_repo_name
     )
 
     # Finding a matching auto-pruning policy
@@ -218,8 +243,8 @@ def main():
             policy_details,
             "auto-pruning policy",
             method,
-            "organization/{orgname}/autoprunepolicy/{uuid}",
-            orgname=namespace,
+            "repository/{full_repo_name}/autoprunepolicy/{uuid}",
+            full_repo_name=full_repo_name,
             uuid=policy_details.get("uuid", "") if policy_details else "",
         )
 
@@ -236,9 +261,9 @@ def main():
                     policy,
                     "auto-pruning policy",
                     policy.get("method"),
-                    "organization/{orgname}/autoprunepolicy/{uuid}",
+                    "repository/{full_repo_name}/autoprunepolicy/{uuid}",
                     auto_exit=False,
-                    orgname=namespace,
+                    full_repo_name=full_repo_name,
                     uuid=policy.get("uuid"),
                 )
                 deletions = True
@@ -248,10 +273,10 @@ def main():
     resp = module.create(
         "auto-pruning policy",
         method,
-        "organization/{orgname}/autoprunepolicy/",
+        "repository/{full_repo_name}/autoprunepolicy/",
         data,
         auto_exit=False,
-        orgname=namespace,
+        full_repo_name=full_repo_name,
     )
     module.exit_json(changed=True, id=resp.get("uuid"))
 

@@ -329,14 +329,14 @@ def main():
         except (TypeError, IndexError):
             policies = []
 
-        # Removing all the auto-prune policies
+        # Removing all the auto-pruning policies
         if auto_prune_method == "none":
             deleted = False
             for policy in policies:
                 uuid = policy.get("uuid")
                 if module.delete(
                     uuid,
-                    "organization auto-prune policy",
+                    "organization auto-pruning policy",
                     name,
                     "organization/{orgname}/autoprunepolicy/{uuid}",
                     auto_exit=False,
@@ -364,7 +364,7 @@ def main():
                 # then create the policy
                 if len(policies) == 0 or policies[0].get("uuid") is None:
                     module.create(
-                        "organization auto-prune policy",
+                        "organization auto-pruning policy",
                         name,
                         "organization/{orgname}/autoprunepolicy/",
                         new_policy,
@@ -377,7 +377,7 @@ def main():
                     uuid = policies[0]["uuid"]
                     new_policy["uuid"] = uuid
                     module.unconditional_update(
-                        "organization auto-prune policy",
+                        "organization auto-pruning policy",
                         name,
                         "organization/{orgname}/autoprunepolicy/{uuid}",
                         new_policy,
