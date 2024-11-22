@@ -30,10 +30,12 @@ Name | Description
 `quay_message` |            Manage Quay Container Registry global messages
 `quay_notification` |       Manage Quay Container Registry repository notifications
 `quay_organization` |       Manage Quay Container Registry organizations
+`quay_organization_prune` | Manage auto-pruning policies for organizations and user namespaces
 `quay_proxy_cache` |        Manage Quay Container Registry proxy cache configurations
 `quay_quota` |              Manage Quay Container Registry organizations quota
 `quay_repository` |         Manage Quay Container Registry repositories
 `quay_repository_mirror` |  Manage Quay Container Registry repository mirror configurations
+`quay_repository_prune` |   Manage auto-pruning policies for repositories
 `quay_robot` |              Manage Quay Container Registry robot accounts
 `quay_tag` |                Manage Quay Container Registry image tags
 `quay_tag_info` |           Gather information about tags in a Quay Container Registry repository

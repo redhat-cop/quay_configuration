@@ -24,7 +24,7 @@ __metaclass__ = type
 DOCUMENTATION = r"""
 ---
 module: quay_organization_prune
-short_description: Manage auto-pruning policies for organizations
+short_description: Manage auto-pruning policies for organizations and user namespaces
 description:
   - Create or delete auto-pruning policies for organizations and personal
     namespaces.
