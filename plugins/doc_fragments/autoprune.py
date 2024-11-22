@@ -44,8 +44,9 @@ options:
         parameter.
       - V(true) by default.
     type: bool
+    default: true
 notes:
-  - Your Quay administrator must enable the auto-prune capability of your Quay
-    installation (C(FEATURE_AUTO_PRUNE) in C(config.yaml)).
+  - Your Quay administrator must enable the auto-pruning capability of your
+    Quay installation (C(FEATURE_AUTO_PRUNE) in C(config.yaml)).
   - Auto-pruning requires Quay version 3.13 or later.
 """

@@ -39,7 +39,7 @@ options:
     type: str
   organization:
     description:
-      - Name of the organization for the team. That organization must exist.
+      - Name of the organization for the team. This organization must exist.
     required: true
     type: str
   sync:

@@ -32,7 +32,7 @@ author: Hervé Quatremain (@herve4m)
 options:
   organization:
     description:
-      - Name of the organization. That organization must exist.
+      - Name of the organization. This organization must exist.
     required: true
     type: str
   quota:

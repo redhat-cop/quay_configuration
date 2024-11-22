@@ -35,8 +35,8 @@ author: Hervé Quatremain (@herve4m)
 options:
   organization:
     description:
-      - Name of the organization for the default permission.
-        That organization must exist.
+      - Name of the organization for the default permission. This organization
+        must exist.
     required: true
     type: str
   name:
