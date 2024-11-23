@@ -137,12 +137,16 @@ Example Playbook
         quay_org_repositories:
           - name: small_image
             visibility: private
-            auto_prune_method: date
-            auto_prune_value: 5w
             perms:
               - name: qa
                 type: team
                 role: read
+            prune:
+              - method: tags
+                value: 5
+                tag_pattern: nightly
+              - method: date
+                value: 1w
 ...
 ```
 
