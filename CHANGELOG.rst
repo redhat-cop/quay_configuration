@@ -4,7 +4,7 @@ Quay Container Registry Collection Release Notes
 
 .. contents:: Topics
 
-v2.3.0
+v2.4.0
 ======
 
 Release Summary

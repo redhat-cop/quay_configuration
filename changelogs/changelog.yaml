@@ -254,7 +254,7 @@ releases:
     fragments:
     - PR5-v2.2.0-summary.yml
     release_date: '2024-08-05'
-  2.3.0:
+  2.4.0:
     changes:
       deprecated_features:
       - The ``auto_prune_method`` and ``auto_prune_value`` parameters of the ``infra.quay_configuration.quay_organization``
@@ -264,7 +264,7 @@ releases:
       release_summary: New ``infra.quay_configuration.quay_organization_prune`` and
         ``infra.quay_configuration.quay_repository_prune`` modules.
     fragments:
-    - PR16-v2.3.0-summary.yml
+    - PR16-v2.4.0-summary.yml
     modules:
     - description: Manage auto-pruning policies for organizations and user namespaces
       name: quay_organization_prune

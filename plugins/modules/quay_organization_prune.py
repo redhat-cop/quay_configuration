@@ -28,7 +28,7 @@ short_description: Manage auto-pruning policies for organizations and user names
 description:
   - Create or delete auto-pruning policies for organizations and personal
     namespaces in Quay Container Registry.
-version_added: '2.3.0'
+version_added: '2.4.0'
 author: Hervé Quatremain (@herve4m)
 options:
   namespace:
