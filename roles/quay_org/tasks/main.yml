@@ -13,6 +13,9 @@
 - name: Ensure the organization exists
   ansible.builtin.import_tasks: organization.yml
 
+- name: Ensure the auto-pruning policies for the organization exist
+  ansible.builtin.import_tasks: organization_prune.yml
+
 - name: Ensure the proxy cache configuration exists
   ansible.builtin.import_tasks: proxy_cache.yml
 

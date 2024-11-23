@@ -72,6 +72,9 @@ argument_specs:
         type: str
       quay_org_auto_prune_method:
         description:
+          - The O(quay_org_auto_prune_method) parameter is deprecated and will
+            be removed in future versions of the collection.
+            Use the O(quay_org_prune) parameter instead.
           - Method to use for the auto-pruning tags policy.
           - If V(none), then the module ensures that no policy is in place. The
             tags are not pruned.
@@ -85,6 +88,9 @@ argument_specs:
         choices: [none, tags, date]
       quay_org_auto_prune_value:
         description:
+          - The O(quay_org_auto_prune_value) parameter is deprecated and will
+            be removed in future versions of the collection.
+            Use the O(quay_org_prune) parameter instead.
           - Number of tags to keep when O(quay_org_auto_prune_value) is V(tags).
             The value must be 1 or more.
           - Period of time when O(quay_org_auto_prune_value) is V(date). The
@@ -144,6 +150,47 @@ argument_specs:
             is reached.
           - Set O(quay_org_reject_pct) to V(0) to remove the reject limit.
         type: int
+      quay_org_prune:
+        description:
+          - List of auto-pruning tags policies for the organization.
+        type: list
+        elements: dict
+        options:
+          method:
+            description:
+              - Method to use for the auto-pruning tags policy.
+              - If V(tags), then the policy keeps only the number of tags that
+                you specify in O(quay_org_prune[].value).
+              - If V(date), then the policy deletes the tags older than the
+                time period that you specify in O(quay_org_prune[].value).
+            required: true
+            type: str
+            choices: [tags, date]
+          value:
+            description:
+              - Number of tags to keep when O(quay_org_prune[].method) is
+                V(tags). The value must be 1 or more.
+              - Period of time when O(quay_org_prune[].method) is V(date). The
+                value must be 1 or more, and must be followed by a suffix;
+                s (for second), m (for minute), h (for hour), d (for day),
+                or w (for week).
+            required: true
+            type: str
+          tag_pattern:
+            description:
+              - Regular expression to select the tags to process.
+              - If you do not set the parameter, then Quay processes all the
+                tags.
+            type: str
+          tag_pattern_matches:
+            description:
+              - If V(true), then Quay processes the tags matching the
+                O(quay_org_prune[].tag_pattern) parameter.
+              - If V(false), then Quay excludes the tags matching the
+                O(quay_org_prune[].tag_pattern) parameter.
+              - V(true) by default.
+            type: bool
+            default: true
       quay_org_users:
         description:
           - List of user account to create.

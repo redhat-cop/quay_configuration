@@ -8,14 +8,18 @@
     quay_org_validate_certs: false
     quay_org_name: testorg
     quay_org_email: testorg@example.com
-    quay_org_auto_prune_method: tags
-    quay_org_auto_prune_value: 15
     quay_org_cache_registry: public.ecr.aws/nginx
     quay_org_cache_expiration: 345600
     quay_org_cache_insecure: true
     quay_org_quota: 1.5 TiB
     quay_org_warning_pct: 90
     quay_org_reject_pct: 97
+    quay_org_prune:
+      - method: tags
+        value: 25
+      - method: date
+        value: 1w
+        tag_pattern: nightly
     quay_org_users:
       - username: testuser1
         email: testuser1@example.com

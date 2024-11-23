@@ -192,6 +192,13 @@ def main():
     #       "value": 20,
     #       "tagPattern": "prod.*",
     #       "tagPatternMatches": false
+    #     },
+    #     {
+    #       "uuid": "71fd827c-6dec-4ecd-ac92-a200e821afa9",
+    #       "method": "number_of_tags",
+    #       "value": 25,
+    #       "tagPattern": null,
+    #       "tagPatternMatches": true
     #     }
     #   ]
     # }
@@ -207,7 +214,7 @@ def main():
                 policy.get("method") == data.get("method")
                 and policy.get("value") == data.get("value")
                 and policy.get("tagPattern") == data.get("tagPattern")
-                and policy.get("tagPatternMatches") == data.get("tagPatternMatches")
+                and policy.get("tagPatternMatches") == data.get("tagPatternMatches", True)
             ):
                 policy_details = policy
                 break

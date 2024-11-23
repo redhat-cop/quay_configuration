@@ -14,8 +14,8 @@ class ModuleDocFragment(object):
 options:
   auto_prune_method:
     description:
-      - The O(auto_prune_method) is deprecated and will be removed in future
-        versions of the collection.
+      - The O(auto_prune_method) parameter is deprecated and will be removed in
+        future versions of the collection.
         Use the M(infra.quay_configuration.quay_organization_prune) and the
         M(infra.quay_configuration.quay_repository_prune) modules instead.
       - Method to use for the auto-pruning tags policy.
@@ -32,8 +32,8 @@ options:
     choices: [none, tags, date]
   auto_prune_value:
     description:
-      - The O(auto_prune_value) is deprecated and will be removed in future
-        versions of the collection.
+      - The O(auto_prune_value) parameter is deprecated and will be removed in
+        future versions of the collection.
         Use the M(infra.quay_configuration.quay_organization_prune) and the
         M(infra.quay_configuration.quay_repository_prune) modules instead.
       - Number of tags to keep when O(auto_prune_method) is V(tags).
