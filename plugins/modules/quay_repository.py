@@ -133,7 +133,7 @@ extends_documentation_fragment:
   - ansible.builtin.action_common_attributes
   - infra.quay_configuration.auth
   - infra.quay_configuration.auth.login
-  - infra.quay_configuration.autoprune
+  - infra.quay_configuration.autoprune_deprecated
 """
 
 EXAMPLES = r"""
@@ -200,12 +200,10 @@ EXAMPLES = r"""
     quay_host: https://quay.example.com
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
-- name: Ensure the repository has a star and tags older that 4 weeks are pruned
+- name: Ensure the repository has a star
   infra.quay_configuration.quay_repository:
     name: production/smallimage
     star: true
-    auto_prune_method: date
-    auto_prune_value: 4w
     state: present
     quay_host: https://quay.example.com
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
@@ -245,8 +243,14 @@ def main():
         append=dict(type="bool", default=True),
         star=dict(type="bool"),
         repo_state=dict(choices=["NORMAL", "READ_ONLY", "MIRROR"]),
-        auto_prune_method=dict(choices=["none", "tags", "date"]),
-        auto_prune_value=dict(),
+        auto_prune_method=dict(
+            choices=["none", "tags", "date"],
+            removed_at_date="2025-12-01",
+            removed_from_collection="infra.quay_configuration",
+        ),
+        auto_prune_value=dict(
+            removed_at_date="2025-12-01", removed_from_collection="infra.quay_configuration"
+        ),
         state=dict(choices=["present", "absent"], default="present"),
     )
 
@@ -482,15 +486,14 @@ def main():
         except (TypeError, IndexError):
             policies = []
 
-        # Removing the auto-prune policies (the UI only manages one policy, but
-        # the backend seems to allow several policies)
+        # Removing all the auto-pruning policies
         if auto_prune_method == "none":
             deleted = False
             for policy in policies:
                 uuid = policy.get("uuid")
                 if module.delete(
                     uuid,
-                    "repository auto-prune policy",
+                    "repository auto-pruning policy",
                     full_repo_name,
                     "repository/{full_repo_name}/autoprunepolicy/{uuid}",
                     auto_exit=False,
@@ -518,7 +521,7 @@ def main():
                 # then create the policy
                 if len(policies) == 0 or policies[0].get("uuid") is None:
                     module.create(
-                        "repository auto-prune policy",
+                        "repository auto-pruning policy",
                         full_repo_name,
                         "repository/{full_repo_name}/autoprunepolicy/",
                         new_policy,
@@ -531,7 +534,7 @@ def main():
                     uuid = policies[0]["uuid"]
                     new_policy["uuid"] = uuid
                     module.unconditional_update(
-                        "repository auto-prune policy",
+                        "repository auto-pruning policy",
                         full_repo_name,
                         "repository/{full_repo_name}/autoprunepolicy/{uuid}",
                         new_policy,

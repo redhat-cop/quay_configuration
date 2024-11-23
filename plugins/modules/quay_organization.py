@@ -72,11 +72,6 @@ options:
     default: present
     choices: [absent, present]
 notes:
-  - Your Quay administrator must enable the auto-prune capability of your Quay
-    installation (C(FEATURE_AUTO_PRUNE) in C(config.yaml)) to use the
-    O(auto_prune_method) and O(auto_prune_value) parameters.
-  - Using O(auto_prune_method) and O(auto_prune_value) requires Quay version
-    3.11 or later.
   - The token that you provide in O(quay_token) must have the "Administer
     Organization" and "Administer User" permissions.
   - To rename organizations, the token must also have the "Super User Access"
@@ -93,7 +88,7 @@ extends_documentation_fragment:
   - ansible.builtin.action_common_attributes
   - infra.quay_configuration.auth
   - infra.quay_configuration.auth.login
-  - infra.quay_configuration.autoprune
+  - infra.quay_configuration.autoprune_deprecated
 """
 
 EXAMPLES = r"""
@@ -102,8 +97,6 @@ EXAMPLES = r"""
     name: production
     email: prodlist@example.com
     time_machine_expiration: "7d"
-    auto_prune_method: tags
-    auto_prune_value: 20
     state: present
     quay_host: https://quay.example.com
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
@@ -144,8 +137,14 @@ def main():
         new_name=dict(),
         email=dict(),
         time_machine_expiration=dict(choices=list(tm_allowed_values.keys())),
-        auto_prune_method=dict(choices=["none", "tags", "date"]),
-        auto_prune_value=dict(),
+        auto_prune_method=dict(
+            choices=["none", "tags", "date"],
+            removed_at_date="2025-12-01",
+            removed_from_collection="infra.quay_configuration",
+        ),
+        auto_prune_value=dict(
+            removed_at_date="2025-12-01", removed_from_collection="infra.quay_configuration"
+        ),
         state=dict(choices=["present", "absent"], default="present"),
     )
 
@@ -330,15 +329,14 @@ def main():
         except (TypeError, IndexError):
             policies = []
 
-        # Removing the auto-prune policies (the UI only manages one policy, but
-        # the backend seems to allow several policies)
+        # Removing all the auto-pruning policies
         if auto_prune_method == "none":
             deleted = False
             for policy in policies:
                 uuid = policy.get("uuid")
                 if module.delete(
                     uuid,
-                    "organization auto-prune policy",
+                    "organization auto-pruning policy",
                     name,
                     "organization/{orgname}/autoprunepolicy/{uuid}",
                     auto_exit=False,
@@ -366,7 +364,7 @@ def main():
                 # then create the policy
                 if len(policies) == 0 or policies[0].get("uuid") is None:
                     module.create(
-                        "organization auto-prune policy",
+                        "organization auto-pruning policy",
                         name,
                         "organization/{orgname}/autoprunepolicy/",
                         new_policy,
@@ -379,7 +377,7 @@ def main():
                     uuid = policies[0]["uuid"]
                     new_policy["uuid"] = uuid
                     module.unconditional_update(
-                        "organization auto-prune policy",
+                        "organization auto-pruning policy",
                         name,
                         "organization/{orgname}/autoprunepolicy/{uuid}",
                         new_policy,

@@ -12,32 +12,41 @@ class ModuleDocFragment(object):
     # Ansible Galaxy documentation fragment
     DOCUMENTATION = r"""
 options:
-  auto_prune_method:
+  method:
     description:
       - Method to use for the auto-pruning tags policy.
-      - If V(none), then the module ensures that no policy is in place. The
-        tags are not pruned.
       - If V(tags), then the policy keeps only the number of tags that you
-        specify in O(auto_prune_value).
+        specify in O(value).
       - If V(date), then the policy deletes the tags older than the time period
-        that you specify in O(auto_prune_value).
-      - O(auto_prune_value) is required when O(auto_prune_method) is V(tags) or
-        V(date).
+        that you specify in O(value).
+    required: true
     type: str
-    choices: [none, tags, date]
-  auto_prune_value:
+    choices: [tags, date]
+  value:
     description:
-      - Number of tags to keep when O(auto_prune_method) is V(tags).
+      - Number of tags to keep when O(method) is V(tags).
         The value must be 1 or more.
-      - Period of time when O(auto_prune_method) is V(date). The value must be 1
-        or more, and must be followed by a suffix; s (for second), m (for
-        minute), h (for hour), d (for day), or w (for week).
-      - O(auto_prune_method) is required when O(auto_prune_value) is set.
+      - Period of time when O(method) is V(date). The value must be 1 or more,
+        and must be followed by a suffix; s (for second), m (for minute), h
+        (for hour), d (for day), or w (for week).
+    required: true
     type: str
+  tag_pattern:
+    description:
+      - Regular expression to select the tags to process.
+      - If you do not set the parameter, then Quay processes all the tags.
+    type: str
+  tag_pattern_matches:
+    description:
+      - If V(true), then Quay processes the tags matching the O(tag_pattern)
+        parameter.
+      - If V(false), then Quay excludes the tags matching the O(tag_pattern)
+        parameter.
+      - V(true) by default.
+    type: bool
+    default: true
 notes:
-  - Your Quay administrator must enable the auto-prune capability of your Quay
-    installation (C(FEATURE_AUTO_PRUNE) in C(config.yaml)) to use the
-    O(auto_prune_method) and O(auto_prune_value) parameters.
-  - Using O(auto_prune_method) and O(auto_prune_value) requires Quay version
-    3.11 or later.
+  - Your Quay administrator must enable the auto-pruning capability of your
+    Quay installation (C(FEATURE_AUTO_PRUNE) in C(config.yaml)).
+  - Auto-pruning requires Quay version 3.13 or later.
 """

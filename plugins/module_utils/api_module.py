@@ -1354,6 +1354,71 @@ class APIModule(AnsibleModule):
             break
         return tag_list
 
+    def process_prune_parameters(
+        self, method, value, tag_pattern=None, tag_pattern_matches=True
+    ):
+        """Return the prune parameters in a dictionary ready for the API.
+
+        :param method: The prune method: "tags", or "date".
+        :type method: str
+        :param value: The pruning criteria, which depends on the method. It can
+                      be a number of tags, or a period of time.
+        :type value: str
+        :param tag_pattern: A regular expression that is used to select the tags
+                            to purge.
+        :type tag_pattern: str
+        :param tag_pattern_matches: If ``True``, then the tags matching
+                                    :py:attribute:``tag_pattern`` are processed.
+                                    If ``False``, then the tags matching
+                                    :py:attribute:``tag_pattern`` are excluded.
+        :type tag_pattern_matches: bool
+
+        :return: The prune parameters ready to be used for a call to the API.
+                 For example::
+
+                    {
+                        "method": "creation_date",
+                        "value": "7d",
+                        "tagPattern": "dev.*",
+                        "tagPatternMatches": True
+                    }
+        """
+        if method == "tags":
+            try:
+                auto_prune_value = int(value)
+            except ValueError:
+                self.fail_json(
+                    msg=(
+                        "Wrong format for the `value' parameter:"
+                        " {auto_prune_value} is not a positive integer."
+                    ).format(auto_prune_value=value)
+                )
+            if auto_prune_value <= 0:
+                self.fail_json(
+                    msg=(
+                        "Wrong format for the `value' parameter:"
+                        " {auto_prune_value} is not a positive integer."
+                    ).format(auto_prune_value=value)
+                )
+            data = {"method": "number_of_tags", "value": auto_prune_value}
+        else:  # method == "date":
+            auto_prune_value = "".join(value.split())
+            if not re.match(r"[1-9]\d*[smhdw]$", auto_prune_value):
+                self.fail_json(
+                    msg=(
+                        "Wrong format for the `value' parameter:"
+                        " {auto_prune_value} is not a positive integer followed by"
+                        " the s, m, h, d, or w suffix."
+                    ).format(auto_prune_value=value)
+                )
+            data = {"method": "creation_date", "value": auto_prune_value}
+        if tag_pattern:
+            data["tagPattern"] = tag_pattern
+            data["tagPatternMatches"] = (
+                tag_pattern_matches if tag_pattern_matches is not None else True
+            )
+        return data
+
 
 class APIModuleNoAuth(APIModule):
     AUTH_ARGSPEC = dict(

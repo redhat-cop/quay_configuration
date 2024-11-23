@@ -8,14 +8,18 @@
     quay_org_validate_certs: false
     quay_org_name: testorg
     quay_org_email: testorg@example.com
-    quay_org_auto_prune_method: tags
-    quay_org_auto_prune_value: 15
     quay_org_cache_registry: public.ecr.aws/nginx
     quay_org_cache_expiration: 345600
     quay_org_cache_insecure: true
     quay_org_quota: 1.5 TiB
     quay_org_warning_pct: 90
     quay_org_reject_pct: 97
+    quay_org_prune:
+      - method: tags
+        value: 25
+      - method: date
+        value: 10w
+        tag_pattern: nightly
     quay_org_users:
       - username: testuser1
         email: testuser1@example.com
@@ -57,13 +61,18 @@
       - name: testrepo1
         description: Test repository 1
         visibility: public
-        auto_prune_method: date
-        auto_prune_value: 10w
         perms:
           - name: testteam1
             type: team
             role: read
       - name: testrepo2
+        prune:
+          - method: tags
+            value: 5
+            tag_pattern: prod
+            tag_pattern_matches: false
+          - method: date
+            value: 5w
 
 # Cleanup (by using quay_username and quay_password for testing purpose)
 - name: Ensure repositories are removed

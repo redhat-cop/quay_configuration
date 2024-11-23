@@ -44,8 +44,7 @@ The following list gives a short descriptions of the variables:
 * `quay_validate_certs`: Whether to allow insecure connections to the API.
 * `quay_org_name`: Name of the organization to create.
 * `quay_org_email`: Email address to associate with the organization.
-* `quay_org_auto_prune_method`: Method to use for the auto-pruning tags policy.
-* `quay_org_auto_prune_value`: Number or period of time to keep tags.
+* `quay_org_prune`: List of auto-pruning tags policies for the organization.
 * `quay_org_users`: List of user accounts to create.
 * `quay_org_robots`: List of robot accounts to create in the organization.
 * `quay_org_teams`: List of the teams to create in the organization.
@@ -87,9 +86,6 @@ Example Playbook
         # Organization name and email
         quay_org_name: production
         quay_org_email: production@example.com
-        # Organization auto-prune policy
-        quay_org_auto_prune_method: tags
-        quay_org_auto_prune_value: 15
         # Proxy cache
         quay_org_cache_registry: quay.io/sclorg
         quay_org_cache_expiration: 259200
@@ -97,6 +93,13 @@ Example Playbook
         quay_org_quota: 1.5 TiB
         quay_org_warning_pct: 90
         quay_org_reject_pct: 97
+        # Organization auto-pruning tags policies
+        quay_org_prune:
+          - method: tags
+            value: 15
+            tag_pattern: nightly
+          - method: date
+            value: 5w
         # User accounts to create
         quay_org_users:
           - username: lvasquez
@@ -134,12 +137,16 @@ Example Playbook
         quay_org_repositories:
           - name: small_image
             visibility: private
-            auto_prune_method: date
-            auto_prune_value: 5w
             perms:
               - name: qa
                 type: team
                 role: read
+            prune:
+              - method: tags
+                value: 5
+                tag_pattern: nightly
+              - method: date
+                value: 1w
 ...
 ```
 

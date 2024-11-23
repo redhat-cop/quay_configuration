@@ -33,7 +33,7 @@ options:
   organization:
     description:
       - Name of the organization in which to create the proxy cache
-        configuration. That organization must exist.
+        configuration. This organization must exist.
     required: true
     type: str
   registry:

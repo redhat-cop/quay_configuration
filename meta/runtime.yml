@@ -11,10 +11,12 @@ action_groups:
     - quay_manifest_label
     - quay_message
     - quay_notification
+    - quay_organization_prune
     - quay_organization
     - quay_proxy_cache
     - quay_quota
     - quay_repository_mirror
+    - quay_repository_prune
     - quay_repository
     - quay_robot
     - quay_tag_info

@@ -4,6 +4,25 @@ Quay Container Registry Collection Release Notes
 
 .. contents:: Topics
 
+v2.4.0
+======
+
+Release Summary
+---------------
+
+New ``infra.quay_configuration.quay_organization_prune`` and ``infra.quay_configuration.quay_repository_prune`` modules.
+
+Deprecated Features
+-------------------
+
+- The ``auto_prune_method`` and ``auto_prune_value`` parameters of the ``infra.quay_configuration.quay_organization`` and ``infra.quay_configuration.quay_repository`` modules are deprecated in favor of the new``infra.quay_configuration.quay_organization_prune`` and ``infra.quay_configuration.quay_repository_prune`` modules.
+
+New Modules
+-----------
+
+- infra.quay_configuration.quay_organization_prune - Manage auto-pruning policies for organizations and user namespaces
+- infra.quay_configuration.quay_repository_prune - Manage auto-pruning policies for repositories
+
 v2.2.0
 ======
 
