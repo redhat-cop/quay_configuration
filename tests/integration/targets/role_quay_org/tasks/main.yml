@@ -9,7 +9,7 @@
     quay_org_name: testorg
     quay_org_email: testorg@example.com
     quay_org_cache_registry: public.ecr.aws/nginx
-    quay_org_cache_expiration: 345600
+    quay_org_cache_expiration: 4d
     quay_org_cache_insecure: true
     quay_org_quota: 1.5 TiB
     quay_org_warning_pct: 90

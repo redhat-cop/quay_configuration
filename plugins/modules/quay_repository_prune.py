@@ -170,45 +170,7 @@ def main():
     # Convert the parameters to a dictionary that can be used with the API
     data = module.process_prune_parameters(method, value, tag_pattern, tag_pattern_matches)
 
-    # Extract namespace and repository from the repository parameter
-    my_name = module.who_am_i()
-    try:
-        namespace, repo_shortname = repository.split("/", 1)
-    except ValueError:
-        # No namespace part in the repository name. Therefore, the repository
-        # is in the user's personal namespace
-        if my_name:
-            namespace = my_name
-            repo_shortname = repository
-        else:
-            module.fail_json(
-                msg=(
-                    "The `repository' parameter must include the"
-                    " organization: <organization>/{name}."
-                ).format(name=repository)
-            )
-
-    # Check whether namespace exists (organization or user account)
-    namespace_details = module.get_namespace(namespace)
-    if not namespace_details:
-        if state == "absent":
-            module.exit_json(changed=False)
-        module.fail_json(
-            msg="The {namespace} namespace does not exist.".format(namespace=namespace)
-        )
-    # Make sure that the current user is the owner of that namespace
-    if (
-        not namespace_details.get("is_organization")
-        and namespace_details.get("name") != my_name
-    ):
-        if my_name:
-            msg = "You ({user}) are not the owner of {namespace}'s namespace.".format(
-                user=my_name, namespace=namespace
-            )
-        else:
-            msg = "You cannot access {namespace}'s namespace.".format(namespace=namespace)
-        module.fail_json(msg=msg)
-
+    namespace, repo_shortname, _not_used = module.split_name("repository", repository, state)
     full_repo_name = "{namespace}/{repository}".format(
         namespace=namespace, repository=repo_shortname
     )

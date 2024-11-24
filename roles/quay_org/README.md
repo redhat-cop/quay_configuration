@@ -88,7 +88,7 @@ Example Playbook
         quay_org_email: production@example.com
         # Proxy cache
         quay_org_cache_registry: quay.io/sclorg
-        quay_org_cache_expiration: 259200
+        quay_org_cache_expiration: 3d
         # Quota
         quay_org_quota: 1.5 TiB
         quay_org_warning_pct: 90

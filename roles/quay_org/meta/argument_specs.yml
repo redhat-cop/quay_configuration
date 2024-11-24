@@ -127,8 +127,11 @@ argument_specs:
       quay_org_cache_expiration:
         description:
           - Tag expiration in seconds for cached images.
+          - The O(quay_org_cache_expiration) parameter accepts a time unit as a
+            suffix; C(s) for seconds, C(m) for minutes, C(h) for hours, C(d)
+            for days, and C(w) for weeks. For example, C(8h) for eight hours.
           - 86400 (one day) by default.
-        type: int
+        type: str
         default: 86400
       quay_org_quota:
         description:
