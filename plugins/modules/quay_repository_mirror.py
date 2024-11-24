@@ -64,8 +64,11 @@ options:
   sync_interval:
     description:
       - Synchronization interval for this repository mirror in seconds.
+      - The O(sync_interval) parameter accepts a time unit as a suffix;
+        C(s) for seconds, C(m) for minutes, C(h) for hours, C(d) for days, and
+        C(w) for weeks. For example, C(8h) for eight hours.
       - 86400 (one day) by default.
-    type: int
+    type: str
   sync_start_date:
     description:
       - The date and time at which the first synchronization should be
@@ -191,7 +194,7 @@ def main():
         external_registry_password=dict(no_log=True),
         verify_tls=dict(type="bool"),
         image_tags=dict(type="list", elements="str"),
-        sync_interval=dict(type="int"),
+        sync_interval=dict(type="str"),
         sync_start_date=dict(),
         http_proxy=dict(),
         https_proxy=dict(),
@@ -216,6 +219,13 @@ def main():
     http_proxy = module.params.get("http_proxy")
     https_proxy = module.params.get("https_proxy")
     no_proxy = module.params.get("no_proxy")
+
+    # Verify that the interval is valid and convert it to an integer (seconds)
+    s_interval = (
+        module.str_period_to_second("sync_interval", sync_interval)
+        if sync_interval is not None
+        else 86400
+    )
 
     my_name = module.who_am_i()
     try:
@@ -316,7 +326,7 @@ def main():
             "robot_username": robot_username,
             "external_reference": external_reference,
             "root_rule": {"rule_kind": "tag_glob_csv", "rule_value": image_tags},
-            "sync_interval": int(sync_interval) if sync_interval is not None else 86400,
+            "sync_interval": s_interval,
             "sync_start_date": (
                 sync_start_date
                 if sync_start_date
@@ -367,7 +377,7 @@ def main():
     if sync_start_date is not None:
         new_fields["sync_start_date"] = sync_start_date
     if sync_interval is not None:
-        new_fields["sync_interval"] = int(sync_interval)
+        new_fields["sync_interval"] = s_interval
     if robot_username is not None:
         new_fields["robot_username"] = robot_username
     if external_reference is not None:

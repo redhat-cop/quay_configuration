@@ -17,9 +17,9 @@
   infra.quay_configuration.quay_proxy_cache:
     organization: ansibletestorg
     registry: quay.io/projectquay
-    expiration: 172800
+    expiration: 2d
     insecure: true
-    # Non-existing fake user
+    # Nonexisting fake user
     username: cwade16324
     password: My53cr3Tpa55
     state: present
@@ -37,9 +37,9 @@
   infra.quay_configuration.quay_proxy_cache:
     organization: ansibletestorg
     registry: quay.io/projectquay
-    expiration: 172800
+    expiration: 48h
     insecure: false
-    # Non-existing fake user
+    # Nonexisting fake user
     username: cwade16324
     password: My53cr3Tpa55
     state: present

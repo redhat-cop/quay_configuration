@@ -63,8 +63,11 @@ options:
   expiration:
     description:
       - Tag expiration in seconds for cached images.
+      - The O(expiration) parameter accepts a time unit as a suffix;
+        C(s) for seconds, C(m) for minutes, C(h) for hours, C(d) for days, and
+        C(w) for weeks. For example, C(8h) for eight hours.
       - 86400 (one day) by default.
-    type: int
+    type: str
     default: 86400
   state:
     description:
@@ -107,7 +110,7 @@ EXAMPLES = r"""
     registry: quay.io/prodimgs
     username: cwade
     password: My53cr3Tpa55
-    expiration: 172800
+    expiration: 48h
     state: present
     quay_host: https://quay.example.com
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
@@ -132,7 +135,7 @@ def main():
         username=dict(),
         password=dict(no_log=True),
         insecure=dict(type="bool", default=False),
-        expiration=dict(type="int", default=86400),
+        expiration=dict(type="str", default="86400"),
         state=dict(choices=["present", "absent"], default="present"),
     )
 
@@ -147,6 +150,9 @@ def main():
     insecure = module.params.get("insecure")
     expiration = module.params.get("expiration")
     state = module.params.get("state")
+
+    # Verify that the expiration is valid and convert it to an integer (seconds)
+    s_expiration = module.str_period_to_second("expiration", expiration)
 
     # Get the organization details from the given name.
     #
@@ -257,7 +263,7 @@ def main():
     # Prepare the data that gets set for create
     new_fields = {
         "org_name": organization,
-        "expiration_s": int(expiration),
+        "expiration_s": s_expiration,
         "insecure": insecure,
         "upstream_registry": registry,
         "upstream_registry_username": username if username else None,

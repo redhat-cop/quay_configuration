@@ -1419,6 +1419,51 @@ class APIModule(AnsibleModule):
             )
         return data
 
+    def str_period_to_second(self, parameter_name, value):
+        """Convert a period string into seconds.
+
+        :param parameter_name: The name of the parameter being parsed. Used
+                               only to display in the error message.
+        :type parameter_name: str
+        :param value: The value to convert into seconds. The value accepts
+                      the ``s``, ``m``, ``h``, ``d``, and ``w`` suffixes, or no
+                      suffix, and can contain spaces.
+                      Parsing is case-insensitive.
+        :type value: str
+
+        :return: The session token.
+        :rtype: int
+        """
+        try:
+            return int(value)
+        except ValueError:
+            # Second
+            m = re.match(r"\s*(\d+)\s*s", value, re.IGNORECASE)
+            if m:
+                return int(m.group(1))
+            # Minute
+            m = re.match(r"\s*(\d+)\s*m", value, re.IGNORECASE)
+            if m:
+                return int(m.group(1)) * 60
+            # Hour
+            m = re.match(r"\s*(\d+)\s*h", value, re.IGNORECASE)
+            if m:
+                return int(m.group(1)) * 60 * 60
+            # Day
+            m = re.match(r"\s*(\d+)\s*d", value, re.IGNORECASE)
+            if m:
+                return int(m.group(1)) * 60 * 60 * 24
+            # Week
+            m = re.match(r"\s*(\d+)\s*w", value, re.IGNORECASE)
+            if m:
+                return int(m.group(1)) * 60 * 60 * 24 * 7
+        self.fail_json(
+            msg=(
+                "Wrong format for the `{param}' parameter: {value} is not an"
+                " integer followed by the s, m, h, d, or w suffix."
+            ).format(param=parameter_name, value=value)
+        )
+
 
 class APIModuleNoAuth(APIModule):
     AUTH_ARGSPEC = dict(

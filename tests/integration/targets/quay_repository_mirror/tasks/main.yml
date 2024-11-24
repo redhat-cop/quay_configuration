@@ -68,6 +68,7 @@
     external_reference: docker.io/library/hello-world
     http_proxy: ""
     verify_tls: true
+    sync_interval: 12h
     image_tags:
       - latest
     quay_host: "{{ quay_url }}"
@@ -102,7 +103,7 @@
     http_proxy: ""
     no_proxy: quay.io
     verify_tls: false
-    sync_interval: 21600
+    sync_interval: 360m
     image_tags:
       - linux
     quay_host: "{{ quay_url }}"
@@ -130,7 +131,7 @@
     external_registry_username: jziglar
     external_registry_password: vs9mrD55NP
     verify_tls: false
-    sync_interval: 21600
+    sync_interval: 21600s
     sync_start_date: "2021-11-02T21:42:00Z"
     image_tags:
       - linux
@@ -154,6 +155,26 @@
     quay_token: "{{ quay_token }}"
     validate_certs: false
 
+- name: ERROR EXPECTED Wrong sync interval
+  infra.quay_configuration.quay_repository_mirror:
+    name: ansibletestorg/ansibletestrepo1
+    external_reference: docker.io/library/hello-world
+    robot_username: ansibletestorg+ansibletestrobot1
+    image_tags:
+      - latest
+    sync_interval: notaninterval
+    sync_start_date: "2021-01-01T12:00:00Z"
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  ignore_errors: true
+  register: result
+
+- name: Ensure that the task failed
+  ansible.builtin.assert:
+    that: result['failed']
+    fail_msg: The preceding task should have failed (wrong sync interval)
+
 - name: ERROR EXPECTED Non-existing repository (1)
   infra.quay_configuration.quay_repository_mirror:
     name: nonexisting/ansibletestrepo1
@@ -161,7 +182,7 @@
     robot_username: ansibletestorg+ansibletestrobot1
     image_tags:
       - latest
-    sync_interval: 43200
+    sync_interval: 4d
     sync_start_date: "2021-01-01T12:00:00Z"
     quay_host: "{{ quay_url }}"
     quay_token: "{{ quay_token }}"
@@ -181,7 +202,7 @@
     robot_username: ansibletestorg+ansibletestrobot1
     image_tags:
       - latest
-    sync_interval: 43200
+    sync_interval: 4w
     sync_start_date: "2021-01-01T12:00:00Z"
     quay_host: "{{ quay_url }}"
     quay_token: "{{ quay_token }}"
