@@ -34,10 +34,13 @@ options:
     description:
       - Name of the repository to create, remove, or modify. The format for the
         name is C(namespace)/C(shortname). The namespace can be an organization
-        or a personal namespace.
+        or your personal namespace.
       - The name must be in lowercase and must not contain white spaces.
       - If you omit the namespace part in the name, then the module uses your
         personal namespace.
+      - You can manage repositories in your personal namespace,
+        but not in the personal namespace of other users. The token you use in
+        O(quay_token) determines the user account you are using.
     required: true
     type: str
   visibility:
@@ -326,6 +329,27 @@ def main():
                 ).format(name=name)
             )
 
+    # Check whether namespace exists (organization or user account)
+    namespace_details = module.get_namespace(namespace)
+    if not namespace_details:
+        if state == "absent":
+            module.exit_json(changed=False)
+        module.fail_json(
+            msg="The {namespace} namespace does not exist.".format(namespace=namespace)
+        )
+    # Make sure that the current user is the owner of that namespace
+    if (
+        not namespace_details.get("is_organization")
+        and namespace_details.get("name") != my_name
+    ):
+        if my_name:
+            msg = "You ({user}) are not the owner of {namespace}'s namespace.".format(
+                user=my_name, namespace=namespace
+            )
+        else:
+            msg = "You cannot access {namespace}'s namespace.".format(namespace=namespace)
+        module.fail_json(msg=msg)
+
     full_repo_name = "{namespace}/{repository}".format(
         namespace=namespace, repository=repo_shortname
     )
@@ -351,9 +375,7 @@ def main():
     #   "can_admin": true
     # }
     repo_details = module.get_object_path(
-        "repository/{full_repo_name}",
-        ok_error_codes=[404, 403],
-        full_repo_name=full_repo_name,
+        "repository/{full_repo_name}", full_repo_name=full_repo_name
     )
 
     # Remove the repository
@@ -364,13 +386,6 @@ def main():
             full_repo_name,
             "repository/{full_repo_name}",
             full_repo_name=full_repo_name,
-        )
-
-    # Check whether namespace exists (organization or user account)
-    namespace_details = module.get_namespace(namespace)
-    if not namespace_details:
-        module.fail_json(
-            msg="The {namespace} namespace does not exist.".format(namespace=namespace)
         )
 
     changed = False

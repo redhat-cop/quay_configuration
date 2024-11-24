@@ -29,6 +29,26 @@
     that: result['failed']
     fail_msg: The preceding task should have failed (missing parameters)
 
+- name: ERROR EXPECTED Access to another user namespace
+  infra.quay_configuration.quay_repository_mirror:
+    name: ansibletestuser1/ansibletestrepo1
+    external_reference: docker.io/library/hello-world
+    robot_username: ansibletestorg+ansibletestrobot1
+    image_tags:
+      - latest
+    sync_interval: 43200
+    sync_start_date: "2021-01-01T12:00:00Z"
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  ignore_errors: true
+  register: result
+
+- name: Ensure that the task failed
+  ansible.builtin.assert:
+    that: result['failed']
+    fail_msg: The preceding task should have failed (not allowed)
+
 - name: Ensure repository mirror configuration for ansibletestrepo1 exists
   infra.quay_configuration.quay_repository_mirror:
     name: ansibletestorg/ansibletestrepo1

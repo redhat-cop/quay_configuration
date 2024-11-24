@@ -38,7 +38,7 @@ options:
   name:
     description:
       - Name of the robot account to create or remove, in the format
-        C(namespace)+C(shortname). The namespace can be an organization or a
+        C(namespace)+C(shortname). The namespace can be an organization or your
         personal namespace.
       - The short name (the part after the C(+) sign) must be in lowercase,
         must not contain white spaces, must not start by a digit, and must be

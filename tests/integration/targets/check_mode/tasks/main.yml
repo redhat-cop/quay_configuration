@@ -114,7 +114,7 @@
     that: result['changed']
     fail_msg: The preceding task should have deleted the user account
 
-- name: Ensure user lvasquez does not exist (check mode)
+- name: Ensure user lvasquez does not exist
   infra.quay_configuration.quay_user:
     username: lvasquez
     email: newemail@example.com
@@ -128,4 +128,68 @@
   ansible.builtin.assert:
     that: result['changed']
     fail_msg: The preceding task should have deleted the user account
+
+# Expected errors
+- name: ERROR EXPECTED Ensure the user exists (host does not exist)
+  infra.quay_configuration.quay_user:
+    username: lvasquez
+    email: newemail@example.com
+    state: present
+    quay_host: http://doesnotexists.local
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  ignore_errors: true
+  register: result
+
+- name: Ensure that the task failed (host does not exist)
+  ansible.builtin.assert:
+    that: result['failed']
+    fail_msg: The preceding task should have failed (host does not exist)
+
+- name: ERROR EXPECTED Ensure the user exists (cannot connect)
+  infra.quay_configuration.quay_user:
+    username: lvasquez
+    email: newemail@example.com
+    state: present
+    quay_host: https://locahost:12345
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  ignore_errors: true
+  register: result
+
+- name: Ensure that the task failed (cannot connect to the API)
+  ansible.builtin.assert:
+    that: result['failed']
+    fail_msg: The preceding task should have failed (cannot connect)
+
+- name: ERROR EXPECTED Ensure the user exists (SSL validation)
+  infra.quay_configuration.quay_user:
+    username: lvasquez
+    email: newemail@example.com
+    state: present
+    quay_host: "{{ quay_host }}"
+    quay_token: "{{ quay_token }}"
+  ignore_errors: true
+  register: result
+
+- name: Ensure that the task failed (SSL validation)
+  ansible.builtin.assert:
+    that: result['failed']
+    fail_msg: The preceding task should have failed (SSL validation)
+
+- name: ERROR EXPECTED Ensure the user exists (credentials)
+  infra.quay_configuration.quay_user:
+    username: lvasquez
+    email: newemail@example.com
+    state: present
+    quay_host: "{{ quay_host }}"
+    quay_token: "AABBCCDDEEFFGGHH"
+    validate_certs: false
+  ignore_errors: true
+  register: result
+
+- name: Ensure that the task failed (wrong credentials)
+  ansible.builtin.assert:
+    that: result['failed']
+    fail_msg: The preceding task should have failed (wrong credentials)
 ...

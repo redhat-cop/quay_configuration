@@ -33,8 +33,13 @@ options:
   name:
     description:
       - Name of the existing repository for which the mirror parameters are
-        configured. The format for the name is C(namespace)/C(shortname). The
-        namespace can only be an organization namespace.
+        configured. The format for the name is C(namespace)/C(shortname).The
+        namespace can be an organization or your personal namespace.
+      - If you omit the namespace part in the name, then the module looks for
+        the repository in your personal namespace.
+      - You can manage mirrors for repositories in your personal
+        namespace, but not in the personal namespace of other users. The token
+        you use in O(quay_token) determines the user account you are using.
     required: true
     type: str
   is_enabled:
@@ -235,6 +240,18 @@ def main():
         module.fail_json(
             msg="The {namespace} namespace does not exist.".format(namespace=namespace)
         )
+    # Make sure that the current user is the owner of that namespace
+    if (
+        not namespace_details.get("is_organization")
+        and namespace_details.get("name") != my_name
+    ):
+        if my_name:
+            msg = "You ({user}) are not the owner of {namespace}'s namespace.".format(
+                user=my_name, namespace=namespace
+            )
+        else:
+            msg = "You cannot access {namespace}'s namespace.".format(namespace=namespace)
+        module.fail_json(msg=msg)
 
     full_repo_name = "{namespace}/{repository}".format(
         namespace=namespace, repository=repo_shortname
