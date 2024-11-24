@@ -68,7 +68,7 @@ options:
         C(w) for weeks. For example, C(8h) for eight hours.
       - 86400 (one day) by default.
     type: str
-    default: 86400
+    default: "86400"
   state:
     description:
       - If V(absent), then the module removes the proxy cache configuration.
