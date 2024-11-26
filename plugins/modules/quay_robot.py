@@ -38,7 +38,7 @@ options:
   name:
     description:
       - Name of the robot account to create or remove, in the format
-        C(namespace)+C(shortname). The namespace can be an organization or a
+        C(namespace)+C(shortname). The namespace can be an organization or your
         personal namespace.
       - The short name (the part after the C(+) sign) must be in lowercase,
         must not contain white spaces, must not start by a digit, and must be
@@ -55,6 +55,34 @@ options:
       - Description of the robot account. You cannot update the description
         of existing robot accounts.
     type: str
+  federations:
+    description:
+      - Federation configurations, which enable keyless authentication with
+        robot accounts.
+      - Robot account federations require Quay version 3.13 or later.
+    type: list
+    elements: dict
+    suboptions:
+      issuer:
+        description:
+          - OpenID Connect (OIDC) issuer URL.
+        required: true
+        type: str
+      subject:
+        description:
+          - OpenID Connect (OIDC) subject.
+        required: true
+        type: str
+  append:
+    description:
+      - If V(true), then add the robot account federation configurations
+        defined in O(federations).
+      - If V(false), then the module sets the federation configurations
+        specified in O(federations), removing all others federation
+        configurations.
+      - Robot account federations require Quay version 3.13 or later.
+    type: bool
+    default: true
   state:
     description:
       - If V(absent), then the module deletes the robot account.
@@ -68,6 +96,8 @@ options:
 notes:
   - The token that you provide in O(quay_token) must have the "Administer
     Organization" and "Administer User" permissions.
+  - The O(federations) and O(append) parameters require Quay version 3.13 or
+    later.
 attributes:
   check_mode:
     support: full
@@ -113,6 +143,18 @@ EXAMPLES = r"""
     state: absent
     quay_host: https://quay.example.com
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
+
+# Robot account federations require Quay version 3.13 or later
+- name: Ensure the robot account production+robotprod2 exists, with federation
+  infra.quay_configuration.quay_robot:
+    name: production+robotprod2
+    description: Second robot account for production
+    federations:
+      - issuer: https://keycloak-auth-realm.quayadmin.org/realms/quayrealm
+        subject: 449e14f8-9eb5-4d59-a63e-b7a77c75f770
+    state: present
+    quay_host: https://quay.example.com
+    quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 """
 
 RETURN = r"""
@@ -131,6 +173,8 @@ token:
   type: str
   sample: IWG3K5EW92KZLPP42PMOKM5CJ2DEAQMSCU33A35NR7MNL21004NKVP3BECOWSQP2
 """
+
+import json
 
 from ..module_utils.api_module import APIModule
 
@@ -158,6 +202,15 @@ def main():
     argument_spec = dict(
         name=dict(required=True),
         description=dict(),
+        federations=dict(
+            type="list",
+            elements="dict",
+            options=dict(
+                issuer=dict(required=True),
+                subject=dict(required=True),
+            ),
+        ),
+        append=dict(type="bool", default=True),
         state=dict(choices=["present", "absent"], default="present"),
     )
 
@@ -167,53 +220,26 @@ def main():
     # Extract our parameters
     name = module.params.get("name")
     description = module.params.get("description")
+    federations = module.params.get("federations")
+    append = module.params.get("append")
     state = module.params.get("state")
 
-    my_name = module.who_am_i()
-    try:
-        namespace, robot_shortname = name.split("+", 1)
-    except ValueError:
-        # No namespace part in the robot account name. Therefore, the robot
-        # account is in the user's personal namespace
-        if my_name:
-            namespace = my_name
-            robot_shortname = name
-        else:
-            module.fail_json(
-                msg=(
-                    "The `name' parameter must include the"
-                    " organization: <organization>+{name}."
-                ).format(name=name)
-            )
-
-    # Check whether namespace exists (organization or user account)
-    namespace_details = module.get_namespace(namespace)
-    if not namespace_details:
-        if state == "absent":
-            module.exit_json(changed=False)
-        module.fail_json(
-            msg="The {namespace} namespace does not exist.".format(namespace=namespace)
-        )
-    # Make sure that the current user is the owner of that namespace
-    if (
-        not namespace_details.get("is_organization")
-        and namespace_details.get("name") != my_name
-    ):
-        if my_name:
-            msg = "You ({user}) are not the owner of {namespace}'s namespace.".format(
-                user=my_name, namespace=namespace
-            )
-        else:
-            msg = "You cannot access {namespace}'s namespace.".format(namespace=namespace)
-        module.fail_json(msg=msg)
+    namespace, robot_shortname, is_org = module.split_name("name", name, state, separator="+")
 
     # Build the API URL to access the robot object.
-    if namespace_details.get("is_organization"):
+    if is_org:
         path_url = "organization/{orgname}/robots/{robot_shortname}".format(
             orgname=namespace, robot_shortname=robot_shortname
         )
     else:
         path_url = "user/robots/{robot_shortname}".format(robot_shortname=robot_shortname)
+
+    fed_url = "{url}/federation".format(url=path_url)
+    fed_req_set = (
+        set([(f.get("issuer"), f.get("subject")) for f in federations])
+        if federations
+        else set()
+    )
 
     # Get the robot account details.
     #
@@ -247,15 +273,51 @@ def main():
         module.delete(robot_details, "robot account", name, path_url)
 
     if robot_details:
-        exit_module(module, False, robot_details)
+        # GET /api/v1/organization/{orgname}/robots/{robot_shortname}/federation
+        # [
+        #   {
+        #     "issuer": "https://keycloak-realm.quayadmin.org/realms/quayrealm",
+        #     "subject": "449e14f8-9eb5-4d59-a63e-b7a77c75f770"
+        #   }
+        # ]
+        fed_details = module.get_object_path(fed_url)
+        fed_curr_set = (
+            set([(f.get("issuer"), f.get("subject")) for f in fed_details])
+            if fed_details
+            else set()
+        )
+        fed_to_add = fed_req_set - fed_curr_set
+
+        if federations is None or fed_req_set == fed_curr_set or (append and not fed_to_add):
+            exit_module(module, False, robot_details)
+
+        if append:
+            new_fields = [
+                {"issuer": f[0], "subject": f[1], "isExpanded": False}
+                for f in fed_req_set | fed_curr_set
+            ]
+        else:
+            new_fields = [
+                {"issuer": f[0], "subject": f[1], "isExpanded": False} for f in fed_req_set
+            ]
+        data = json.dumps(new_fields).encode()
+        module.create("robot account federation", name, fed_url, data, auto_exit=False)
+        exit_module(module, True, robot_details)
 
     # Prepare the data that gets set for create
     new_fields = {}
     if description:
         new_fields["description"] = description
 
-    data = module.unconditional_update("robot account", name, path_url, new_fields)
-    exit_module(module, True, data)
+    robot_data = module.unconditional_update("robot account", name, path_url, new_fields)
+    if federations:
+        new_fields = [
+            {"issuer": f.get("issuer"), "subject": f.get("subject"), "isExpanded": False}
+            for f in federations
+        ]
+        data = json.dumps(new_fields).encode()
+        module.create("robot account federation", name, fed_url, data, auto_exit=False)
+    exit_module(module, True, robot_data)
 
 
 if __name__ == "__main__":

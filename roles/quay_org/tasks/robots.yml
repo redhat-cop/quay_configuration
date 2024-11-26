@@ -4,6 +4,8 @@
     name: "{{ item['name'] if '+' in item['name']
       else quay_org_name + '+' + item['name'] }}"
     description: "{{ item['description'] | default(omit) }}"
+    federations: "{{ item['federations'] | default(omit) }}"
+    append: false
     state: present
     quay_token: "{{ quay_org_token | default(omit) }}"
     quay_username: "{{ quay_org_username | default(omit) }}"

@@ -22,8 +22,8 @@
     repository: "{{ quay_org_name }}/{{ item[0]['name'] }}"
     method: "{{ item[1]['method'] }}"
     value: "{{ item[1]['value'] }}"
-    tag_pattern: "{{ item[1]['tag_pattern']  | default(omit) }}"
-    tag_pattern_matches: "{{ item[1]['tag_pattern_matches']  | default(omit) }}"
+    tag_pattern: "{{ item[1]['tag_pattern'] | default(omit) }}"
+    tag_pattern_matches: "{{ item[1]['tag_pattern_matches'] | default(omit) }}"
     state: present
     quay_token: "{{ quay_org_token | default(omit) }}"
     quay_username: "{{ quay_org_username | default(omit) }}"

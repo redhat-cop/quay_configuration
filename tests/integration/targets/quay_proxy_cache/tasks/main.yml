@@ -17,9 +17,9 @@
   infra.quay_configuration.quay_proxy_cache:
     organization: ansibletestorg
     registry: quay.io/projectquay
-    expiration: 172800
+    expiration: 2d
     insecure: true
-    # Non-existing fake user
+    # Nonexisting fake user
     username: cwade16324
     password: My53cr3Tpa55
     state: present
@@ -33,13 +33,29 @@
     that: result['changed']
     fail_msg: The preceding task should have changed something
 
+- name: Ensure proxy cache configuration exists (no change)
+  infra.quay_configuration.quay_proxy_cache:
+    organization: ansibletestorg
+    registry: quay.io/projectquay
+    expiration: 48h
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  register: result
+
+- name: Ensure that the task did not change anything
+  ansible.builtin.assert:
+    that: not result['changed']
+    fail_msg: The preceding task should not have changed anything
+
 - name: Ensure proxy cache configuration exists (2)
   infra.quay_configuration.quay_proxy_cache:
     organization: ansibletestorg
     registry: quay.io/projectquay
-    expiration: 172800
+    expiration: 48h
     insecure: false
-    # Non-existing fake user
+    # Nonexisting fake user
     username: cwade16324
     password: My53cr3Tpa55
     state: present

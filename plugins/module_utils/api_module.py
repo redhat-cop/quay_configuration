@@ -1214,6 +1214,72 @@ class APIModule(AnsibleModule):
             return user_details
         return None
 
+    def split_name(self, parameter_name, value, state, separator="/"):
+        """Split the namespace and the base name from a full name.
+
+        :param parameter_name: The name of the parameter being parsed. Used
+                               only to display in the error message.
+        :type parameter_name: str
+        :param value: The value to split. Usually a namespace and a repository
+                      (``production/smallimage`` for example), or a robot
+                      account (``production+myrobot`` for example)
+        :type value: str
+        :param state: Whether it is a create/update (``present``) operation, or
+                      a delete (``absent``) operation.
+        :type state: str
+        :param separator: The separator character between the namespace and the
+                          object.
+        :type separator: str
+
+        :return: A list. The first item is the namespace, which can be a
+                 personal namespace. The second item in the object name in the
+                 namespace (usually a repository name or a robot account name).
+                 The last item is a Boolean that indicates if the namespace is
+                 an organization (``True``), or a personal namespace
+                 (``False``).
+        :rtype: list
+        """
+        # Extract namespace and name from the parameter
+        my_name = self.who_am_i()
+        try:
+            namespace, shortname = value.split(separator, 1)
+        except ValueError:
+            # No namespace part in the name. Therefore, use the user's personal
+            # namespace
+            if my_name:
+                namespace = my_name
+                shortname = value
+            else:
+                self.fail_json(
+                    msg=(
+                        "The `{param}' parameter must include the"
+                        " organization: <organization>{sep}{name}."
+                    ).format(param=parameter_name, sep=separator, name=value)
+                )
+
+        # Check whether namespace exists (organization or user account)
+        namespace_details = self.get_namespace(namespace)
+        if not namespace_details:
+            if state == "absent":
+                self.exit_json(changed=False)
+            self.fail_json(
+                msg="The {namespace} namespace does not exist.".format(namespace=namespace)
+            )
+        # Make sure that the current user is the owner of that namespace
+        if (
+            not namespace_details.get("is_organization")
+            and namespace_details.get("name") != my_name
+        ):
+            if my_name:
+                msg = "You ({user}) are not the owner of {namespace}'s namespace.".format(
+                    user=my_name, namespace=namespace
+                )
+            else:
+                msg = "You cannot access {namespace}'s namespace.".format(namespace=namespace)
+            self.fail_json(msg=msg)
+
+        return (namespace, shortname, namespace_details.get("is_organization", False))
+
     def get_tags(self, namespace, repository, tag=None, digest=None, only_active_tags=True):
         """Return the list of tags for the given repository.
 
@@ -1418,6 +1484,51 @@ class APIModule(AnsibleModule):
                 tag_pattern_matches if tag_pattern_matches is not None else True
             )
         return data
+
+    def str_period_to_second(self, parameter_name, value):
+        """Convert a period string into seconds.
+
+        :param parameter_name: The name of the parameter being parsed. Used
+                               only to display in the error message.
+        :type parameter_name: str
+        :param value: The value to convert into seconds. The value accepts
+                      the ``s``, ``m``, ``h``, ``d``, and ``w`` suffixes, or no
+                      suffix, and can contain spaces.
+                      Parsing is case-insensitive.
+        :type value: str
+
+        :return: The session token.
+        :rtype: int
+        """
+        try:
+            return int(value)
+        except ValueError:
+            # Second
+            m = re.match(r"\s*(\d+)\s*s", value, re.IGNORECASE)
+            if m:
+                return int(m.group(1))
+            # Minute
+            m = re.match(r"\s*(\d+)\s*m", value, re.IGNORECASE)
+            if m:
+                return int(m.group(1)) * 60
+            # Hour
+            m = re.match(r"\s*(\d+)\s*h", value, re.IGNORECASE)
+            if m:
+                return int(m.group(1)) * 60 * 60
+            # Day
+            m = re.match(r"\s*(\d+)\s*d", value, re.IGNORECASE)
+            if m:
+                return int(m.group(1)) * 60 * 60 * 24
+            # Week
+            m = re.match(r"\s*(\d+)\s*w", value, re.IGNORECASE)
+            if m:
+                return int(m.group(1)) * 60 * 60 * 24 * 7
+        self.fail_json(
+            msg=(
+                "Wrong format for the `{param}' parameter: {value} is not an"
+                " integer followed by the s, m, h, d, or w suffix."
+            ).format(param=parameter_name, value=value)
+        )
 
 
 class APIModuleNoAuth(APIModule):

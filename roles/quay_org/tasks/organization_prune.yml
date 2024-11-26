@@ -4,8 +4,8 @@
     namespace: "{{ quay_org_name }}"
     method: "{{ item['method'] }}"
     value: "{{ item['value'] }}"
-    tag_pattern: "{{ item['tag_pattern']  | default(omit) }}"
-    tag_pattern_matches: "{{ item['tag_pattern_matches']  | default(omit) }}"
+    tag_pattern: "{{ item['tag_pattern'] | default(omit) }}"
+    tag_pattern_matches: "{{ item['tag_pattern_matches'] | default(omit) }}"
     state: present
     quay_token: "{{ quay_org_token | default(omit) }}"
     quay_username: "{{ quay_org_username | default(omit) }}"

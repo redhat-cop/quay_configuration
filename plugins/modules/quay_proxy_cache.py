@@ -58,14 +58,16 @@ options:
     description:
       - Whether to allow insecure connections to the remote registry.
       - If V(true), then the module does not validate SSL certificates.
+      - V(false) by default.
     type: bool
-    default: false
   expiration:
     description:
       - Tag expiration in seconds for cached images.
+      - The O(expiration) parameter accepts a time unit as a suffix;
+        C(s) for seconds, C(m) for minutes, C(h) for hours, C(d) for days, and
+        C(w) for weeks. For example, C(8h) for eight hours.
       - 86400 (one day) by default.
-    type: int
-    default: 86400
+    type: str
   state:
     description:
       - If V(absent), then the module removes the proxy cache configuration.
@@ -107,7 +109,7 @@ EXAMPLES = r"""
     registry: quay.io/prodimgs
     username: cwade
     password: My53cr3Tpa55
-    expiration: 172800
+    expiration: 48h
     state: present
     quay_host: https://quay.example.com
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
@@ -131,8 +133,8 @@ def main():
         registry=dict(default="quay.io"),
         username=dict(),
         password=dict(no_log=True),
-        insecure=dict(type="bool", default=False),
-        expiration=dict(type="int", default=86400),
+        insecure=dict(type="bool"),
+        expiration=dict(type="str"),
         state=dict(choices=["present", "absent"], default="present"),
     )
 
@@ -147,6 +149,13 @@ def main():
     insecure = module.params.get("insecure")
     expiration = module.params.get("expiration")
     state = module.params.get("state")
+
+    # Verify that the expiration is valid and convert it to an integer (seconds)
+    s_expiration = (
+        module.str_period_to_second("expiration", expiration)
+        if expiration is not None
+        else 86400
+    )
 
     # Get the organization details from the given name.
     #
@@ -239,10 +248,31 @@ def main():
         "organization/{orgname}/proxycache", orgname=organization
     )
 
+    if state == "absent":
+        if not cache_details or not cache_details.get("upstream_registry"):
+            module.exit_json(changed=False)
+        module.delete(
+            cache_details,
+            "proxy cache",
+            organization,
+            "organization/{orgname}/proxycache",
+            orgname=organization,
+        )
+
+    if (
+        cache_details
+        and username is None
+        and password is None
+        and registry == cache_details.get("upstream_registry")
+        and (insecure is None or insecure == cache_details.get("insecure"))
+        and (expiration is None or s_expiration == cache_details.get("expiration_s"))
+    ):
+        module.exit_json(changed=False)
+
     # Always remove the proxy cache configuration, because the configuration
     # cannot be updated (an error is received if you try to set a configuration
     # when one already exists)
-    upd = module.delete(
+    module.delete(
         cache_details,
         "proxy cache",
         organization,
@@ -251,14 +281,11 @@ def main():
         orgname=organization,
     )
 
-    if state == "absent":
-        module.exit_json(changed=upd)
-
     # Prepare the data that gets set for create
     new_fields = {
         "org_name": organization,
-        "expiration_s": int(expiration),
-        "insecure": insecure,
+        "expiration_s": s_expiration,
+        "insecure": insecure if insecure is not None else False,
         "upstream_registry": registry,
         "upstream_registry_username": username if username else None,
         "upstream_registry_password": password if password else None,

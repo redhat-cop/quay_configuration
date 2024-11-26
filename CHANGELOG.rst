@@ -4,6 +4,19 @@ Quay Container Registry Collection Release Notes
 
 .. contents:: Topics
 
+v2.5.0
+======
+
+Release Summary
+---------------
+
+Support configuring keyless authentications with robot accounts.
+
+Minor Changes
+-------------
+
+- Add the ``federations`` option to the ``infra.quay_configuration.quay_robot`` module. With this option, you can configure keyless authentications with robot accounts (Quay 3.13 and later)
+
 v2.4.0
 ======
 

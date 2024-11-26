@@ -127,8 +127,11 @@ argument_specs:
       quay_org_cache_expiration:
         description:
           - Tag expiration in seconds for cached images.
+          - The O(quay_org_cache_expiration) parameter accepts a time unit as a
+            suffix; C(s) for seconds, C(m) for minutes, C(h) for hours, C(d)
+            for days, and C(w) for weeks. For example, C(8h) for eight hours.
           - 86400 (one day) by default.
-        type: int
+        type: str
         default: 86400
       quay_org_quota:
         description:
@@ -239,6 +242,24 @@ argument_specs:
               - Description of the robot account. You cannot update the
                 description of existing robot accounts.
             type: str
+          federations:
+            description:
+              - Federation configurations, which enable keyless authentication
+                with robot accounts.
+              - Robot account federations require Quay version 3.13 or later.
+            type: list
+            elements: dict
+            options:
+              issuer:
+                description:
+                  - OpenID Connect (OIDC) issuer URL.
+                required: true
+                type: str
+              subject:
+                description:
+                  - OpenID Connect (OIDC) subject.
+                required: true
+                type: str
       quay_org_teams:
         description:
           - List of teams to create in the organization.

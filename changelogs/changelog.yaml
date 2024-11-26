@@ -273,3 +273,13 @@ releases:
       name: quay_repository_prune
       namespace: ''
     release_date: '2024-11-23'
+  2.5.0:
+    changes:
+      minor_changes:
+      - Add the ``federations`` option to the ``infra.quay_configuration.quay_robot``
+        module. With this option, you can configure keyless authentications with robot
+        accounts (Quay 3.13 and later)
+      release_summary: Support configuring keyless authentications with robot accounts.
+    fragments:
+    - 17-v2.5.0-summary.yml
+    release_date: '2024-11-26'

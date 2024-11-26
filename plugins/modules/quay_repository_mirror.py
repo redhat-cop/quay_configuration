@@ -33,8 +33,13 @@ options:
   name:
     description:
       - Name of the existing repository for which the mirror parameters are
-        configured. The format for the name is C(namespace)/C(shortname). The
-        namespace can only be an organization namespace.
+        configured. The format for the name is C(namespace)/C(shortname).The
+        namespace can be an organization or your personal namespace.
+      - If you omit the namespace part in the name, then the module looks for
+        the repository in your personal namespace.
+      - You can manage mirrors for repositories in your personal
+        namespace, but not in the personal namespace of other users. The token
+        you use in O(quay_token) determines the user account you are using.
     required: true
     type: str
   is_enabled:
@@ -46,7 +51,7 @@ options:
     description:
       - Path to the remote container repository to synchronize, such as
         quay.io/projectquay/quay for example.
-      - That parameter is required when creating the mirroring configuration.
+      - This parameter is required when creating the mirroring configuration.
     type: str
   external_registry_username:
     description:
@@ -59,8 +64,11 @@ options:
   sync_interval:
     description:
       - Synchronization interval for this repository mirror in seconds.
+      - The O(sync_interval) parameter accepts a time unit as a suffix;
+        C(s) for seconds, C(m) for minutes, C(h) for hours, C(d) for days, and
+        C(w) for weeks. For example, C(8h) for eight hours.
       - 86400 (one day) by default.
-    type: int
+    type: str
   sync_start_date:
     description:
       - The date and time at which the first synchronization should be
@@ -75,7 +83,7 @@ options:
   robot_username:
     description:
       - Username of the robot account that is used for synchronization.
-      - That parameter is required when creating the mirroring configuration.
+      - This parameter is required when creating the mirroring configuration.
     type: str
   image_tags:
     description:
@@ -186,7 +194,7 @@ def main():
         external_registry_password=dict(no_log=True),
         verify_tls=dict(type="bool"),
         image_tags=dict(type="list", elements="str"),
-        sync_interval=dict(type="int"),
+        sync_interval=dict(type="str"),
         sync_start_date=dict(),
         http_proxy=dict(),
         https_proxy=dict(),
@@ -212,30 +220,14 @@ def main():
     https_proxy = module.params.get("https_proxy")
     no_proxy = module.params.get("no_proxy")
 
-    my_name = module.who_am_i()
-    try:
-        namespace, repo_shortname = name.split("/", 1)
-    except ValueError:
-        # No namespace part in the repository name. Therefore, the repository
-        # is in the user's personal namespace
-        if my_name:
-            namespace = my_name
-            repo_shortname = name
-        else:
-            module.fail_json(
-                msg=(
-                    "The `name' parameter must include the"
-                    " organization: <organization>/{name}."
-                ).format(name=name)
-            )
+    # Verify that the interval is valid and convert it to an integer (seconds)
+    s_interval = (
+        module.str_period_to_second("sync_interval", sync_interval)
+        if sync_interval is not None
+        else 86400
+    )
 
-    # Check whether namespace exists (organization or user account)
-    namespace_details = module.get_namespace(namespace)
-    if not namespace_details:
-        module.fail_json(
-            msg="The {namespace} namespace does not exist.".format(namespace=namespace)
-        )
-
+    namespace, repo_shortname, _not_used = module.split_name("name", name, "present")
     full_repo_name = "{namespace}/{repository}".format(
         namespace=namespace, repository=repo_shortname
     )
@@ -299,7 +291,7 @@ def main():
             "robot_username": robot_username,
             "external_reference": external_reference,
             "root_rule": {"rule_kind": "tag_glob_csv", "rule_value": image_tags},
-            "sync_interval": int(sync_interval) if sync_interval is not None else 86400,
+            "sync_interval": s_interval,
             "sync_start_date": (
                 sync_start_date
                 if sync_start_date
@@ -350,7 +342,7 @@ def main():
     if sync_start_date is not None:
         new_fields["sync_start_date"] = sync_start_date
     if sync_interval is not None:
-        new_fields["sync_interval"] = int(sync_interval)
+        new_fields["sync_interval"] = s_interval
     if robot_username is not None:
         new_fields["robot_username"] = robot_username
     if external_reference is not None:

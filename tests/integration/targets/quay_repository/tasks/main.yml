@@ -1,4 +1,34 @@
 ---
+- name: ERROR EXPECTED Access to another user namespace
+  infra.quay_configuration.quay_repository:
+    name: ansibletestuser1/ansibletestrepo1
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  ignore_errors: true
+  register: result
+
+- name: Ensure that the task failed
+  ansible.builtin.assert:
+    that: result['failed']
+    fail_msg: The preceding task should have failed (not allowed)
+
+- name: ERROR EXPECTED Nonexisting namespace
+  infra.quay_configuration.quay_repository:
+    name: doesnotexist/ansibletestrepo1
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  ignore_errors: true
+  register: result
+
+- name: Ensure that the task failed
+  ansible.builtin.assert:
+    that: result['failed']
+    fail_msg: The preceding task should have failed (nonexisting namespace)
+
 - name: Ensure repository ansibletestrepo1 exists
   infra.quay_configuration.quay_repository:
     name: ansibletestorg/ansibletestrepo1

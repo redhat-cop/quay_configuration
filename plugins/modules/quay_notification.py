@@ -34,9 +34,12 @@ options:
     description:
       - Name of the repository which contains the notifications to manage. The
         format for the name is C(namespace)/C(shortname). The namespace can be
-        an organization or a personal namespace.
+        an organization or your personal namespace.
       - If you omit the namespace part in the name, then the module looks for
         the repository in your personal namespace.
+      - You can manage notifications for repositories in your personal
+        namespace, but not in the personal namespace of other users. The token
+        you use in O(quay_token) determines the user account you are using.
     required: true
     type: str
   title:
@@ -427,33 +430,7 @@ def main():
     vulnerability_level = module.params.get("vulnerability_level")
     image_expiry_days = module.params.get("image_expiry_days")
 
-    # Extract namespace and repository from the repository parameter
-    my_name = module.who_am_i()
-    try:
-        namespace, repo_shortname = repository.split("/", 1)
-    except ValueError:
-        # No namespace part in the repository name. Therefore, the repository
-        # is in the user's personal namespace
-        if my_name:
-            namespace = my_name
-            repo_shortname = repository
-        else:
-            module.fail_json(
-                msg=(
-                    "The `repository' parameter must include the"
-                    " organization: <organization>/{name}."
-                ).format(name=repository)
-            )
-
-    # Check whether namespace exists (organization or user account)
-    namespace_details = module.get_namespace(namespace)
-    if not namespace_details:
-        if state == "absent":
-            module.exit_json(changed=False)
-        module.fail_json(
-            msg="The {namespace} namespace does not exist.".format(namespace=namespace)
-        )
-
+    namespace, repo_shortname, _not_used = module.split_name("repository", repository, state)
     full_repo_name = "{namespace}/{repository}".format(
         namespace=namespace, repository=repo_shortname
     )

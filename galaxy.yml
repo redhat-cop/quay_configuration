@@ -1,7 +1,7 @@
 ---
 namespace: infra
 name: quay_configuration
-version: 2.4.0
+version: 2.5.0
 readme: README.md
 authors:
   - Hervé Quatremain <herve.quatremain@redhat.com>
