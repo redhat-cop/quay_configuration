@@ -7,6 +7,12 @@
     quay_host: "{{ quay_url }}"
     quay_token: "{{ quay_token }}"
     validate_certs: false
+  register: result
+
+- name: Ensure that the task did change something
+  ansible.builtin.assert:
+    that: result['changed']
+    fail_msg: The preceding task should have changed something
 
 - name: Ensure robot account testrobot1 exists (no change)
   infra.quay_configuration.quay_robot:
@@ -29,6 +35,12 @@
     quay_host: "{{ quay_url }}"
     quay_token: "{{ quay_token }}"
     validate_certs: false
+  register: result
+
+- name: Ensure that the task did change something
+  ansible.builtin.assert:
+    that: result['changed']
+    fail_msg: The preceding task should have changed something
 
 - name: Ensure robot account testrobot3 does not exist (no change)
   infra.quay_configuration.quay_robot:
@@ -52,6 +64,12 @@
     quay_host: "{{ quay_url }}"
     quay_token: "{{ quay_token }}"
     validate_certs: false
+  register: result
+
+- name: Ensure that the task did change something
+  ansible.builtin.assert:
+    that: result['changed']
+    fail_msg: The preceding task should have changed something
 
 - name: Ensure robot account testrobot4 is removed from my namespace
   infra.quay_configuration.quay_robot:
@@ -61,6 +79,12 @@
     quay_host: "{{ quay_url }}"
     quay_token: "{{ quay_token }}"
     validate_certs: false
+  register: result
+
+- name: Ensure that the task did change something
+  ansible.builtin.assert:
+    that: result['changed']
+    fail_msg: The preceding task should have changed something
 
 - name: Non-existing organization and state=absent (no change)
   infra.quay_configuration.quay_robot:
@@ -76,6 +100,130 @@
     that: not result['changed']
     fail_msg: The preceding task should not have changed anything
 
+# Federation
+- name: Ensure robot account testrobot3 exists with federation
+  infra.quay_configuration.quay_robot:
+    name: ansibletestorg+testrobot3
+    federations:
+      - issuer: https://keycloak-realm.quayadmin.org/realms/quayrealm
+        subject: 449e14f8-9eb5-4d59-a63e-b7a77c75f770
+      - issuer: https://keycloak-realm.quayadmin.org/realms/quayrealm2
+        subject: 449e14f8-9eb5-4d59-a63e-b7a77c75f771
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  register: result
+
+- name: Ensure that the task did change something
+  ansible.builtin.assert:
+    that: result['changed']
+    fail_msg: The preceding task should have changed something
+
+- name: Ensure robot account testrobot3 exists (no change) 1
+  infra.quay_configuration.quay_robot:
+    name: ansibletestorg+testrobot3
+    federations:
+      - issuer: https://keycloak-realm.quayadmin.org/realms/quayrealm2
+        subject: 449e14f8-9eb5-4d59-a63e-b7a77c75f771
+      - issuer: https://keycloak-realm.quayadmin.org/realms/quayrealm
+        subject: 449e14f8-9eb5-4d59-a63e-b7a77c75f770
+    append: false
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  register: result
+
+- name: Ensure that the task did not change anything
+  ansible.builtin.assert:
+    that: not result['changed']
+    fail_msg: The preceding task should not have changed anything
+
+- name: Ensure robot account testrobot3 exists (no change) 2
+  infra.quay_configuration.quay_robot:
+    name: ansibletestorg+testrobot3
+    append: false
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  register: result
+
+- name: Ensure that the task did not change anything
+  ansible.builtin.assert:
+    that: not result['changed']
+    fail_msg: The preceding task should not have changed anything
+
+- name: Ensure robot account testrobot3 exists (no change) 3
+  infra.quay_configuration.quay_robot:
+    name: ansibletestorg+testrobot3
+    federations: []
+    append: true
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  register: result
+
+- name: Ensure that the task did not change anything
+  ansible.builtin.assert:
+    that: not result['changed']
+    fail_msg: The preceding task should not have changed anything
+
+- name: Ensure robot account testrobot3 exists with no federation
+  infra.quay_configuration.quay_robot:
+    name: ansibletestorg+testrobot3
+    federations: []
+    append: false
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  register: result
+
+- name: Ensure that the task did change something
+  ansible.builtin.assert:
+    that: result['changed']
+    fail_msg: The preceding task should have changed something
+
+- name: Ensure robot account testrobot3 is updated 1
+  infra.quay_configuration.quay_robot:
+    name: ansibletestorg+testrobot3
+    federations:
+      - issuer: https://keycloak-realm.quayadmin.org/realms/quayrealm
+        subject: 449e14f8-9eb5-4d59-a63e-b7a77c75f770
+    append: false
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  register: result
+
+- name: Ensure that the task did change something
+  ansible.builtin.assert:
+    that: result['changed']
+    fail_msg: The preceding task should have changed something
+
+- name: Ensure robot account testrobot3 is updated 2
+  infra.quay_configuration.quay_robot:
+    name: ansibletestorg+testrobot3
+    federations:
+      - issuer: https://keycloak-realm.quayadmin.org/realms/quayrealm4
+        subject: 449e14f8-9eb5-4d59-a63e-b7a77c75f774
+    append: false
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  register: result
+
+- name: Ensure that the task did change something
+  ansible.builtin.assert:
+    that: result['changed']
+    fail_msg: The preceding task should have changed something
+
+# Errors
 - name: ERROR EXPECTED Non-existing organization
   infra.quay_configuration.quay_robot:
     name: nonexisting+testrobot5
@@ -144,4 +292,5 @@
   loop:
     - ansibletestorg+testrobot1
     - ansibletestorg+testrobot2
+    - ansibletestorg+testrobot3
 ...

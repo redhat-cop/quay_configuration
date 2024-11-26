@@ -51,7 +51,7 @@ options:
     description:
       - Path to the remote container repository to synchronize, such as
         quay.io/projectquay/quay for example.
-      - That parameter is required when creating the mirroring configuration.
+      - This parameter is required when creating the mirroring configuration.
     type: str
   external_registry_username:
     description:
@@ -83,7 +83,7 @@ options:
   robot_username:
     description:
       - Username of the robot account that is used for synchronization.
-      - That parameter is required when creating the mirroring configuration.
+      - This parameter is required when creating the mirroring configuration.
     type: str
   image_tags:
     description:

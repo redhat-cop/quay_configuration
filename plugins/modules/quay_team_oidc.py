@@ -33,8 +33,8 @@ options:
   name:
     description:
       - Name of the team to synchronize or unsynchronize with an OIDC group.
-        That team must exist (see the M(infra.quay_configuration.quay_team) module to
-        create it).
+        This team must exist (see the M(infra.quay_configuration.quay_team)
+        module to create it).
     required: true
     type: str
   organization:
