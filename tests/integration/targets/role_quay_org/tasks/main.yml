@@ -31,6 +31,9 @@
     quay_org_robots:
       - name: testrobot1
         description: Test robot 1
+        federations:
+          - issuer: https://keycloak-realm.quayadmin.org/realms/quayrealm
+            subject: 449e14f8-9eb5-4d59-a63e-b7a77c75f770
     quay_org_teams:
       - name: testteam1
         description: Test team 1

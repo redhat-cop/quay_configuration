@@ -124,8 +124,8 @@
   infra.quay_configuration.quay_robot:
     name: ansibletestorg+testrobot3
     federations:
-      - issuer: https://keycloak-realm.quayadmin.org/realms/quayrealm2
-        subject: 449e14f8-9eb5-4d59-a63e-b7a77c75f771
+      - subject: 449e14f8-9eb5-4d59-a63e-b7a77c75f771
+        issuer: https://keycloak-realm.quayadmin.org/realms/quayrealm2
       - issuer: https://keycloak-realm.quayadmin.org/realms/quayrealm
         subject: 449e14f8-9eb5-4d59-a63e-b7a77c75f770
     append: false
