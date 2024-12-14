@@ -273,6 +273,9 @@ def main():
         module.delete(robot_details, "robot account", name, path_url)
 
     if robot_details:
+        if federations is None:
+            exit_module(module, False, robot_details)
+
         # GET /api/v1/organization/{orgname}/robots/{robot_shortname}/federation
         # [
         #   {
@@ -288,7 +291,7 @@ def main():
         )
         fed_to_add = fed_req_set - fed_curr_set
 
-        if federations is None or fed_req_set == fed_curr_set or (append and not fed_to_add):
+        if fed_req_set == fed_curr_set or (append and not fed_to_add):
             exit_module(module, False, robot_details)
 
         if append:

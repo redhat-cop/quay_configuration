@@ -4,6 +4,14 @@ Quay Container Registry Collection Release Notes
 
 .. contents:: Topics
 
+v2.5.1
+======
+
+Bugfixes
+--------
+
+- quay_robot - updating robot accounts failed for Quay versions prior to 3.13 because of the robot account federations feature introduced in this version of Quay. Fix now skip federation configuration if the ``federations`` parameter is not specified (https://github.com/redhat-cop/quay_configuration/issues/18).
+
 v2.5.0
 ======
 

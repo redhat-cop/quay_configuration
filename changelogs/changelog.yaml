@@ -283,3 +283,13 @@ releases:
     fragments:
     - 17-v2.5.0-summary.yml
     release_date: '2024-11-26'
+  2.5.1:
+    changes:
+      bugfixes:
+      - quay_robot - updating robot accounts failed for Quay versions prior to 3.13
+        because of the robot account federations feature introduced in this version
+        of Quay. Fix now skip federation configuration if the ``federations`` parameter
+        is not specified (https://github.com/redhat-cop/quay_configuration/issues/18).
+    fragments:
+    - 19-v2.5.1-summary.yml
+    release_date: '2024-12-14'
