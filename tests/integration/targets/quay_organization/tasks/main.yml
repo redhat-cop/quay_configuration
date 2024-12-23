@@ -2,7 +2,6 @@
 - name: ERROR EXPECTED Wrong time machine expiration
   infra.quay_configuration.quay_organization:
     name: testansible1
-    email: testansible1@example.com
     time_machine_expiration: 12345s
     state: present
     quay_host: "{{ quay_url }}"
