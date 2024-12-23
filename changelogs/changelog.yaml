@@ -293,3 +293,14 @@ releases:
     fragments:
     - 19-v2.5.1-summary.yml
     release_date: '2024-12-14'
+  2.5.2:
+    changes:
+      bugfixes:
+      - quay_organization - setting the ``time_machine_expiration`` parameter failed
+        when Quay administrators customize the ``TAG_EXPIRATION_OPTIONS`` option in
+        ``config.yaml``. Fix now allows any value for the ``time_machine_expiration``
+        parameter. The Quay API might return an error if the given value is not defined
+        in the ``TAG_EXPIRATION_OPTIONS`` option.
+    fragments:
+    - 20-v2.5.2-summary.yml
+    release_date: '2024-12-23'

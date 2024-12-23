@@ -4,6 +4,14 @@ Quay Container Registry Collection Release Notes
 
 .. contents:: Topics
 
+v2.5.2
+======
+
+Bugfixes
+--------
+
+- quay_organization - setting the ``time_machine_expiration`` parameter failed when Quay administrators customize the ``TAG_EXPIRATION_OPTIONS`` option in ``config.yaml``. Fix now allows any value for the ``time_machine_expiration`` parameter. The Quay API might return an error if the given value is not defined in the ``TAG_EXPIRATION_OPTIONS`` option.
+
 v2.5.1
 ======
 
