@@ -56,10 +56,16 @@ options:
     type: str
   time_machine_expiration:
     description:
-      - The amount of time, after a tag is deleted, that the tag is accessible
+      - After a tag is deleted, the amount of time in seconds it is kept
         in time machine before being garbage collected.
+      - The O(time_machine_expiration) parameter accepts a time unit as a
+        suffix; C(s) for seconds, C(m) for minutes, C(h) for hours, C(d) for
+        days, and C(w) for weeks. For example, C(2w) for two weeks.
+      - Only the expiration times that your Quay administrator declares in
+        C(config.yaml) with the C(TAG_EXPIRATION_OPTIONS) option are allowed.
+        The default value for the C(TAG_EXPIRATION_OPTIONS) option is C(0s),
+        C(1d), C(1w), C(2w), and C(4w).
     type: str
-    choices: [0s, 1d, 7d, 14d, 1month]
   state:
     description:
       - If V(absent), then the module deletes the organization.
@@ -72,6 +78,9 @@ options:
     default: present
     choices: [absent, present]
 notes:
+  - To use the O(time_machine_expiration) parameter, your Quay administrator
+    must set C(FEATURE_CHANGE_TAG_EXPIRATION) to C(true), which is the default,
+    in C(config.yaml).
   - The token that you provide in O(quay_token) must have the "Administer
     Organization" and "Administer User" permissions.
   - To rename organizations, the token must also have the "Super User Access"
@@ -96,7 +105,7 @@ EXAMPLES = r"""
   infra.quay_configuration.quay_organization:
     name: production
     email: prodlist@example.com
-    time_machine_expiration: "7d"
+    time_machine_expiration: 1w
     state: present
     quay_host: https://quay.example.com
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
@@ -125,18 +134,11 @@ from ..module_utils.api_module import APIModule
 
 
 def main():
-    tm_allowed_values = {
-        "0s": 0,
-        "1d": 86400,
-        "7d": 604800,
-        "14d": 1209600,
-        "1month": 2419200,
-    }
     argument_spec = dict(
         name=dict(required=True),
         new_name=dict(),
         email=dict(),
-        time_machine_expiration=dict(choices=list(tm_allowed_values.keys())),
+        time_machine_expiration=dict(),
         auto_prune_method=dict(
             choices=["none", "tags", "date"],
             removed_at_date="2025-12-01",
@@ -199,6 +201,14 @@ def main():
                 ).format(auto_prune_value=auto_prune_value)
             )
         auto_prune_value = value
+
+    # Verify that the expiration is valid and convert it to an integer (seconds)
+    # Even though the user might provide a valid value, the API will rejects the
+    # value if it is not in the TAG_EXPIRATION_OPTIONS array (in config.yaml)
+    if tm_expiration:
+        tag_expiration_s = module.str_period_to_second(
+            "time_machine_expiration", tm_expiration
+        )
 
     org_details = module.get_organization(name)
     new_org_details = module.get_organization(new_name) if new_name else None
@@ -286,7 +296,7 @@ def main():
     # Prepare the data that gets set for update
     new_fields = {}
     if tm_expiration:
-        new_fields["tag_expiration_s"] = tm_allowed_values[tm_expiration]
+        new_fields["tag_expiration_s"] = tag_expiration_s
     if email:
         new_fields["email"] = email
 
