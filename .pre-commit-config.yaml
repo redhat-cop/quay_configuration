@@ -14,7 +14,7 @@ repos:
         types:
           - yaml
   - repo: https://github.com/ansible/ansible-lint.git
-    rev: v24.12.2
+    rev: v25.1.0
     hooks:
       - id: ansible-lint
         types:
