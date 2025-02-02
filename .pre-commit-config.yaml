@@ -14,13 +14,13 @@ repos:
         types:
           - yaml
   - repo: https://github.com/ansible/ansible-lint.git
-    rev: v25.1.0
+    rev: v25.1.1
     hooks:
       - id: ansible-lint
         types:
           - yaml
   - repo: https://github.com/psf/black
-    rev: 24.10.0
+    rev: 25.1.0
     hooks:
       - id: black
         name: black
