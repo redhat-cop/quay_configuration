@@ -1,0 +1,20 @@
+---
+name: Update pre-commit Configuration
+
+on:
+  schedule:
+    - cron: "4 2 * * 0"
+
+jobs:
+  pre-commit:
+    permissions:
+      contents: write
+      pull-requests: write
+      repository-projects: write
+    uses:
+      redhat-cop/ansible_collections_tooling/.github/workflows/update_precommit.yml@main
+    with:
+      github_actor: ${{ github.actor }}
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
+...

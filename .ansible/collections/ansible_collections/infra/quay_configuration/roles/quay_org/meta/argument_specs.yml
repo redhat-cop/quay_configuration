@@ -1,0 +1,514 @@
+---
+argument_specs:
+  main:
+    author:
+      - Hervé Quatremain <herve.quatremain@redhat.com>
+    short_description: >
+      Create and configure a Quay Container Registry organization
+    description:
+      - Create an organization and configure it with robot accounts, teams,
+        default permissions, OAuth applications, and repositories.
+    options:
+      quay_org_host:
+        description:
+          - URL for accessing the API. U(https://quay.example.com:8443) for
+            example.
+          - If you do not set the parameter, then the role uses the
+            E(QUAY_HOST) environment variable.
+          - If you do no set the environment variable either, then the role
+            uses the U(http://127.0.0.1) URL.
+        type: str
+        default: http://127.0.0.1
+      quay_org_validate_certs:
+        description:
+          - Whether to allow insecure connections to the API.
+          - If V(false), then the role does not validate SSL certificates.
+          - If you do not set the parameter, then the role tries the
+            E(QUAY_VERIFY_SSL) environment variable (V(yes), V(1), and V(True)
+            mean true, and V(no), V(0), V(False), and no value mean false).
+        type: bool
+        default: true
+      quay_org_token:
+        description:
+          - OAuth access token for authenticating against the API.
+          - If you do not set the parameter, then the role tries the
+            E(QUAY_TOKEN) environment variable.
+          - Mutually exclusive with O(quay_org_username) and
+            O(quay_org_password).
+        type: str
+      quay_org_username:
+        description:
+          - The username to use for authenticating against the API.
+          - If you do not set the parameter, then the role tries the
+            E(QUAY_USERNAME) environment variable.
+          - If you set O(quay_org_username), then you also need to set
+            O(quay_org_password).
+          - Mutually exclusive with O(quay_org_token).
+        type: str
+      quay_org_password:
+        description:
+          - The password to use for authenticating against the API.
+          - If you do not set the parameter, then the role tries the
+            E(QUAY_PASSWORD) environment variable.
+          - If you set O(quay_org_password), then you also need to set
+            O(quay_org_username).
+          - Mutually exclusive with O(quay_org_token).
+        type: str
+      quay_org_name:
+        description:
+          - Name of the organization to create.
+          - The name must be in lowercase and must not contain white spaces.
+            For compatibility with earlier versions of Docker, the name must
+            be at least four characters long.
+        required: true
+        type: str
+      quay_org_email:
+        description:
+          - Email address to associate with the new organization.
+          - If your Quay administrator has enabled the mailing capability of
+            your Quay installation (C(FEATURE_MAILING) to C(true) in
+            C(config.yaml)), then this O(quay_org_email) parameter is mandatory.
+          - You cannot use the same address as your account email.
+        type: str
+      quay_org_auto_prune_method:
+        description:
+          - The O(quay_org_auto_prune_method) parameter is deprecated and will
+            be removed in future versions of the collection.
+            Use the O(quay_org_prune) parameter instead.
+          - Method to use for the auto-pruning tags policy.
+          - If V(none), then the module ensures that no policy is in place. The
+            tags are not pruned.
+          - If V(tags), then the policy keeps only the number of tags that you
+            specify in O(quay_org_auto_prune_value).
+          - If V(date), then the policy deletes the tags older than the time
+            period that you specify in O(quay_org_auto_prune_value).
+          - O(quay_org_auto_prune_value) is required when
+            O(quay_org_auto_prune_method) is V(tags) or V(date).
+        type: str
+        choices: [none, tags, date]
+      quay_org_auto_prune_value:
+        description:
+          - The O(quay_org_auto_prune_value) parameter is deprecated and will
+            be removed in future versions of the collection.
+            Use the O(quay_org_prune) parameter instead.
+          - Number of tags to keep when O(quay_org_auto_prune_value) is V(tags).
+            The value must be 1 or more.
+          - Period of time when O(quay_org_auto_prune_value) is V(date). The
+            value must be 1 or more, and must be followed by a suffix; s (for
+            second), m (for minute), h (for hour), d (for day), or w (for week).
+          - O(quay_org_auto_prune_method) is required when
+            O(quay_org_auto_prune_value) is set.
+        type: str
+      quay_org_cache_registry:
+        description:
+          - Name of the remote registry to use for the proxy cache
+            configuration.
+          - Add a namespace to the remote registry to restrict caching images
+            from that namespace.
+        type: str
+      quay_org_cache_username:
+        description:
+          - Name of the user account to use for authenticating with the
+            remote registry.
+          - Do not set a username for a public access to the remote registry.
+        type: str
+      quay_org_cache_password:
+        description:
+          - User's password as a clear string for authenticating with the
+            remote registry.
+          - Do not set a password for a public access to the remote registry.
+        type: str
+      quay_org_cache_insecure:
+        description:
+          - Whether to allow insecure connections to the remote registry.
+          - If V(true), then the module does not validate SSL certificates.
+        type: bool
+        default: false
+      quay_org_cache_expiration:
+        description:
+          - Tag expiration in seconds for cached images.
+          - The O(quay_org_cache_expiration) parameter accepts a time unit as a
+            suffix; C(s) for seconds, C(m) for minutes, C(h) for hours, C(d)
+            for days, and C(w) for weeks. For example, C(8h) for eight hours.
+          - 86400 (one day) by default.
+        type: str
+        default: 86400
+      quay_org_quota:
+        description:
+          - Quota that Quay uses to compute the warning and reject limits for
+            the organization.
+          - You specify a quota in bytes, but you can also use the K[i]B,
+            M[i]B, G[i]B, or T[i]B suffixes.
+        type: str
+      quay_org_warning_pct:
+        description:
+          - Warning (soft) limit as a percentage of the quota.
+          - Quay notifies the users when the limit is reached.
+          - Set O(quay_org_warning_pct) to V(0) to remove the warning limit.
+        type: int
+      quay_org_reject_pct:
+        description:
+          - Reject (hard) limit as a percentage of the quota.
+          - Quay terminates any image push in the organization when the limit
+            is reached.
+          - Set O(quay_org_reject_pct) to V(0) to remove the reject limit.
+        type: int
+      quay_org_prune:
+        description:
+          - List of auto-pruning tags policies for the organization.
+        type: list
+        elements: dict
+        options:
+          method:
+            description:
+              - Method to use for the auto-pruning tags policy.
+              - If V(tags), then the policy keeps only the number of tags that
+                you specify in O(quay_org_prune[].value).
+              - If V(date), then the policy deletes the tags older than the
+                time period that you specify in O(quay_org_prune[].value).
+            required: true
+            type: str
+            choices: [tags, date]
+          value:
+            description:
+              - Number of tags to keep when O(quay_org_prune[].method) is
+                V(tags). The value must be 1 or more.
+              - Period of time when O(quay_org_prune[].method) is V(date). The
+                value must be 1 or more, and must be followed by a suffix;
+                s (for second), m (for minute), h (for hour), d (for day),
+                or w (for week).
+            required: true
+            type: str
+          tag_pattern:
+            description:
+              - Regular expression to select the tags to process.
+              - If you do not set the parameter, then Quay processes all the
+                tags.
+            type: str
+          tag_pattern_matches:
+            description:
+              - If V(true), then Quay processes the tags matching the
+                O(quay_org_prune[].tag_pattern) parameter.
+              - If V(false), then Quay excludes the tags matching the
+                O(quay_org_prune[].tag_pattern) parameter.
+              - V(true) by default.
+            type: bool
+            default: true
+      quay_org_users:
+        description:
+          - List of user account to create.
+        type: list
+        elements: dict
+        options:
+          username:
+            description:
+              - Name of the user account to create.
+            required: true
+            type: str
+          email:
+            description:
+              - User's email address.
+              - If your Quay administrator has enabled the mailing capability
+                of your Quay installation (C(FEATURE_MAILING) to C(true) in
+                C(config.yaml)), then this O(quay_org_users[].email) parameter
+                is mandatory.
+            type: str
+          password:
+            description:
+              - User's password as a clear string.
+              - The password must be at least eight characters long and must
+                not contain white spaces.
+            type: str
+      quay_org_robots:
+        description:
+          - List of robot accounts to create for the organization.
+        type: list
+        elements: dict
+        options:
+          name:
+            description:
+              - Name of the robot account to create. Because the role creates
+                the robot account in the organization it manages, you do not
+                need to use the format C(organization)+C(shortname), although
+                the role accepts that format. You can simply specify the robot
+                account name without the C(organization)+ prefix.
+              - The name must be in lowercase, must not contain white spaces,
+                must not start by a digit, and must be at least two characters
+                long.
+            required: true
+            type: str
+          description:
+            description:
+              - Description of the robot account. You cannot update the
+                description of existing robot accounts.
+            type: str
+          federations:
+            description:
+              - Federation configurations, which enable keyless authentication
+                with robot accounts.
+              - Robot account federations require Quay version 3.13 or later.
+            type: list
+            elements: dict
+            options:
+              issuer:
+                description:
+                  - OpenID Connect (OIDC) issuer URL.
+                required: true
+                type: str
+              subject:
+                description:
+                  - OpenID Connect (OIDC) subject.
+                required: true
+                type: str
+      quay_org_teams:
+        description:
+          - List of teams to create in the organization.
+        type: list
+        elements: dict
+        options:
+          name:
+            description:
+              - Name of the team to create.
+              - The name must be in lowercase, must not contain white spaces,
+                must not start by a digit, and must be at least two characters
+                long.
+            required: true
+            type: str
+          role:
+            description:
+              - Role of the team within the organization. If not set, then the
+                new team has the V(member) role.
+            type: str
+            choices: [member, creator, admin]
+          description:
+            description:
+              - Text in Markdown format that describes the team.
+            type: str
+          members:
+            description:
+              - List of the user or robot accounts in the team. Use the syntax
+                C(organization)+C(robotshortname) for robot accounts.
+              - If the team is synchronized with an LDAP or OIDC group (see the
+                M(infra.quay_configuration.quay_team_ldap) and
+                M(infra.quay_configuration.quay_team_oidc) modules), then you
+                can only add or remove robot accounts.
+            type: list
+            elements: str
+      quay_org_default_perms:
+        description:
+          - Create default repository permissions for the organization.
+          - The permissions you define with this parameter apply when a
+            user creates a new repository in the organization.
+        type: list
+        elements: dict
+        options:
+          name:
+            description:
+              - Name of the user or team that gets permission to new created
+                repositories in the organization.
+              - For robot accounts use the C(organization)+C(shortrobotname)
+                format.
+            required: true
+            type: str
+          type:
+            description:
+              - Type of the account defined in the
+                O(quay_org_default_perms[].name) parameter. Choose V(user)
+                for both user and robot accounts.
+            type: str
+            choices: [user, team]
+            default: user
+          role:
+            description:
+              - Permission that Quay automatically grants to the user or team
+                on new created repositories in the organization.
+              - If you do not provide that parameter, then the role uses
+                V(read) by default.
+            type: str
+            choices: [read, write, admin]
+          creator:
+            description:
+              - Quay applies the default permission only when repositories are
+                created by the user that you define in
+                O(quay_org_default_perms[].creator).
+              - By default, if you do not provide that
+                O(quay_org_default_perms[].creator) parameter,
+                then Quay applies the default permission to all new
+                repositories, whoever creates them.
+              - You cannot use robot accounts or teams for the
+                O(quay_org_default_perms[].creator)
+                parameter. You can only use regular user accounts.
+            type: str
+      quay_org_applications:
+        description:
+          - Create applications in the organization.
+        type: list
+        elements: dict
+        options:
+          name:
+            description:
+              - Name of the application to create in the organization.
+                Application names must be at least two characters long.
+            required: true
+            type: str
+          description:
+            description:
+              - Description for the application.
+            type: str
+          application_uri:
+            description:
+              - URL to the application home page.
+            type: str
+          redirect_uri:
+            description:
+              - Prefix of the application's OAuth redirection/callback URLs.
+            type: str
+          avatar_email:
+            description:
+              - Email address that represents the avatar for the application.
+            type: str
+      quay_org_repositories:
+        description:
+          - Create repositories in the organization.
+        type: list
+        elements: dict
+        options:
+          name:
+            description:
+              - Name of the repository to create in the organization. The name
+                must be in lowercase and must not contain white spaces.
+            required: true
+            type: str
+          visibility:
+            description:
+              - If V(public), then anyone can pull images from the repository.
+              - If V(private), then nobody can access the repository and you
+                need to explicitly grant access to users, robots, and teams.
+              - If you do not set the parameter when you create a repository,
+                then it defaults to V(private).
+            type: str
+            choices: [public, private]
+          auto_prune_method:
+            description:
+              - The O(quay_org_repositories[].auto_prune_method) parameter is
+                deprecated and will be removed in future versions of the
+                collection. Use the O(quay_org_repositories[].prune) parameter
+                instead.
+              - Method to use for the auto-pruning tags policy.
+              - If V(none), then the module ensures that no policy is in place.
+                The tags are not pruned.
+              - If V(tags), then the policy keeps only the number of tags that
+                you specify in O(quay_org_repositories[].auto_prune_value).
+              - If V(date), then the policy deletes the tags older than the
+                time period that you specify in
+                O(quay_org_repositories[].auto_prune_value).
+              - O(quay_org_repositories[].auto_prune_value) is required when
+                O(quay_org_repositories[].auto_prune_method) is
+                V(tags) or V(date).
+            type: str
+            choices: [none, tags, date]
+          auto_prune_value:
+            description:
+              - The O(quay_org_repositories[].auto_prune_value) parameter is
+                deprecated and will be removed in future versions of the
+                collection. Use the O(quay_org_repositories[].prune) parameter
+                instead.
+              - Number of tags to keep when
+                O(quay_org_repositories[].auto_prune_method) is V(tags).
+                The value must be 1 or more.
+              - Period of time when
+                O(quay_org_repositories[].auto_prune_method) is V(date). The
+                value must be 1 or more, and must be followed by a suffix;
+                s (for second), m (for minute), h (for hour), d (for day), or
+                w (for week).
+              - O(quay_org_repositories[].auto_prune_method) is required when
+                O(quay_org_repositories[].auto_prune_value) is set.
+            type: str
+          description:
+            description:
+              - Text in Markdown format that describes the repository.
+            type: str
+          perms:
+            description:
+              - User, robot, and team permissions to associate with the
+                repository.
+            type: list
+            elements: dict
+            options:
+              type:
+                description:
+                  - Specifies the type of the account. Choose V(user) for both
+                    user and robot accounts.
+                type: str
+                choices: [user, team]
+                default: user
+              name:
+                description:
+                  - Name of the account. The format for robot accounts is
+                    C(organization)+C(shortrobotname).
+                required: true
+                type: str
+              role:
+                description:
+                  - Type of permission to grant.
+                type: str
+                choices: [read, write, admin]
+                default: read
+          repo_state:
+            description:
+              - If V(NORMAL), then the repository is in the default state
+                (read/write).
+              - If V(READ_ONLY), then the repository is read-only.
+              - If V(MIRROR), then the repository is a mirror and you can
+                configure it by using the
+                M(infra.quay_configuration.quay_repository_mirror) module.
+              - You must enable the mirroring capability of your Quay
+                installation to use this O(quay_org_repositories[].repo_state)
+                parameter.
+            type: str
+            choices: [NORMAL, READ_ONLY, MIRROR]
+          prune:
+            description:
+              - List of auto-pruning tags policies for the repositiory.
+            type: list
+            elements: dict
+            options:
+              method:
+                description:
+                  - Method to use for the auto-pruning tags policy.
+                  - If V(tags), then the policy keeps only the number of tags
+                    that you specify in
+                    O(quay_org_repositories[].prune[].value).
+                  - If V(date), then the policy deletes the tags older than the
+                    time period that you specify in
+                    O(quay_org_repositories[].prune[].value).
+                required: true
+                type: str
+                choices: [tags, date]
+              value:
+                description:
+                  - Number of tags to keep when
+                    O(quay_org_repositories[].prune[].method) is V(tags). The
+                    value must be 1 or more.
+                  - Period of time when
+                    O(quay_org_repositories[].prune[].method) is V(date). The
+                    value must be 1 or more, and must be followed by a suffix;
+                    s (for second), m (for minute), h (for hour), d (for day),
+                    or w (for week).
+                required: true
+                type: str
+              tag_pattern:
+                description:
+                  - Regular expression to select the tags to process.
+                  - If you do not set the parameter, then Quay processes all
+                    the tags.
+                type: str
+              tag_pattern_matches:
+                description:
+                  - If V(true), then Quay processes the tags matching the
+                    O(quay_org_repositories[].prune[].tag_pattern) parameter.
+                  - If V(false), then Quay excludes the tags matching the
+                    O(quay_org_repositories[].prune[].tag_pattern) parameter.
+                  - V(true) by default.
+                type: bool
+                default: true

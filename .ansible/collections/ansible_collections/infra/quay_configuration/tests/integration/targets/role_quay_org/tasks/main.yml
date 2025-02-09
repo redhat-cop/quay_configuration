@@ -1,0 +1,158 @@
+---
+- name: Ensure the organization exists
+  ansible.builtin.include_role:
+    name: infra.quay_configuration.quay_org
+  vars:
+    quay_org_host: "{{ quay_url }}"
+    quay_org_token: "{{ quay_token }}"
+    quay_org_validate_certs: false
+    quay_org_name: testorg
+    quay_org_email: testorg@example.com
+    quay_org_cache_registry: public.ecr.aws/nginx
+    quay_org_cache_expiration: 4d
+    quay_org_cache_insecure: true
+    quay_org_quota: 1.5 TiB
+    quay_org_warning_pct: 90
+    quay_org_reject_pct: 97
+    quay_org_prune:
+      - method: tags
+        value: 25
+      - method: date
+        value: 10w
+        tag_pattern: nightly
+    quay_org_users:
+      - username: testuser1
+        email: testuser1@example.com
+        password: vs9mrD55NP
+      - username: testuser2
+        email: testuser2@example.com
+      - username: testuser3
+        email: testuser3@example.com
+    quay_org_robots:
+      - name: testrobot1
+        description: Test robot 1
+        federations:
+          - issuer: https://keycloak-realm.quayadmin.org/realms/quayrealm
+            subject: 449e14f8-9eb5-4d59-a63e-b7a77c75f770
+    quay_org_teams:
+      - name: testteam1
+        description: Test team 1
+        role: member
+        members:
+          - testuser1
+      - name: testteam2
+        role: creator
+        members:
+          - testuser2
+          - testorg+testrobot1
+    quay_org_default_perms:
+      - name: testteam2
+        type: team
+        role: write
+      - name: testuser1
+        type: user
+        role: read
+        creator: testuser3
+    quay_org_applications:
+      - name: testapp1
+        description: Test application 1
+      - name: testapp2
+        application_uri: http://test.example.com
+        redirect_uri: http://test.example.com
+        avatar_email: http://test.example.com
+    quay_org_repositories:
+      - name: testrepo1
+        description: Test repository 1
+        visibility: public
+        perms:
+          - name: testteam1
+            type: team
+            role: read
+      - name: testrepo2
+        prune:
+          - method: tags
+            value: 5
+            tag_pattern: prod
+            tag_pattern_matches: false
+          - method: date
+            value: 5w
+
+# Cleanup (by using quay_username and quay_password for testing purpose)
+- name: Ensure repositories are removed
+  infra.quay_configuration.quay_repository:
+    name: "testorg/{{ item }}"
+    state: absent
+    quay_host: "{{ quay_url }}"
+    quay_username: "{{ admin_username }}"
+    quay_password: "{{ admin_password }}"
+    validate_certs: false
+  loop:
+    - testrepo1
+    - testrepo2
+
+- name: Ensure the applications are removed
+  infra.quay_configuration.quay_application:
+    organization: testorg
+    name: "{{ item }}"
+    state: absent
+    quay_host: "{{ quay_url }}"
+    quay_username: "{{ admin_username }}"
+    quay_password: "{{ admin_password }}"
+    validate_certs: false
+  loop:
+    - testapp1
+    - testapp2
+
+- name: Ensure the teams are removed
+  infra.quay_configuration.quay_team:
+    name: "{{ item }}"
+    organization: testorg
+    state: absent
+    quay_host: "{{ quay_url }}"
+    quay_username: "{{ admin_username }}"
+    quay_password: "{{ admin_password }}"
+    validate_certs: false
+  loop:
+    - testteam1
+    - testteam2
+
+- name: Ensure the robot accounts are removed
+  infra.quay_configuration.quay_robot:
+    name: testorg+testrobot1
+    state: absent
+    quay_host: "{{ quay_url }}"
+    quay_username: "{{ admin_username }}"
+    quay_password: "{{ admin_password }}"
+    validate_certs: false
+
+- name: Ensure user accounts are removed
+  infra.quay_configuration.quay_user:
+    username: "{{ item }}"
+    state: absent
+    quay_host: "{{ quay_url }}"
+    quay_username: "{{ admin_username }}"
+    quay_password: "{{ admin_password }}"
+    validate_certs: false
+  loop:
+    - testuser1
+    - testuser2
+    - testuser3
+
+- name: Ensure the proxy cache configuration is removed
+  infra.quay_configuration.quay_proxy_cache:
+    organization: testorg
+    state: absent
+    quay_host: "{{ quay_url }}"
+    quay_username: "{{ admin_username }}"
+    quay_password: "{{ admin_password }}"
+    validate_certs: false
+
+- name: Ensure the organization is removed
+  infra.quay_configuration.quay_organization:
+    name: testorg
+    state: absent
+    quay_host: "{{ quay_url }}"
+    quay_username: "{{ admin_username }}"
+    quay_password: "{{ admin_password }}"
+    validate_certs: false
+...

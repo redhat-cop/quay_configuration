@@ -1,0 +1,100 @@
+---
+# Expecting group1 and group2 from OIDC
+
+# Supporting team
+- name: Ensure team testteam1 exists
+  infra.quay_configuration.quay_team:
+    name: testteam1
+    organization: ansibletestorg
+    state: present
+    role: creator
+    members:
+      - ansibletestorg+ansibletestrobot1
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+- name: Ensure team testteam1 is not synchronized (no change)
+  infra.quay_configuration.quay_team_oidc:
+    name: testteam1
+    organization: ansibletestorg
+    sync: false
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  register: result
+
+- name: Ensure that the task did not change anything
+  ansible.builtin.assert:
+    that: not result['changed']
+    fail_msg: The preceding task should not have changed anything
+
+- name: Ensure team testteam1 is synchronized (group1)
+  infra.quay_configuration.quay_team_oidc:
+    name: testteam1
+    organization: ansibletestorg
+    sync: true
+    group_name: group1
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+- name: Ensure team testteam1 is synchronized (no change)
+  infra.quay_configuration.quay_team_oidc:
+    name: testteam1
+    organization: ansibletestorg
+    group_name: group1
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  register: result
+
+- name: Ensure that the task did not change anything
+  ansible.builtin.assert:
+    that: not result['changed']
+    fail_msg: The preceding task should not have changed anything
+
+- name: Ensure team testteam1 synchronization is updated (group2)
+  infra.quay_configuration.quay_team_oidc:
+    name: testteam1
+    organization: ansibletestorg
+    sync: true
+    group_name: group2
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+- name: Ensure team testteam1 is not synchronized anymore
+  infra.quay_configuration.quay_team_oidc:
+    name: testteam1
+    organization: ansibletestorg
+    sync: false
+    group_name: group1
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+- name: Ensure team testteam1 is not synchronized anymore (no change)
+  infra.quay_configuration.quay_team_oidc:
+    name: testteam1
+    organization: ansibletestorg
+    sync: false
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  register: result
+
+- name: Ensure that the task did not change anything
+  ansible.builtin.assert:
+    that: not result['changed']
+    fail_msg: The preceding task should not have changed anything
+
+- name: Ensure the testteam1 team is removed
+  infra.quay_configuration.quay_team:
+    name: testteam1
+    organization: ansibletestorg
+    state: absent
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+...

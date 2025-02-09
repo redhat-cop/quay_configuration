@@ -1,0 +1,189 @@
+---
+- name: Ensure the application ansibletestapp1 exists
+  infra.quay_configuration.quay_application:
+    organization: ansibletestorg
+    name: ansibletestapp1
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+- name: Ensure the application ansibletestapp1 is updated
+  infra.quay_configuration.quay_application:
+    organization: ansibletestorg
+    name: ansibletestapp1
+    description: Application 1 description
+    application_uri: http://applicationuri.example.com
+    redirect_uri: http://redirecturi.example.com
+    avatar_email: avatarapp1@example.com
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+- name: Ensure the application ansibletestapp1 is updated (no change)
+  infra.quay_configuration.quay_application:
+    organization: ansibletestorg
+    name: ansibletestapp1
+    description: Application 1 description
+    application_uri: http://applicationuri.example.com
+    redirect_uri: http://redirecturi.example.com
+    avatar_email: avatarapp1@example.com
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  register: result
+
+- name: Ensure that the task did not change anything
+  ansible.builtin.assert:
+    that: not result['changed']
+    fail_msg: The preceding task should not have changed anything
+
+- name: Ensure the application ansibletestapp1 is updated 2 (no change)
+  infra.quay_configuration.quay_application:
+    organization: ansibletestorg
+    name: ansibletestapp1
+    avatar_email: avatarapp1@example.com
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  register: result
+
+- name: Ensure that the task did not change anything
+  ansible.builtin.assert:
+    that: not result['changed']
+    fail_msg: The preceding task should not have changed anything
+
+- name: Ensure the application ansibletestapp1 is updated 3
+  infra.quay_configuration.quay_application:
+    organization: ansibletestorg
+    name: ansibletestapp1
+    description: ""
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+- name: Ensure the application ansibletestapp1 is renamed (ansibletestapp2)
+  infra.quay_configuration.quay_application:
+    organization: ansibletestorg
+    name: ansibletestapp1
+    new_name: ansibletestapp2
+    description: "Renamed to ansibletestapp2"
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+- name: Ensure the application ansibletestapp1 does not exist (no change)
+  infra.quay_configuration.quay_application:
+    organization: ansibletestorg
+    name: ansibletestapp1
+    state: absent
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  register: result
+
+- name: Ensure that the task did not change anything
+  ansible.builtin.assert:
+    that: not result['changed']
+    fail_msg: The preceding task should not have changed anything
+
+- name: Ensure the application ansibletestapp3 exists (new name)
+  infra.quay_configuration.quay_application:
+    organization: ansibletestorg
+    name: doesnotexist
+    new_name: ansibletestapp3
+    description: "New ansibletestapp3 application"
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+- name: Non-existing organization and state=absent (no change)
+  infra.quay_configuration.quay_application:
+    organization: nonexisting
+    name: ansibletestapp1
+    state: absent
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  register: result
+
+- name: Ensure that the task did not change anything
+  ansible.builtin.assert:
+    that: not result['changed']
+    fail_msg: The preceding task should not have changed anything
+
+- name: ERROR EXPECTED Non-existing organization
+  infra.quay_configuration.quay_application:
+    organization: nonexisting
+    name: ansibletestapp1
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  ignore_errors: true
+  register: result
+
+- name: Ensure that the task failed
+  ansible.builtin.assert:
+    that: result['failed']
+    fail_msg: The preceding task should have failed (non-existing organization)
+
+- name: ERROR EXPECTED Already existing application
+  infra.quay_configuration.quay_application:
+    organization: ansibletestorg
+    name: ansibletestapp2
+    new_name: ansibletestapp3
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  ignore_errors: true
+  register: result
+
+- name: Ensure that the task failed
+  ansible.builtin.assert:
+    that: result['failed']
+    fail_msg: The preceding task should have failed (application exists)
+
+- name: Ensure the application ansibletestapp2 is updated (new_name)
+  infra.quay_configuration.quay_application:
+    organization: ansibletestorg
+    name: doesnotexist
+    new_name: ansibletestapp2
+    description: Application 2 description
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+- name: Ensure the application ansibletestapp3 is removed
+  infra.quay_configuration.quay_application:
+    organization: ansibletestorg
+    name: doesnotexist
+    new_name: ansibletestapp3
+    description: "New ansibletestapp3 application"
+    state: absent
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+- name: Ensure the applications are removed
+  infra.quay_configuration.quay_application:
+    organization: ansibletestorg
+    name: "{{ item }}"
+    description: "New ansibletestapp3 application"
+    state: absent
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  loop:
+    - ansibletestapp1
+    - ansibletestapp2
+    - ansibletestapp3
+...

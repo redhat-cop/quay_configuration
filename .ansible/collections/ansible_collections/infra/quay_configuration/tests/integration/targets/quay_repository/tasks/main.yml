@@ -1,0 +1,272 @@
+---
+- name: ERROR EXPECTED Access to another user namespace
+  infra.quay_configuration.quay_repository:
+    name: ansibletestuser1/ansibletestrepo1
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  ignore_errors: true
+  register: result
+
+- name: Ensure that the task failed
+  ansible.builtin.assert:
+    that: result['failed']
+    fail_msg: The preceding task should have failed (not allowed)
+
+- name: ERROR EXPECTED Nonexisting namespace
+  infra.quay_configuration.quay_repository:
+    name: doesnotexist/ansibletestrepo1
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  ignore_errors: true
+  register: result
+
+- name: Ensure that the task failed
+  ansible.builtin.assert:
+    that: result['failed']
+    fail_msg: The preceding task should have failed (nonexisting namespace)
+
+- name: Ensure repository ansibletestrepo1 exists
+  infra.quay_configuration.quay_repository:
+    name: ansibletestorg/ansibletestrepo1
+    visibility: private
+    description: |
+      # My first repository
+
+      * être ou ne pas être
+      * Testovací úložiště
+    perms:
+      - name: ansibletestuser1
+        type: user
+        role: write
+      - name: ansibletestteam1
+        type: team
+        role: admin
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+- name: Ensure repository ansibletestrepo1 is updated (no change)
+  infra.quay_configuration.quay_repository:
+    name: ansibletestorg/ansibletestrepo1
+    visibility: private
+    description: |
+      # My first repository
+
+      * être ou ne pas être
+      * Testovací úložiště
+    perms:
+      - name: ansibletestuser1
+        type: user
+        role: write
+      - name: ansibletestteam1
+        type: team
+        role: admin
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  register: result
+
+- name: Ensure that the task did not change anything
+  ansible.builtin.assert:
+    that: not result['changed']
+    fail_msg: The preceding task should not have changed anything
+
+- name: Ensure repository ansibletestrepo2 exists
+  infra.quay_configuration.quay_repository:
+    name: ansibletestorg/ansibletestrepo2
+    visibility: public
+    description: Test description
+    star: true
+    perms:
+      - name: ansibletestuser2
+        type: user
+        role: admin
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+- name: Ensure repository ansibletestrepo2 is updated
+  infra.quay_configuration.quay_repository:
+    name: ansibletestorg/ansibletestrepo2
+    visibility: public
+    description: ""
+    star: false
+    perms:
+      - name: ansibletestuser3
+        type: user
+        role: read
+      - name: ansibletestorg+ansibletestrobot1
+        type: user
+        role: admin
+    append: false
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+- name: Ensure repository ansibletestrepo3 exists (in admin)
+  infra.quay_configuration.quay_repository:
+    name: ansibletestrepo3
+    visibility: public
+    description: "In user namespace"
+    perms:
+      - name: ansibletestuser4
+        type: user
+        role: admin
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+- name: Ensure repository ansibletestrepo3 has no star (no change)
+  infra.quay_configuration.quay_repository:
+    name: ansibletestrepo3
+    star: false
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  register: result
+
+- name: Ensure that the task did not change anything
+  ansible.builtin.assert:
+    that: not result['changed']
+    fail_msg: The preceding task should not have changed anything
+
+- name: Ensure repository ansibletestrepo3 has a star
+  infra.quay_configuration.quay_repository:
+    name: ansibletestrepo3
+    star: true
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+- name: Ensure repository ansibletestrepo3 is removed (from admin)
+  infra.quay_configuration.quay_repository:
+    name: ansibletestrepo3
+    state: absent
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+- name: Ensure non-existing repository is deleted (no change)
+  infra.quay_configuration.quay_repository:
+    name: nonexistingorg/nonexistingrepo
+    state: absent
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  register: result
+
+- name: Ensure that the task did not change anything
+  ansible.builtin.assert:
+    that: not result['changed']
+    fail_msg: The preceding task should not have changed anything
+
+- name: Ensure repository ansibletestrepo4 exists
+  infra.quay_configuration.quay_repository:
+    name: ansibletestorg/ansibletestrepo4
+    auto_prune_method: date
+    auto_prune_value: 5d
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+- name: Ensure repository ansibletestrepo4 exists (no change 1)
+  infra.quay_configuration.quay_repository:
+    name: ansibletestorg/ansibletestrepo4
+    auto_prune_method: date
+    auto_prune_value: 5  d
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  register: result
+
+- name: Ensure that the task did not change anything
+  ansible.builtin.assert:
+    that: not result['changed']
+    fail_msg: The preceding task should not have changed anything
+
+- name: Ensure repository ansibletestrepo4 exists (no change 2)
+  infra.quay_configuration.quay_repository:
+    name: ansibletestorg/ansibletestrepo4
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  register: result
+
+- name: Ensure that the task did not change anything
+  ansible.builtin.assert:
+    that: not result['changed']
+    fail_msg: The preceding task should not have changed anything
+
+- name: Ensure repository ansibletestrepo4 auto-prunes tags by date
+  infra.quay_configuration.quay_repository:
+    name: ansibletestorg/ansibletestrepo4
+    auto_prune_method: date
+    auto_prune_value: 4w
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+- name: Ensure repository ansibletestrepo4 auto-prunes tags by number
+  infra.quay_configuration.quay_repository:
+    name: ansibletestorg/ansibletestrepo4
+    auto_prune_method: tags
+    auto_prune_value: 20
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+- name: Ensure repository ansibletestrepo4 does not auto-prune
+  infra.quay_configuration.quay_repository:
+    name: ansibletestorg/ansibletestrepo4
+    auto_prune_method: none
+    auto_prune_value: 20
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+- name: Ensure repository ansibletestrepo4 does not auto-prune (no change)
+  infra.quay_configuration.quay_repository:
+    name: ansibletestorg/ansibletestrepo4
+    auto_prune_method: none
+    auto_prune_value: 4d
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  register: result
+
+- name: Ensure that the task did not change anything
+  ansible.builtin.assert:
+    that: not result['changed']
+    fail_msg: The preceding task should not have changed anything
+
+- name: Ensure repositories are removed
+  infra.quay_configuration.quay_repository:
+    name: "ansibletestorg/{{ item }}"
+    state: absent
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  loop:
+    - ansibletestrepo1
+    - ansibletestrepo2
+    - ansibletestrepo3
+    - ansibletestrepo4
+...

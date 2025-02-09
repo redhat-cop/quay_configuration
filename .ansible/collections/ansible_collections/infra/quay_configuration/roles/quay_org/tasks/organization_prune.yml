@@ -1,0 +1,15 @@
+---
+- name: Ensure the auto-pruning policies for the organization exist
+  infra.quay_configuration.quay_organization_prune:
+    namespace: "{{ quay_org_name }}"
+    method: "{{ item['method'] }}"
+    value: "{{ item['value'] }}"
+    tag_pattern: "{{ item['tag_pattern'] | default(omit) }}"
+    tag_pattern_matches: "{{ item['tag_pattern_matches'] | default(omit) }}"
+    state: present
+    quay_token: "{{ quay_org_token | default(omit) }}"
+    quay_username: "{{ quay_org_username | default(omit) }}"
+    quay_password: "{{ quay_org_password | default(omit) }}"
+    quay_host: "{{ quay_org_host | default(omit) }}"
+    validate_certs: "{{ quay_org_validate_certs | default(omit) }}"
+  loop: "{{ quay_org_prune }}"

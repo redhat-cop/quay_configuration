@@ -1,0 +1,195 @@
+---
+# Check mode on object creation
+- name: Ensure user lvasquez exists (check mode)
+  infra.quay_configuration.quay_user:
+    username: lvasquez
+    email: lvasquez@example.com
+    password: vs9mrD55NP
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  check_mode: true
+  register: result
+
+- name: Ensure that the task did change something
+  ansible.builtin.assert:
+    that: result['changed']
+    fail_msg: The preceding task should have created the user account
+
+- name: Ensure user lvasquez exists
+  infra.quay_configuration.quay_user:
+    username: lvasquez
+    email: lvasquez@example.com
+    password: vs9mrD55NP
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  register: result
+
+- name: Ensure that the task did change something
+  ansible.builtin.assert:
+    that: result['changed']
+    fail_msg: The preceding task should have created the user account
+
+# Check mode on object update (no change)
+- name: Ensure user lvasquez exists (no change) (check mode)
+  infra.quay_configuration.quay_user:
+    username: lvasquez
+    email: lvasquez@example.com
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  check_mode: true
+  register: result
+
+- name: Ensure that the task did not change anything
+  ansible.builtin.assert:
+    that: not result['changed']
+    fail_msg: The preceding task should not have changed anything
+
+- name: Ensure user lvasquez exists (no change)
+  infra.quay_configuration.quay_user:
+    username: lvasquez
+    email: lvasquez@example.com
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  register: result
+
+- name: Ensure that the task did not change anything
+  ansible.builtin.assert:
+    that: not result['changed']
+    fail_msg: The preceding task should not have changed anything
+
+# Check mode on object update (with change)
+- name: Ensure user lvasquez is updated (check mode)
+  infra.quay_configuration.quay_user:
+    username: lvasquez
+    email: newemail@example.com
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  check_mode: true
+  register: result
+
+- name: Ensure that the task did change something
+  ansible.builtin.assert:
+    that: result['changed']
+    fail_msg: The preceding task should have updated the user email address
+
+- name: Ensure user lvasquez is updated
+  infra.quay_configuration.quay_user:
+    username: lvasquez
+    email: newemail@example.com
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  register: result
+
+- name: Ensure that the task did change something
+  ansible.builtin.assert:
+    that: result['changed']
+    fail_msg: The preceding task should have updated the user email address
+
+# Check mode on object deletion
+- name: Ensure user lvasquez does not exist (check mode)
+  infra.quay_configuration.quay_user:
+    username: lvasquez
+    email: newemail@example.com
+    state: absent
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  check_mode: true
+  register: result
+
+- name: Ensure that the task did change something
+  ansible.builtin.assert:
+    that: result['changed']
+    fail_msg: The preceding task should have deleted the user account
+
+- name: Ensure user lvasquez does not exist
+  infra.quay_configuration.quay_user:
+    username: lvasquez
+    email: newemail@example.com
+    state: absent
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  register: result
+
+- name: Ensure that the task did change something
+  ansible.builtin.assert:
+    that: result['changed']
+    fail_msg: The preceding task should have deleted the user account
+
+# Expected errors
+- name: ERROR EXPECTED Ensure the user exists (host does not exist)
+  infra.quay_configuration.quay_user:
+    username: lvasquez
+    email: newemail@example.com
+    state: present
+    quay_host: http://doesnotexists.local
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  ignore_errors: true
+  register: result
+
+- name: Ensure that the task failed (host does not exist)
+  ansible.builtin.assert:
+    that: result['failed']
+    fail_msg: The preceding task should have failed (host does not exist)
+
+- name: ERROR EXPECTED Ensure the user exists (cannot connect)
+  infra.quay_configuration.quay_user:
+    username: lvasquez
+    email: newemail@example.com
+    state: present
+    quay_host: https://locahost:12345
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  ignore_errors: true
+  register: result
+
+- name: Ensure that the task failed (cannot connect to the API)
+  ansible.builtin.assert:
+    that: result['failed']
+    fail_msg: The preceding task should have failed (cannot connect)
+
+- name: ERROR EXPECTED Ensure the user exists (SSL validation)
+  infra.quay_configuration.quay_user:
+    username: lvasquez
+    email: newemail@example.com
+    state: present
+    quay_host: "{{ quay_host }}"
+    quay_token: "{{ quay_token }}"
+  ignore_errors: true
+  register: result
+
+- name: Ensure that the task failed (SSL validation)
+  ansible.builtin.assert:
+    that: result['failed']
+    fail_msg: The preceding task should have failed (SSL validation)
+
+- name: ERROR EXPECTED Ensure the user exists (credentials)
+  infra.quay_configuration.quay_user:
+    username: lvasquez
+    email: newemail@example.com
+    state: present
+    quay_host: "{{ quay_host }}"
+    quay_token: "AABBCCDDEEFFGGHH"
+    validate_certs: false
+  ignore_errors: true
+  register: result
+
+- name: Ensure that the task failed (wrong credentials)
+  ansible.builtin.assert:
+    that: result['failed']
+    fail_msg: The preceding task should have failed (wrong credentials)
+...

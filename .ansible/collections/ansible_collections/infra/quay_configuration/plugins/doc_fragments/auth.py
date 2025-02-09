@@ -1,0 +1,61 @@
+# -*- coding: utf-8 -*-
+
+# Copyright: (c) 2021, 2022 Hervé Quatremain <herve.quatremain@redhat.com>
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+from __future__ import absolute_import, division, print_function
+
+__metaclass__ = type
+
+
+class ModuleDocFragment(object):
+    # Ansible Galaxy documentation fragment
+    DOCUMENTATION = r"""
+options:
+  quay_host:
+    description:
+      - URL for accessing the API. U(https://quay.example.com:8443) for example.
+      - If you do not set the parameter, then the module uses the E(QUAY_HOST)
+        environment variable.
+      - If you do no set the environment variable either, then the module uses
+        the U(http://127.0.0.1) URL.
+    type: str
+    default: http://127.0.0.1
+  validate_certs:
+    description:
+      - Whether to allow insecure connections to the API.
+      - If V(false), then the module does not validate SSL certificates.
+      - If you do not set the parameter, then the module tries the
+        E(QUAY_VERIFY_SSL) environment variable (V(yes), V(1), and V(True) mean
+        true, and V(no), V(0), V(False), and no value mean false).
+    type: bool
+    default: true
+    aliases: [verify_ssl]
+"""
+
+    LOGIN = r"""
+options:
+  quay_token:
+    description:
+      - OAuth access token for authenticating against the API.
+      - If you do not set the parameter, then the module tries the E(QUAY_TOKEN)
+        environment variable.
+      - Mutually exclusive with O(quay_username) and O(quay_password).
+    type: str
+  quay_username:
+    description:
+      - The username to use for authenticating against the API.
+      - If you do not set the parameter, then the module tries the
+        E(QUAY_USERNAME) environment variable.
+      - If you set O(quay_username), then you also need to set O(quay_password).
+      - Mutually exclusive with O(quay_token).
+    type: str
+  quay_password:
+    description:
+      - The password to use for authenticating against the API.
+      - If you do not set the parameter, then the module tries the
+        E(QUAY_PASSWORD) environment variable.
+      - If you set O(quay_password), then you also need to set O(quay_username).
+      - Mutually exclusive with O(quay_token).
+    type: str
+"""

@@ -1,0 +1,67 @@
+---
+- name: Testing the quay_org role
+  hosts: localhost
+  become: false
+  gather_facts: false
+
+  tasks:
+    - name: Ensure the organization exists
+      ansible.builtin.include_role:
+        name: infra.quay_configuration.quay_org
+      vars:
+        quay_org_host: https://quay.example.com
+        quay_org_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
+        quay_org_name: production
+        quay_org_email: production@example.com
+        quay_org_cache_registry: public.ecr.aws/nginx
+        quay_org_cache_expiration: 4d
+        quay_org_quota: 500 GiB
+        quay_org_warning_pct: 80
+        quay_org_reject_pct: 90
+        quay_org_prune:
+          - method: tags
+            value: 25
+          - method: date
+            value: 10w
+            tag_pattern: nightly
+        quay_org_users:
+          - username: lvasquez
+            email: lvasquez@example.com
+            password: vs9mrD55NP
+          - username: dwilde
+            email: dwilde@example.com
+        quay_org_robots:
+          - name: robotprod
+        quay_org_teams:
+          - name: qa
+            role: member
+            members:
+              - lvasquez
+          - name: ops
+            description: Operators
+            role: creator
+            members:
+              - dwilde
+              - production+robotprod
+        quay_org_default_perms:
+          - name: ops
+            type: team
+            role: write
+          - name: lvasquez
+            type: user
+            role: read
+        quay_org_applications:
+          - name: oauth_app
+        quay_org_repositories:
+          - name: small_image
+            visibility: public
+            perms:
+              - name: qa
+                type: team
+                role: read
+            prune:
+              - method: tags
+                value: 5
+                tag_pattern: nightly
+              - method: date
+                value: 5w

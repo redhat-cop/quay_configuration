@@ -1,0 +1,30 @@
+---
+extends: default
+
+ignore:
+  - .tox
+  - changelogs
+
+rules:
+  braces:
+    max-spaces-inside: 1
+    level: error
+  brackets:
+    max-spaces-inside: 1
+    level: error
+  line-length:
+    max: 80
+    allow-non-breakable-words: true
+    allow-non-breakable-inline-mappings: false
+  truthy:
+    allowed-values:
+      - 'on'
+      - 'true'
+      - 'false'
+  comments:
+    min-spaces-from-content: 1
+  comments-indentation: disable
+  octal-values:
+    forbid-implicit-octal: true
+    forbid-explicit-octal: true
+...

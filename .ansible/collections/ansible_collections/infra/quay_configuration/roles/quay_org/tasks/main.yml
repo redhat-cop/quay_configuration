@@ -1,0 +1,38 @@
+---
+- name: Ensure both token and username authentication are not configured
+  ansible.builtin.fail:
+    msg: >
+      quay_org_username/quay_org_password and quay_org_token
+      are mutually exclusive
+  when: quay_org_username is defined and quay_org_token is defined or
+    quay_org_password is defined and quay_org_token is defined
+
+- name: Ensure the user accounts exist
+  ansible.builtin.import_tasks: users.yml
+
+- name: Ensure the organization exists
+  ansible.builtin.import_tasks: organization.yml
+
+- name: Ensure the auto-pruning policies for the organization exist
+  ansible.builtin.import_tasks: organization_prune.yml
+
+- name: Ensure the proxy cache configuration exists
+  ansible.builtin.import_tasks: proxy_cache.yml
+
+- name: Ensure the robot accounts exist
+  ansible.builtin.import_tasks: robots.yml
+
+- name: Ensure the teams exist
+  ansible.builtin.import_tasks: teams.yml
+
+- name: Ensure the default permissions exist
+  ansible.builtin.import_tasks: default_perms.yml
+
+- name: Ensure the applications exist
+  ansible.builtin.import_tasks: applications.yml
+
+- name: Ensure the repositories exist
+  ansible.builtin.import_tasks: repositories.yml
+
+- name: Ensure the storage quota is set
+  ansible.builtin.import_tasks: quota.yml

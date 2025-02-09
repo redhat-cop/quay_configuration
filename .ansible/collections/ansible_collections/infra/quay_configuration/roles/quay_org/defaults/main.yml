@@ -1,0 +1,64 @@
+---
+# quay_org_host: https://quay.example.com
+# #quay_org_token and quay_org_username/quay_org_password are mutually exclusive
+# quay_org_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
+# quay_org_username: admin
+# quay_org_password: Sup3rS3cr37
+# quay_org_validate_certs: false
+# quay_org_name: production
+# quay_org_email: production@example.com
+# quay_org_cache_registry: quay.io/sclorg
+# quay_org_cache_insecure: false
+# quay_org_cache_username: ""
+# quay_org_cache_password: ""
+# quay_org_cache_expiration: 86400
+# quay_org_quota: 1.5 TiB
+# quay_org_warning_pct: 90
+# quay_org_reject_pct: 97
+# quay_org_prune:
+#   - method: tags
+#     value: 25
+#   - method: date
+#     value: 1w
+#     tag_pattern: nightly
+# quay_org_users:
+#   - username: lvasquez
+#     email: lvasquez@example.com
+#     password: vs9mrD55NP
+#   - username: dwilde
+#     email: dwilde@example.com
+# quay_org_robots:
+#   - name: robotprod
+#     description: Robot account for production
+# quay_org_teams:
+#   - name: qa
+#     role: member
+#     members:
+#       - lvasquez
+#   - name: ops
+#     description: Operators
+#     role: creator
+#     members:
+#       - dwilde
+#       - production+robotprod
+# quay_org_default_perms:
+#   - name: ops
+#     type: team
+#     role: write
+#   - name: lvasquez
+#     type: user
+#     role: read
+#     creator: dwilde
+# quay_org_applications:
+#   - name: oauth_app
+#     description: Application for producing OAuth access tokens
+# quay_org_repositories:
+#   - name: small_image
+#     description: Small GNU/Linux image
+#     visibility: public
+#     auto_prune_method: tags
+#     auto_prune_value: 15
+#     perms:
+#       - name: qa
+#         type: team
+#         role: read

@@ -1,0 +1,176 @@
+---
+# Supporting user account
+- name: Ensure testuser1 user account exists
+  infra.quay_configuration.quay_user:
+    username: testuser1
+    password: vs9mrD55NP
+    email: testuser1@example.com
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+# Supporting team
+- name: Ensure testteam1 team exists
+  infra.quay_configuration.quay_team:
+    name: testteam1
+    organization: ansibletestorg
+    role: admin
+    members:
+      - testuser1
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+# Supporting application
+- name: Ensure the testapp11 application exists
+  infra.quay_configuration.quay_application:
+    organization: ansibletestorg
+    name: testapp11
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  register: app_details
+
+- name: Generate an OAuth access token for the current user
+  infra.quay_configuration.quay_api_token:
+    quay_username: testuser1
+    quay_password: vs9mrD55NP
+    client_id: "{{ app_details['client_id'] }}"
+    rights:
+      - all
+    quay_host: "{{ quay_url }}"
+    validate_certs: false
+  register: result
+
+- name: Ensure that the returned data has the access_token key
+  ansible.builtin.assert:
+    that: "'access_token' in result"
+    fail_msg: The result should have the access_token key
+
+- name: Generate an OAuth access token for ansibletestuser1
+  infra.quay_configuration.quay_api_token:
+    for_user: ansibletestuser1
+    quay_username: testuser1
+    quay_password: vs9mrD55NP
+    client_id: "{{ app_details['client_id'] }}"
+    rights:
+      - org:admin
+      - repo:admin
+      - repo:create
+      - repo:read
+      - repo:write
+      - user:admin
+      - user:read
+    quay_host: "{{ quay_url }}"
+    validate_certs: false
+
+- name: ERROR EXPECTED Non-existing user
+  infra.quay_configuration.quay_api_token:
+    for_user: nonexistinguser
+    quay_username: testuser1
+    quay_password: vs9mrD55NP
+    client_id: "{{ app_details['client_id'] }}"
+    rights:
+      - org:admin
+      - repo:admin
+      - repo:create
+      - repo:read
+      - repo:write
+      - user:admin
+      - user:read
+    quay_host: "{{ quay_url }}"
+    validate_certs: false
+  ignore_errors: true
+  register: result
+
+- name: Ensure that the task failed
+  ansible.builtin.assert:
+    that: result['failed']
+    fail_msg: The preceding task should have failed (non-existing user)
+
+- name: ERROR EXPECTED No rights specified
+  infra.quay_configuration.quay_api_token:
+    quay_username: testuser1
+    quay_password: vs9mrD55NP
+    client_id: "{{ app_details['client_id'] }}"
+    rights: []
+    quay_host: "{{ quay_url }}"
+    validate_certs: false
+  ignore_errors: true
+  register: result
+
+- name: Ensure that the task failed
+  ansible.builtin.assert:
+    that: result['failed']
+    fail_msg: The preceding task should have failed (non-existing organization)
+
+- name: Generate an OAuth access token for the current user (check mode)
+  infra.quay_configuration.quay_api_token:
+    quay_username: testuser1
+    quay_password: vs9mrD55NP
+    client_id: "{{ app_details['client_id'] }}"
+    rights:
+      - all
+    quay_host: "{{ quay_url }}"
+    validate_certs: false
+  check_mode: true
+  register: result
+
+- name: Ensure that the returned data has the access_token key
+  ansible.builtin.assert:
+    that: "'access_token' in result"
+    fail_msg: The result should have the access_token key
+
+- name: Generate an OAuth access token for ansibletestuser1  (check mode)
+  infra.quay_configuration.quay_api_token:
+    for_user: ansibletestuser1
+    quay_username: testuser1
+    quay_password: vs9mrD55NP
+    client_id: "{{ app_details['client_id'] }}"
+    rights:
+      - org:admin
+      - repo:admin
+      - repo:create
+      - repo:read
+      - repo:write
+      - user:admin
+      - user:read
+    quay_host: "{{ quay_url }}"
+    validate_certs: false
+  check_mode: true
+  register: result
+
+- name: Ensure that the task did change something
+  ansible.builtin.assert:
+    that: result['changed']
+    fail_msg: The preceding task should created the token
+
+- name: Ensure testteam1 team is removed
+  infra.quay_configuration.quay_team:
+    name: testteam1
+    organization: ansibletestorg
+    state: absent
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+- name: Ensure testuser1 user account is removed
+  infra.quay_configuration.quay_user:
+    username: testuser1
+    state: absent
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+- name: Ensure the application is removed
+  infra.quay_configuration.quay_application:
+    organization: ansibletestorg
+    name: testapp11
+    state: absent
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+...

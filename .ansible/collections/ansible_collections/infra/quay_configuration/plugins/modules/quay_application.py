@@ -1,0 +1,361 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Copyright: (c) 2021-2024 Hervé Quatremain <herve.quatremain@redhat.com>
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+# For accessing the API documentation from a running system, use the swagger-ui
+# container image:
+#
+#  $ podman run -p 8888:8080 --name=swag -d --rm \
+#      -e API_URL=http://your.quay.installation:8080/api/v1/discovery \
+#      docker.io/swaggerapi/swagger-ui
+#
+#  (replace the hostname and port in API_URL with your own installation)
+#
+# And then navigate to http://localhost:8888
+
+
+from __future__ import absolute_import, division, print_function
+
+__metaclass__ = type
+
+
+DOCUMENTATION = r"""
+---
+module: quay_application
+short_description: Manage Quay Container Registry applications
+description:
+  - Create, delete, and update applications in Quay organizations.
+version_added: '0.0.1'
+author: Hervé Quatremain (@herve4m)
+options:
+  organization:
+    description:
+      - Name of the organization in which to manage the application.
+    required: true
+    type: str
+  name:
+    description:
+      - Name of the application to create, update, or delete. Application
+        names must be at least two characters long.
+    required: true
+    type: str
+  new_name:
+    description:
+      - New name for the application.
+      - Setting this option changes the name of the application which current
+        name is provided in O(name).
+    type: str
+  description:
+    description:
+      - Description for the application.
+    type: str
+  application_uri:
+    description:
+      - URL to the application home page.
+    type: str
+  redirect_uri:
+    description:
+      - Prefix of the application's OAuth redirection/callback URLs.
+    type: str
+  avatar_email:
+    description:
+      - Email address that represents the avatar for the application.
+    type: str
+  state:
+    description:
+      - If V(absent), then the module deletes the application.
+      - The module does not fail if the application does not exist, because the
+        state is already as expected.
+      - If V(present), then the module creates the application if it does not
+        already exist.
+      - If the application already exists, then the module updates its state.
+    type: str
+    default: present
+    choices: [absent, present]
+notes:
+  - The token that you provide in O(quay_token) must have the "Administer
+    Organization" permission.
+attributes:
+  check_mode:
+    support: full
+  diff_mode:
+    support: none
+  platform:
+    support: full
+    platforms: all
+extends_documentation_fragment:
+  - ansible.builtin.action_common_attributes
+  - infra.quay_configuration.auth
+  - infra.quay_configuration.auth.login
+"""
+
+EXAMPLES = r"""
+- name: Ensure the application extapp exists
+  infra.quay_configuration.quay_application:
+    organization: production
+    name: extapp
+    description: External application
+    application_uri: http://applicationuri.example.com
+    redirect_uri: http://redirecturi.example.com
+    avatar_email: avatarextapp@example.com
+    state: present
+    quay_host: https://quay.example.com
+    quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
+  register: app_details
+
+- ansible.builtin.debug:
+    msg: "Client secret: {{ app_details['client_secret'] }}"
+
+- name: Ensure the application is renamed
+  infra.quay_configuration.quay_application:
+    organization: production
+    name: extapp
+    new_name: apiaccess
+    description: Application dedicated to API access
+    state: present
+    quay_host: https://quay.example.com
+    quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
+
+- name: Ensure the application is removed
+  infra.quay_configuration.quay_application:
+    organization: production
+    name: apiaccess
+    state: absent
+    quay_host: https://quay.example.com
+    quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
+"""
+
+RETURN = r"""
+name:
+  description: Application name.
+  returned: always
+  type: str
+  sample: apiaccess
+client_id:
+  description: ID if the client associated with the application object.
+  returned: always
+  type: str
+  sample: SUJVKUJN5WIP07CAIXAF
+client_secret:
+  description: Secret for the client associated with the application object.
+  returned: always
+  type: str
+  sample: JBVXLG8XS7UCV1NFKDYPSNGJ4BUESU03GI5OXS2X
+ """
+
+from ..module_utils.api_module import APIModule
+
+
+def exit_module(module, changed, data):
+    """Exit the module and return data.
+
+    :param module: The module object.
+    :type module: :py:class:``APIModule``
+    :param changed: The changed status of the object.
+    :type changed: bool
+    :param data: The data returned by the API call.
+    :type data: dict
+    """
+    result = {"changed": changed}
+    if data:
+        if "name" in data:
+            result["name"] = data["name"]
+        if "client_id" in data:
+            result["client_id"] = data["client_id"]
+        if "client_secret" in data:
+            result["client_secret"] = data["client_secret"]
+    module.exit_json(**result)
+
+
+def main():
+    argument_spec = dict(
+        organization=dict(required=True),
+        name=dict(required=True),
+        new_name=dict(),
+        description=dict(),
+        application_uri=dict(),
+        redirect_uri=dict(),
+        avatar_email=dict(),
+        state=dict(choices=["present", "absent"], default="present"),
+    )
+
+    # Create a module for ourselves
+    module = APIModule(argument_spec=argument_spec, supports_check_mode=True)
+
+    # Extract our parameters
+    organization = module.params.get("organization")
+    name = module.params.get("name")
+    new_name = module.params.get("new_name")
+    description = module.params.get("description")
+    application_uri = module.params.get("application_uri")
+    redirect_uri = module.params.get("redirect_uri")
+    avatar_email = module.params.get("avatar_email")
+    state = module.params.get("state")
+
+    # Verifying if the organization exists
+    if not module.get_organization(organization):
+        if state == "absent":
+            module.exit_json(changed=False)
+        module.fail_json(
+            msg="The {orgname} organization does not exist.".format(orgname=organization)
+        )
+
+    # Getting the applications for the given organization
+    #
+    # GET /api/v1/organization/{orgname}/applications
+    # {
+    #   "applications": [
+    #     {
+    #       "name": "myapp1",
+    #       "description": "",
+    #       "application_uri": "",
+    #       "client_id": "JCRTNN1H6HJSP174FAQE",
+    #       "client_secret": "Z7VY5A6NOFR51BQ7MR0L7QDYOXKXAXAGU1VAS2QT",
+    #       "redirect_uri": "",
+    #       "avatar_email": null
+    #     }
+    #   ]
+    # }
+    application_list = module.get_object_path(
+        "organization/{orgname}/applications", orgname=organization
+    )
+
+    # Looking for the applications
+    app_details = None
+    new_app_details = None
+    for application in application_list.get("applications", []):
+        application_name = application.get("name", "")
+        if name == application_name:
+            app_details = application
+        elif new_name == application_name:
+            new_app_details = application
+
+    # The destination application already exists
+    if app_details and new_app_details:
+        module.fail_json(
+            msg="The {app} application (`new_name') already exists.".format(app=new_name)
+        )
+
+    # Remove the application
+    if state == "absent":
+        if new_app_details:
+            module.delete(
+                new_app_details,
+                "application",
+                new_name,
+                "organization/{orgname}/applications/{id}",
+                orgname=organization,
+                id=new_app_details.get("client_id", ""),
+            )
+        else:
+            module.delete(
+                app_details,
+                "application",
+                name,
+                "organization/{orgname}/applications/{id}",
+                orgname=organization,
+                id=app_details.get("client_id", "") if app_details else "",
+            )
+
+    # Prepare the data that gets set for update or create
+    new_fields = {}
+    if description is not None:
+        new_fields["description"] = description
+
+    if application_uri is not None:
+        new_fields["application_uri"] = application_uri
+    elif new_app_details:
+        new_fields["application_uri"] = new_app_details.get("application_uri", "")
+    elif app_details:
+        new_fields["application_uri"] = app_details.get("application_uri", "")
+
+    if redirect_uri is not None:
+        new_fields["redirect_uri"] = redirect_uri
+    elif new_app_details:
+        new_fields["redirect_uri"] = new_app_details.get("redirect_uri", "")
+    elif app_details:
+        new_fields["redirect_uri"] = app_details.get("redirect_uri", "")
+
+    if avatar_email is not None:
+        new_fields["avatar_email"] = avatar_email
+    elif new_app_details:
+        # The avatar_email attribute that the API returns might be None
+        if "avatar_email" in new_app_details and new_app_details["avatar_email"]:
+            new_fields["avatar_email"] = new_app_details["avatar_email"]
+    elif app_details:
+        if "avatar_email" in app_details and app_details["avatar_email"]:
+            new_fields["avatar_email"] = app_details["avatar_email"]
+
+    # Renaming the application
+    if new_name:
+        new_fields["name"] = new_name
+        # The original application does not exists...
+        if not app_details:
+            # and neither the new application. Create that new application.
+            if not new_app_details:
+                data = module.create(
+                    "application",
+                    new_name,
+                    "organization/{orgname}/applications",
+                    new_fields,
+                    auto_exit=False,
+                    orgname=organization,
+                )
+                exit_module(module, True, data)
+
+            # The original application does not exists but the new one does.
+            # Update that new application.
+            updated, data = module.update(
+                new_app_details,
+                "application",
+                new_name,
+                "organization/{orgname}/applications/{id}",
+                new_fields,
+                auto_exit=False,
+                orgname=organization,
+                id=new_app_details.get("client_id", ""),
+            )
+            exit_module(module, updated, data if updated else new_app_details)
+        # The original application exists. Rename it.
+        updated, data = module.update(
+            app_details,
+            "application",
+            new_name,
+            "organization/{orgname}/applications/{id}",
+            new_fields,
+            auto_exit=False,
+            orgname=organization,
+            id=app_details.get("client_id", ""),
+        )
+        exit_module(module, updated, data if updated else app_details)
+
+    new_fields["name"] = name
+
+    if app_details:
+        updated, data = module.update(
+            app_details,
+            "application",
+            name,
+            "organization/{orgname}/applications/{id}",
+            new_fields,
+            auto_exit=False,
+            orgname=organization,
+            id=app_details.get("client_id", ""),
+        )
+        exit_module(module, updated, data if updated else app_details)
+
+    data = module.create(
+        "application",
+        name,
+        "organization/{orgname}/applications",
+        new_fields,
+        auto_exit=False,
+        orgname=organization,
+    )
+    exit_module(module, True, data)
+
+
+if __name__ == "__main__":
+    main()

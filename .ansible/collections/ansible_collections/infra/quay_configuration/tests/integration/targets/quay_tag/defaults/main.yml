@@ -1,0 +1,5 @@
+---
+fake_image: quay.io/prometheus/busybox:latest
+expiration: "{{ lookup('ansible.builtin.pipe',
+  'date -d now+1year +%Y%m%d0132.12') }}"
+...

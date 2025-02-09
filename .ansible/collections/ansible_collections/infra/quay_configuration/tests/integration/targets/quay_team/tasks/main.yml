@@ -1,0 +1,176 @@
+---
+- name: Ensure team testteam1 exists
+  infra.quay_configuration.quay_team:
+    name: testteam1
+    organization: ansibletestorg
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+- name: Ensure team testteam2 exists
+  infra.quay_configuration.quay_team:
+    name: testteam2
+    organization: ansibletestorg
+    description: |
+       # Team 2
+
+       * Elément 1
+       * artículo 2
+    role: creator
+    members:
+      - ansibletestuser1
+      - ansibletestuser2
+      - ansibletestorg+ansibletestrobot1
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+- name: Ensure team testteam2 is updated
+  infra.quay_configuration.quay_team:
+    name: testteam2
+    organization: ansibletestorg
+    role: admin
+    members:
+      - ansibletestuser4
+      - ansibletestuser3
+      - ansibletestorg+ansibletestrobot2
+    append: false
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+- name: Ensure team testteam2 has no members
+  infra.quay_configuration.quay_team:
+    name: testteam2
+    organization: ansibletestorg
+    role: admin
+    members: []
+    append: false
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+- name: Ensure team testteam3 exists
+  infra.quay_configuration.quay_team:
+    name: testteam3
+    organization: ansibletestorg
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+- name: Ensure team testteam3 exists (no change)
+  infra.quay_configuration.quay_team:
+    name: testteam3
+    organization: ansibletestorg
+    role: member
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  register: result
+
+- name: Ensure that the task did not change anything
+  ansible.builtin.assert:
+    that: not result['changed']
+    fail_msg: The preceding task should not have changed anything
+
+- name: Ensure team testteam3 is updated
+  infra.quay_configuration.quay_team:
+    name: testteam3
+    organization: ansibletestorg
+    # Same role as the role previously assigned to the team
+    members:
+      - ansibletestuser4
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+- name: Ensure non-existing team is deleted (no change)
+  infra.quay_configuration.quay_team:
+    name: nonexistingteam
+    organization: ansibletestorg
+    state: absent
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  register: result
+
+- name: Ensure that the task did not change anything
+  ansible.builtin.assert:
+    that: not result['changed']
+    fail_msg: The preceding task should not have changed anything
+
+- name: Non-existing organization and state=absent (no change)
+  infra.quay_configuration.quay_team:
+    name: testteam3
+    organization: nonexisting
+    role: member
+    state: absent
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  register: result
+
+- name: Ensure that the task did not change anything
+  ansible.builtin.assert:
+    that: not result['changed']
+    fail_msg: The preceding task should not have changed anything
+
+- name: ERROR EXPECTED Non-existing organization
+  infra.quay_configuration.quay_team:
+    name: testteam3
+    organization: nonexisting
+    role: member
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  ignore_errors: true
+  register: result
+
+- name: Ensure that the task failed
+  ansible.builtin.assert:
+    that: result['failed']
+    fail_msg: The preceding task should have failed (non-existing organization)
+
+- name: ERROR EXPECTED Non-existing members
+  infra.quay_configuration.quay_team:
+    name: testteam4
+    organization: ansibletestorg
+    role: admin
+    members:
+      - nonexistinguser1
+      - nonexistinguser2
+    append: false
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  ignore_errors: true
+  register: result
+
+- name: Ensure that the task failed
+  ansible.builtin.assert:
+    that: result['failed']
+    fail_msg: The preceding task should have failed (non-existing members)
+
+- name: Ensure the teams are removed
+  infra.quay_configuration.quay_team:
+    name: "{{ item }}"
+    organization: ansibletestorg
+    state: absent
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  loop:
+    - testteam1
+    - testteam2
+    - testteam3
+    - testteam4
+...

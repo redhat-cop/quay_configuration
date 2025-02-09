@@ -1,0 +1,34 @@
+---
+- name: Ensure the repositories exist
+  infra.quay_configuration.quay_repository:
+    name: "{{ quay_org_name }}/{{ item['name'] }}"
+    visibility: "{{ item['visibility'] | default(omit) }}"
+    auto_prune_method: "{{ item['auto_prune_method'] | default(omit) }}"
+    auto_prune_value: "{{ item['auto_prune_value'] | default(omit) }}"
+    description: "{{ item['description'] | default(omit) }}"
+    perms: "{{ item['perms'] | default(omit) }}"
+    repo_state: "{{ item['repo_state'] | default(omit) }}"
+    append: true
+    state: present
+    quay_token: "{{ quay_org_token | default(omit) }}"
+    quay_username: "{{ quay_org_username | default(omit) }}"
+    quay_password: "{{ quay_org_password | default(omit) }}"
+    quay_host: "{{ quay_org_host | default(omit) }}"
+    validate_certs: "{{ quay_org_validate_certs | default(omit) }}"
+  loop: "{{ quay_org_repositories }}"
+
+- name: Ensure the auto-pruning policies for the repositories exist
+  infra.quay_configuration.quay_repository_prune:
+    repository: "{{ quay_org_name }}/{{ item[0]['name'] }}"
+    method: "{{ item[1]['method'] }}"
+    value: "{{ item[1]['value'] }}"
+    tag_pattern: "{{ item[1]['tag_pattern'] | default(omit) }}"
+    tag_pattern_matches: "{{ item[1]['tag_pattern_matches'] | default(omit) }}"
+    state: present
+    quay_token: "{{ quay_org_token | default(omit) }}"
+    quay_username: "{{ quay_org_username | default(omit) }}"
+    quay_password: "{{ quay_org_password | default(omit) }}"
+    quay_host: "{{ quay_org_host | default(omit) }}"
+    validate_certs: "{{ quay_org_validate_certs | default(omit) }}"
+  loop: "{{ quay_org_repositories |
+    ansible.builtin.subelements('prune', skip_missing=true) }}"

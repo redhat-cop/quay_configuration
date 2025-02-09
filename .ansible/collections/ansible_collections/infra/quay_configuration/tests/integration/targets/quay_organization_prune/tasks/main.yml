@@ -1,0 +1,217 @@
+---
+- name: ERROR EXPECTED Non-existing organization
+  infra.quay_configuration.quay_organization_prune:
+    namespace: nonexisting
+    method: tags
+    value: 5
+    tag_pattern: "unstable"
+    tag_pattern_matches: true
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  ignore_errors: true
+  register: result
+
+- name: Ensure that the task failed
+  ansible.builtin.assert:
+    that: result['failed']
+    fail_msg: The preceding task should have failed (non-existing organization)
+
+- name: ERROR EXPECTED Wrong number of tags
+  infra.quay_configuration.quay_organization_prune:
+    namespace: ansibletestorg
+    method: tags
+    value: wrong
+    tag_pattern: "unstable"
+    tag_pattern_matches: true
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  ignore_errors: true
+  register: result
+
+- name: Ensure that the task failed
+  ansible.builtin.assert:
+    that: result['failed']
+    fail_msg: The preceding task should have failed (wrong number of tags)
+
+- name: ERROR EXPECTED Wrong date
+  infra.quay_configuration.quay_organization_prune:
+    namespace: ansibletestorg
+    method: date
+    value: wrong
+    tag_pattern: "unstable"
+    tag_pattern_matches: true
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  ignore_errors: true
+  register: result
+
+- name: Ensure that the task failed
+  ansible.builtin.assert:
+    that: result['failed']
+    fail_msg: The preceding task should have failed (wrong date)
+
+- name: Ensure a policy does not exist in a non-existing org (no change)
+  infra.quay_configuration.quay_organization_prune:
+    namespace: nonexisting
+    method: tags
+    value: 5
+    tag_pattern: "unstable"
+    tag_pattern_matches: true
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+    state: absent
+  register: result
+
+- name: Ensure that the task did not change anything
+  ansible.builtin.assert:
+    that: not result['changed']
+    fail_msg: The preceding task should not have changed anything
+
+- name: Ensure a tag auto-pruning policy exists
+  infra.quay_configuration.quay_organization_prune:
+    namespace: ansibletestorg
+    method: tags
+    value: 5
+    tag_pattern: "unstable"
+    tag_pattern_matches: true
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+- name: Ensure a tag auto-pruning policy exists (no change)
+  infra.quay_configuration.quay_organization_prune:
+    namespace: ansibletestorg
+    method: tags
+    value: 5
+    tag_pattern: "unstable"
+    tag_pattern_matches: true
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  register: result
+
+- name: Ensure that the task did not change anything
+  ansible.builtin.assert:
+    that: not result['changed']
+    fail_msg: The preceding task should not have changed anything
+
+- name: Ensure a date auto-pruning policy exists 1
+  infra.quay_configuration.quay_organization_prune:
+    namespace: ansibletestorg
+    method: date
+    value: 5d
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+- name: Ensure a date auto-pruning policy exists 2
+  infra.quay_configuration.quay_organization_prune:
+    namespace: ansibletestorg
+    method: date
+    value: 6w
+    tag_pattern: "nightly"
+    tag_pattern_matches: true
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+- name: Ensure non-existing policy is removed (no change)
+  infra.quay_configuration.quay_organization_prune:
+    namespace: ansibletestorg
+    method: date
+    value: 42w
+    tag_pattern: "nightly"
+    tag_pattern_matches: false
+    state: absent
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  register: result
+
+- name: Ensure that the task did not change anything
+  ansible.builtin.assert:
+    that: not result['changed']
+    fail_msg: The preceding task should not have changed anything
+
+- name: Ensure a tag auto-pruning policy is removed
+  infra.quay_configuration.quay_organization_prune:
+    namespace: ansibletestorg
+    method: tags
+    value: 5
+    tag_pattern: "unstable"
+    tag_pattern_matches: true
+    state: absent
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+- name: Ensure only one tag auto-pruning policy exists
+  infra.quay_configuration.quay_organization_prune:
+    namespace: ansibletestorg
+    method: tags
+    value: 50
+    tag_pattern: "foobar"
+    tag_pattern_matches: true
+    append: false
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+- name: Ensure only one tag auto-pruning policy exists (no change)
+  infra.quay_configuration.quay_organization_prune:
+    namespace: ansibletestorg
+    method: tags
+    value: 50
+    tag_pattern: "foobar"
+    tag_pattern_matches: true
+    append: false
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  register: result
+
+- name: Ensure that the task did not change anything
+  ansible.builtin.assert:
+    that: not result['changed']
+    fail_msg: The preceding task should not have changed anything
+
+- name: Ensure a date auto-pruning policy exists
+  infra.quay_configuration.quay_organization_prune:
+    namespace: ansibletestorg
+    method: date
+    value: 42w
+    tag_pattern: "nightly"
+    tag_pattern_matches: false
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+- name: Ensure only one tag auto-pruning policy is set
+  infra.quay_configuration.quay_organization_prune:
+    namespace: ansibletestorg
+    method: tags
+    value: 50
+    tag_pattern: "foobar"
+    tag_pattern_matches: true
+    append: false
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+- name: Ensure the tag auto-pruning policy is removed
+  infra.quay_configuration.quay_organization_prune:
+    namespace: ansibletestorg
+    method: tags
+    value: 50
+    tag_pattern: "foobar"
+    tag_pattern_matches: true
+    append: false
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+    state: absent
+...

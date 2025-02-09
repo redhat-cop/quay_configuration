@@ -1,0 +1,306 @@
+ancestor: null
+releases:
+  0.0.1:
+    changes:
+      release_summary: Initial public release.
+    fragments:
+    - v0.0.1_summary.yml
+    modules:
+    - description: Manage Red Hat Quay organizations
+      name: quay_application
+      namespace: ''
+    - description: Manage Red Hat Quay default repository permissions
+      name: quay_default_perm
+      namespace: ''
+    - description: Gather information about images in a Red Hat Quay repository
+      name: quay_image_info
+      namespace: ''
+    - description: Manage Red Hat Quay global messages
+      name: quay_message
+      namespace: ''
+    - description: Manage Red Hat Quay repository notifications
+      name: quay_notification
+      namespace: ''
+    - description: Manage Red Hat Quay organizations
+      name: quay_organization
+      namespace: ''
+    - description: Manage Red Hat Quay repositories
+      name: quay_repository
+      namespace: ''
+    - description: Manage Red Hat Quay robot accounts
+      name: quay_robot
+      namespace: ''
+    - description: Gather information about tags in a Red Hat Quay repository
+      name: quay_tag_info
+      namespace: ''
+    - description: Manage Red Hat Quay teams
+      name: quay_team
+      namespace: ''
+    - description: Manage Red Hat Quay users
+      name: quay_user
+      namespace: ''
+    release_date: '2021-10-03'
+  0.0.10:
+    modules:
+    - description: Manage Red Hat Quay image manifest labels
+      name: quay_manifest_label
+      namespace: ''
+    - description: Gather information about manifest labels in Red Hat Quay
+      name: quay_manifest_label_info
+      namespace: ''
+    release_date: '2022-01-27'
+  0.0.11:
+    modules:
+    - description: Manage tokens for accessing Red Hat Quay repositories
+      name: quay_docker_token
+      namespace: ''
+    release_date: '2022-02-19'
+  0.0.12:
+    modules:
+    - description: Create OAuth access tokens for accessing the Red Hat Quay API
+      name: quay_api_token
+      namespace: ''
+    release_date: '2022-02-21'
+  0.0.13:
+    fragments:
+    - v0.0.13_summary.yml
+    objects:
+      role:
+      - description: Create and configure a Red Hat Quay organization
+        name: quay_org
+        namespace: null
+    release_date: '2022-02-27'
+  0.0.14:
+    changes:
+      release_summary: Collection tested against Red Hat Quay v3.7.0
+    fragments:
+    - v0.0.14_summary.yml
+    release_date: '2022-05-30'
+  0.0.2:
+    changes:
+      release_summary: Fix wrong project URLs
+    fragments:
+    - v0.0.2_summary.yml
+    release_date: '2021-10-03'
+  0.0.3:
+    changes:
+      release_summary: New quay_vulnerability_info information module
+    fragments:
+    - v0.0.3_summary.yml
+    release_date: '2021-10-07'
+  0.0.4:
+    changes:
+      release_summary: New quay_repository_mirror module
+    fragments:
+    - v0.0.4_summary.yml
+    release_date: '2021-12-03'
+  0.0.5:
+    changes:
+      release_summary: Collection tested against Red Hat Quay v3.6.1
+    fragments:
+    - v0.0.5_summary.yml
+    release_date: '2021-12-04'
+  0.0.6:
+    changes:
+      minor_changes:
+      - quay_notification - add the ``vulnerability_level`` parameter.
+    fragments:
+    - v0.0.6_summary.yml
+    release_date: '2021-12-06'
+  0.0.7:
+    changes:
+      release_summary: New quay_first_user module
+    fragments:
+    - v0.0.7_summary.yml
+    modules:
+    - description: Create the first user account
+      name: quay_first_user
+      namespace: ''
+    release_date: '2021-12-22'
+  0.0.8:
+    changes:
+      bugfixes:
+      - quay_notification - add a check to verify that the repository exists.
+      minor_changes:
+      - Tests - add integration tests.
+    fragments:
+    - v0.0.8_summary.yml
+    release_date: '2022-01-04'
+  0.0.9:
+    modules:
+    - description: Synchronize Red Hat Quay teams with LDAP groups
+      name: quay_team_ldap
+      namespace: ''
+    release_date: '2022-01-18'
+  0.1.0:
+    changes:
+      minor_changes:
+      - In addition to token authentication, the modules can now connect to the Quay
+        API by using a login and password scheme. The new ``quay_username`` and ``quay_password``
+        parameters are mutually exclusive with the ``quay_token`` parameter.
+    fragments:
+    - v0.1.0_summary.yml
+    release_date: '2022-06-04'
+  0.1.1:
+    changes:
+      release_summary: Updating documentation and testing against version 3.7.2
+    fragments:
+    - v0.1.1_summary.yml
+    release_date: '2022-06-24'
+  0.1.2:
+    changes:
+      minor_changes:
+      - Add the ``infra.quay_configuration.quay`` module defaults group. To avoid
+        repeating common parameters, such as ``quay_host`` or ``quay_token``, in each
+        task, you can define these common module parameters at the top of your play,
+        in the ``module_defaults`` section, under the ``group/infra.quay_configuration.quay``
+        subsection.
+      release_summary: Adding the ``infra.quay_configuration.quay`` module defaults
+        group.
+    fragments:
+    - 021-v0.1.2-summary.yml
+    release_date: '2022-10-13'
+  0.1.3:
+    changes:
+      release_summary: Testing against Quay version 3.8.0.
+    fragments:
+    - PR22-v0.1.3-summary.yml
+    release_date: '2022-12-19'
+  1.0.0:
+    changes:
+      bugfixes:
+      - quay_api_token - Convert response headers in lowercase. (https://github.com/redhat-cop/quay_configuration/issues/23)
+      release_summary: Testing against Quay version 3.8.5.
+    fragments:
+    - 24-lowercaseheaders.yml
+    - v1.0.0-summary.yml
+    release_date: '2023-04-07'
+  1.0.1:
+    changes:
+      bugfixes:
+      - quay_user - Workaround empty SUPER_USERS configuration parameter. (https://github.com/redhat-cop/quay_configuration/issues/26)
+      release_summary: Testing against Quay version 3.8.6.
+    fragments:
+    - 27-v1.0.1-summary.yml
+    release_date: '2023-05-03'
+  1.0.2:
+    changes:
+      release_summary: Testing against Quay version 3.9.1.
+    fragments:
+    - PR28-v1.0.2-summary.yml
+    release_date: '2023-09-16'
+  1.0.3:
+    changes:
+      release_summary: Testing against Quay version 3.10.1.
+    fragments:
+    - PR29-v1.0.3-summary.yml
+    release_date: '2023-12-18'
+  1.0.4:
+    modules:
+    - description: Manage Quay Container Registry proxy cache configurations
+      name: quay_proxy_cache
+      namespace: ''
+    release_date: '2024-02-16'
+  1.1.0:
+    release_date: '2024-02-16'
+  1.2.0:
+    changes:
+      minor_changes:
+      - Add support for the auto-pruning tags feature in Quay 3.11 for organizations
+        and repositories. The ``infra.quay_configuration.quay_organization`` and ``infra.quay_configuration.quay_repository``
+        modules now have the ``auto_prune_method`` and ``auto_prune_value`` options.
+    fragments:
+    - PR32-v1.2.0-summary.yml
+    modules:
+    - description: Synchronize Quay Container Registry teams with OIDC groups
+      name: quay_team_oidc
+      namespace: ''
+    release_date: '2024-04-07'
+  1.3.0:
+    plugins:
+      filter:
+      - description: Build a Docker configuration in JSON format
+        name: quay_docker_config
+        namespace: null
+    release_date: '2024-05-07'
+  2.0.0:
+    changes:
+      breaking_changes:
+      - The name of the collection changes to ``infra.quay_configuration``.
+      release_summary: 'Renaming the ``herve4m.quay`` collection to ``infra.quay_configuration``,
+        and moving the developments to a new GitHub repository (https://github.com/redhat-cop/quay_configuration).
+
+        '
+    fragments:
+    - PR1-v2.0.0-summary.yaml
+    release_date: '2024-07-26'
+  2.1.0:
+    changes:
+      minor_changes:
+      - herve4m.quay.quay_notification - New ``repo_image_expiry`` event and new ``image_expiry_days``
+        parameter (Quay 3.12)
+      release_summary: Adding the ``repo_image_expiry`` event to the ``herve4m.quay.quay_notification``
+        module.
+    fragments:
+    - PR2-v2.1.0-summary.yml
+    release_date: '2024-07-29'
+  2.2.0:
+    changes:
+      minor_changes:
+      - Add the ``for_user`` option to the ``infra.quay_configuration.quay_api_token``
+        module. With this option you can assign OAuth API tokens to other users (Quay
+        3.12 and later).
+      release_summary: Support creating OAuth access tokens for other users.
+    fragments:
+    - PR5-v2.2.0-summary.yml
+    release_date: '2024-08-05'
+  2.4.0:
+    changes:
+      deprecated_features:
+      - The ``auto_prune_method`` and ``auto_prune_value`` parameters of the ``infra.quay_configuration.quay_organization``
+        and ``infra.quay_configuration.quay_repository`` modules are deprecated in
+        favor of the new``infra.quay_configuration.quay_organization_prune`` and ``infra.quay_configuration.quay_repository_prune``
+        modules.
+      release_summary: New ``infra.quay_configuration.quay_organization_prune`` and
+        ``infra.quay_configuration.quay_repository_prune`` modules.
+    fragments:
+    - PR16-v2.4.0-summary.yml
+    modules:
+    - description: Manage auto-pruning policies for organizations and user namespaces
+      name: quay_organization_prune
+      namespace: ''
+    - description: Manage auto-pruning policies for repositories
+      name: quay_repository_prune
+      namespace: ''
+    release_date: '2024-11-23'
+  2.5.0:
+    changes:
+      minor_changes:
+      - Add the ``federations`` option to the ``infra.quay_configuration.quay_robot``
+        module. With this option, you can configure keyless authentications with robot
+        accounts (Quay 3.13 and later)
+      release_summary: Support configuring keyless authentications with robot accounts.
+    fragments:
+    - 17-v2.5.0-summary.yml
+    release_date: '2024-11-26'
+  2.5.1:
+    changes:
+      bugfixes:
+      - quay_robot - updating robot accounts failed for Quay versions prior to 3.13
+        because of the robot account federations feature introduced in this version
+        of Quay. Fix now skip federation configuration if the ``federations`` parameter
+        is not specified (https://github.com/redhat-cop/quay_configuration/issues/18).
+    fragments:
+    - 19-v2.5.1-summary.yml
+    release_date: '2024-12-14'
+  2.5.2:
+    changes:
+      bugfixes:
+      - quay_organization - setting the ``time_machine_expiration`` parameter failed
+        when Quay administrators customize the ``TAG_EXPIRATION_OPTIONS`` option in
+        ``config.yaml``. Fix now allows any value for the ``time_machine_expiration``
+        parameter. The Quay API might return an error if the given value is not defined
+        in the ``TAG_EXPIRATION_OPTIONS`` option.
+    fragments:
+    - 20-v2.5.2-summary.yml
+    release_date: '2024-12-23'
