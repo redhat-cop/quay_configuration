@@ -294,7 +294,6 @@ def main():
         # Create the repository mirror configuration
         new_fields = {
             "is_enabled": is_enabled if is_enabled is not None else False,
-            "unsigned_images": unsigned_images if unsigned_images is not None else False,
             "robot_username": robot_username,
             "external_reference": external_reference,
             "root_rule": {"rule_kind": "tag_glob_csv", "rule_value": image_tags},
@@ -314,6 +313,7 @@ def main():
                     "https_proxy": https_proxy if https_proxy else None,
                     "no_proxy": no_proxy if no_proxy else None,
                 },
+                "unsigned_images": unsigned_images if unsigned_images is not None else False,
             },
         }
         if external_registry_password:
