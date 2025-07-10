@@ -294,7 +294,7 @@ def main():
         # Create the repository mirror configuration
         new_fields = {
             "is_enabled": is_enabled if is_enabled is not None else False,
-            "unsigned_images": unsigned_images if unsigned_images is not None else False
+            "unsigned_images": unsigned_images if unsigned_images is not None else False,
             "robot_username": robot_username,
             "external_reference": external_reference,
             "root_rule": {"rule_kind": "tag_glob_csv", "rule_value": image_tags},
