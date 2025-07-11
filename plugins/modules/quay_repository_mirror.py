@@ -90,6 +90,10 @@ options:
       - List of image tags to be synchronized from the remote repository.
     type: list
     elements: str
+  unsigned_images:
+    description:
+      - Allow unsigned images to be mirrored.
+    type: bool
   verify_tls:
     description:
       - Defines whether TLS of the external registry should be verified.
@@ -199,6 +203,7 @@ def main():
         http_proxy=dict(),
         https_proxy=dict(),
         no_proxy=dict(),
+        unsigned_images=dict(type="bool"),
     )
 
     # Create a module for ourselves
@@ -207,6 +212,7 @@ def main():
     # Extract our parameters
     name = module.params.get("name").strip("/")
     is_enabled = module.params.get("is_enabled")
+    unsigned_images = module.params.get("unsigned_images")
     force_sync = module.params.get("force_sync")
     robot_username = module.params.get("robot_username")
     external_reference = module.params.get("external_reference")
@@ -307,6 +313,7 @@ def main():
                     "https_proxy": https_proxy if https_proxy else None,
                     "no_proxy": no_proxy if no_proxy else None,
                 },
+                "unsigned_images": unsigned_images if unsigned_images is not None else False,
             },
         }
         if external_registry_password:
@@ -335,6 +342,8 @@ def main():
 
     # Update the repository mirror configuration
     new_fields = {}
+    if unsigned_images is not None:
+        new_fields["unsigned_images"] = unsigned_images
     if external_registry_password is not None:
         new_fields["external_registry_password"] = external_registry_password
     if external_registry_username is not None:
