@@ -55,9 +55,9 @@ extends_documentation_fragment:
 """
 
 EXAMPLES = r"""
-- name: Retrieve the layers of the coreos/dnsmasq:latest image
+- name: Retrieve the layers of the coreos/dpp-aws-toolkit:latest image
   infra.quay_configuration.quay_layer_info:
-    image: coreos/dnsmasq:latest
+    image: coreos/dpp-aws-toolkit:latest
     quay_host: quay.io
   register: layers
 """
@@ -84,101 +84,59 @@ layers:
       description: Layer creation date and time.
       type: str
       returned: always
-      sample: Thu, 30 Sep 2021 07:18:56 -0000
+      sample: Wed, 02 Jul 2025 08:07:25 -0000
   sample: [
             {
-              "index": 6,
-              "compressed_size": null,
-              "is_remote": false,
-              "urls": null,
-              "command": [
-                "/bin/sh",
-                "-c",
-                "#(nop) ",
-                "ENTRYPOINT [\"/usr/sbin/dnsmasq\"]"
-              ],
-              "comment": null,
-              "author": "Dalton Hubble <...>",
-              "blob_digest": "sha256:a3ed...46d4",
-              "created_datetime": "Thu, 16 Nov 2017 22:24:12 -0000"
+                "author": null,
+                "blob_digest": "sha256:a3ed...46d4",
+                "command": [
+                    "/bin/sh -c #(nop) ENV BUILD_ID=$BUILD_ID"
+                ],
+                "comment": "FROM cd5db62dec74",
+                "compressed_size": 32,
+                "created_datetime": "Thu, 10 Jul 2025 13:49:42 -0000",
+                "index": 67,
+                "is_remote": false,
+                "urls": null
             },
             {
-              "index": 5,
-              "compressed_size": null,
-              "is_remote": false,
-              "urls": null,
-              "command": [
-                "/bin/sh -c #(nop)  EXPOSE 53/tcp 67/tcp 69/tcp"
-              ],
-              "comment": null,
-              "author": "Dalton Hubble <...>",
-              "blob_digest": "sha256:a3e...46d4",
-              "created_datetime": "Thu, 16 Nov 2017 22:24:12 -0000"
+                "author": null,
+                "blob_digest": "sha256:a3ed...46d4",
+                "command": [
+                    "/bin/sh -c #(nop) LABEL build_time=$BUILD_DATETIME"
+                ],
+                "comment": "FROM 4c53829576f3",
+                "compressed_size": 32,
+                "created_datetime": "Thu, 10 Jul 2025 13:49:42 -0000",
+                "index": 66,
+                "is_remote": false,
+                "urls": null
             },
             {
-              "index": 4,
-              "compressed_size": null,
-              "is_remote": false,
-              "urls": null,
-              "command": [
-                "/bin/sh -c #(nop) COPY dir:5c38...5694 in /var/lib/tftpboot "
-              ],
-              "comment": null,
-              "author": "Dalton Hubble <...>",
-              "blob_digest": "sha256:e40d...0351",
-              "created_datetime": "Thu, 16 Nov 2017 22:24:11 -0000"
+                "author": null,
+                "blob_digest": "sha256:a3ed...46d4",
+                "command": [
+                    "/bin/sh -c #(nop) LABEL url=\"https://www.redhat.com\""
+                ],
+                "comment": null,
+                "compressed_size": 32,
+                "created_datetime": "Wed, 02 Jul 2025 08:07:25 -0000",
+                "index": 1,
+                "is_remote": false,
+                "urls": null
             },
             {
-              "index": 3,
-              "compressed_size": null,
-              "is_remote": false,
-              "urls": null,
-              "command": [
-                "/bin/sh -c apk -U add dnsmasq curl"
-              ],
-              "comment": null,
-              "author": "Dalton Hubble <...>",
-              "blob_digest": "sha256:7ef3...3a74",
-              "created_datetime": "Thu, 16 Nov 2017 22:24:09 -0000"
-            },
-            {
-              "index": 2,
-              "compressed_size": null,
-              "is_remote": false,
-              "urls": null,
-              "command": [
-                "/bin/sh -c #(nop)  MAINTAINER Dalton Hubble <...>"
-              ],
-              "comment": null,
-              "author": "Dalton Hubble <...>",
-              "blob_digest": "sha256:a3ed...46d4",
-              "created_datetime": "Thu, 16 Nov 2017 22:24:04 -0000"
-            },
-            {
-              "index": 1,
-              "compressed_size": null,
-              "is_remote": false,
-              "urls": null,
-              "command": [
-                "/bin/sh -c #(nop)  CMD [\"/bin/sh\"]"
-              ],
-              "comment": null,
-              "author": null,
-              "blob_digest": "sha256:a3ed...46d4",
-              "created_datetime": "Wed, 13 Sep 2017 14:32:26 -0000"
-            },
-            {
-              "index": 0,
-              "compressed_size": null,
-              "is_remote": false,
-              "urls": null,
-              "command": [
-                "/bin/sh -c #(nop) ADD file:4583...9e45 in / "
-              ],
-              "comment": null,
-              "author": null,
-              "blob_digest": "sha256:6d98...d913",
-              "created_datetime": "Wed, 13 Sep 2017 14:32:25 -0000"
+                "author": null,
+                "blob_digest": "sha256:a3ed...46d4",
+                "command": [
+                    "/bin/sh -c #(nop) LABEL maintainer=\"Red Hat, Inc.\""
+                ],
+                "comment": null,
+                "compressed_size": 32,
+                "created_datetime": "Wed, 02 Jul 2025 08:07:25 -0000",
+                "index": 0,
+                "is_remote": false,
+                "urls": null
             }
         ]
 """
@@ -345,7 +303,7 @@ def main():
         changed=False,
         layers=(
             sorted(images.get("layers", []), key=lambda k: k["index"], reverse=True)
-            if images
+            if images and images.get("layers")
             else []
         ),
     )
