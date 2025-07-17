@@ -59,7 +59,7 @@
     quay_token: "{{ quay_token }}"
     validate_certs: false
 
-- name: Ensure non-existing user is deleted (no change)
+- name: Ensure nonexisting user is deleted (no change)
   infra.quay_configuration.quay_user:
     username: nonexistinguser
     state: absent

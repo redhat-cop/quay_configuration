@@ -37,7 +37,7 @@
     that: result['failed']
     fail_msg: The preceding task should have failed (no such repository)
 
-- name: ERROR EXPECTED Non-existing repository (anonymous)
+- name: ERROR EXPECTED Nonexisting repository (anonymous)
   infra.quay_configuration.quay_notification:
     repository: myansibletestrepo
     title: Test Quay Notification 14
@@ -213,7 +213,7 @@
     quay_token: "{{ quay_token }}"
     validate_certs: false
 
-- name: Ensure non-existing notification is removed - method (no change)
+- name: Ensure nonexisting notification is removed - method (no change)
   infra.quay_configuration.quay_notification:
     repository: ansibletestorg/ansibletestrepo
     method: hipchat
@@ -229,7 +229,7 @@
     that: not result['changed']
     fail_msg: The preceding task should not have changed anything
 
-- name: Ensure non-existing notification is removed - event (no change)
+- name: Ensure nonexisting notification is removed - event (no change)
   infra.quay_configuration.quay_notification:
     repository: ansibletestorg/ansibletestrepo
     event: build_start
@@ -245,7 +245,7 @@
     that: not result['changed']
     fail_msg: The preceding task should not have changed anything
 
-- name: Non-existing organization and state=absent (no change)
+- name: Nonexisting organization and state=absent (no change)
   infra.quay_configuration.quay_notification:
     repository: nonexisting/ansibletestrepo
     title: Test Quay Notification 11
@@ -265,7 +265,7 @@
     that: not result['changed']
     fail_msg: The preceding task should not have changed anything
 
-- name: ERROR EXPECTED Non-existing organization
+- name: ERROR EXPECTED Nonexisting organization
   infra.quay_configuration.quay_notification:
     repository: nonexisting/ansibletestrepo
     title: Test Quay Notification 12
@@ -284,7 +284,7 @@
 - name: Ensure that the task failed
   ansible.builtin.assert:
     that: result['failed']
-    fail_msg: The preceding task should have failed (non-existing organization)
+    fail_msg: The preceding task should have failed (nonexisting organization)
 
 - name: ERROR EXPECTED Missing parameter for notification (1)
   infra.quay_configuration.quay_notification:
@@ -400,7 +400,7 @@
     that: result['failed']
     fail_msg: The preceding task should have failed (missing parameter)
 
-- name: ERROR EXPECTED Non-existing user
+- name: ERROR EXPECTED Nonexisting user
   infra.quay_configuration.quay_notification:
     repository: ansibletestorg/ansibletestrepo
     title: Test Quay Notification 7
@@ -419,9 +419,9 @@
 - name: Ensure that the task failed
   ansible.builtin.assert:
     that: result['failed']
-    fail_msg: The preceding task should have failed (non-existing user)
+    fail_msg: The preceding task should have failed (nonexisting user)
 
-- name: ERROR EXPECTED Non-existing team
+- name: ERROR EXPECTED Nonexisting team
   infra.quay_configuration.quay_notification:
     repository: ansibletestorg/ansibletestrepo
     title: Test Quay Notification 8
@@ -440,9 +440,9 @@
 - name: Ensure that the task failed
   ansible.builtin.assert:
     that: result['failed']
-    fail_msg: The preceding task should have failed (non-existing team)
+    fail_msg: The preceding task should have failed (nonexisting team)
 
-- name: ERROR EXPECTED Non-existing organization
+- name: ERROR EXPECTED Nonexisting organization
   infra.quay_configuration.quay_notification:
     repository: ansibletestorg/ansibletestrepo
     title: Test Quay Notification 9
@@ -461,7 +461,7 @@
 - name: Ensure that the task failed
   ansible.builtin.assert:
     that: result['failed']
-    fail_msg: The preceding task should have failed (non-existing organization)
+    fail_msg: The preceding task should have failed (nonexisting organization)
 
 - name: ERROR EXPECTED Robot account not allowed
   infra.quay_configuration.quay_notification:

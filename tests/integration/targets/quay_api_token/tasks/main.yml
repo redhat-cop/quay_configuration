@@ -67,7 +67,7 @@
     quay_host: "{{ quay_url }}"
     validate_certs: false
 
-- name: ERROR EXPECTED Non-existing user
+- name: ERROR EXPECTED Nonexisting user
   infra.quay_configuration.quay_api_token:
     for_user: nonexistinguser
     quay_username: testuser1
@@ -89,7 +89,7 @@
 - name: Ensure that the task failed
   ansible.builtin.assert:
     that: result['failed']
-    fail_msg: The preceding task should have failed (non-existing user)
+    fail_msg: The preceding task should have failed (nonexisting user)
 
 - name: ERROR EXPECTED No rights specified
   infra.quay_configuration.quay_api_token:
@@ -105,7 +105,7 @@
 - name: Ensure that the task failed
   ansible.builtin.assert:
     that: result['failed']
-    fail_msg: The preceding task should have failed (non-existing organization)
+    fail_msg: The preceding task should have failed (nonexisting organization)
 
 - name: Generate an OAuth access token for the current user (check mode)
   infra.quay_configuration.quay_api_token:

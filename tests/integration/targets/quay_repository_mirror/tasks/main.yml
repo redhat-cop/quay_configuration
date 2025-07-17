@@ -246,6 +246,7 @@
       - latest
     sync_interval: notaninterval
     sync_start_date: "2021-01-01T12:00:00Z"
+    skopeo_timeout: 5h
     quay_host: "{{ quay_url }}"
     quay_token: "{{ quay_token }}"
     validate_certs: false
@@ -257,7 +258,7 @@
     that: result['failed']
     fail_msg: The preceding task should have failed (wrong sync interval)
 
-- name: ERROR EXPECTED Non-existing repository (1)
+- name: ERROR EXPECTED Nonexisting repository (1)
   infra.quay_configuration.quay_repository_mirror:
     name: nonexisting/ansibletestrepo1
     external_reference: docker.io/library/hello-world
@@ -266,6 +267,7 @@
       - latest
     sync_interval: 4d
     sync_start_date: "2021-01-01T12:00:00Z"
+    skopeo_timeout: 5h
     quay_host: "{{ quay_url }}"
     quay_token: "{{ quay_token }}"
     validate_certs: false
@@ -275,9 +277,9 @@
 - name: Ensure that the task failed
   ansible.builtin.assert:
     that: result['failed']
-    fail_msg: The preceding task should have failed (non-existing repository)
+    fail_msg: The preceding task should have failed (nonexisting repository)
 
-- name: ERROR EXPECTED Non-existing repository (2)
+- name: ERROR EXPECTED Nonexisting repository (2)
   infra.quay_configuration.quay_repository_mirror:
     name: ansibletestrepo1
     external_reference: docker.io/library/hello-world
@@ -286,6 +288,7 @@
       - latest
     sync_interval: 4w
     sync_start_date: "2021-01-01T12:00:00Z"
+    skopeo_timeout: 4h
     quay_host: "{{ quay_url }}"
     quay_token: "{{ quay_token }}"
     validate_certs: false
@@ -295,9 +298,9 @@
 - name: Ensure that the task failed
   ansible.builtin.assert:
     that: result['failed']
-    fail_msg: The preceding task should have failed (non-existing repository)
+    fail_msg: The preceding task should have failed (nonexisting repository)
 
-- name: ERROR EXPECTED Non-existing repository (anonymous)
+- name: ERROR EXPECTED Nonexisting repository (anonymous)
   infra.quay_configuration.quay_repository_mirror:
     name: ansibletestrepo1
     external_reference: docker.io/library/hello-world
@@ -306,6 +309,7 @@
       - latest
     sync_interval: 43200
     sync_start_date: "2021-01-01T12:00:00Z"
+    skopeo_timeout: 3h
     quay_host: quay.io
     validate_certs: false
   ignore_errors: true
@@ -314,7 +318,7 @@
 - name: Ensure that the task failed
   ansible.builtin.assert:
     that: result['failed']
-    fail_msg: The preceding task should have failed (non-existing repository)
+    fail_msg: The preceding task should have failed (nonexisting repository)
 
 - name: Ensure repository ansibletestrepo1 is removed
   infra.quay_configuration.quay_repository:

@@ -30,7 +30,7 @@
     that: label['labels']|length == 1
     fail_msg: The preceding task should have returned a label
 
-- name: Retrieve an image with no namespace (error)
+- name: ERROR EXPECTED Retrieve an image with no namespace
   infra.quay_configuration.quay_manifest_label_info:
     image: nosuchimageipresume
     quay_host: quay.io
@@ -42,7 +42,7 @@
     that: result['failed']
     fail_msg: The preceding task should have failed
 
-- name: Retrieve a non-existing image in my namespace
+- name: Retrieve a nonexisting image in my namespace
   infra.quay_configuration.quay_manifest_label_info:
     image: dnsmasq:v1.0.0
     quay_host: "{{ quay_url }}"

@@ -20,9 +20,9 @@
   ansible.builtin.debug:
     var: t
 
-- name: Getting the details of the coreos/dnsmasq latest tag
+- name: Getting the details of the herve4m/quay-api-operator latest tag
   infra.quay_configuration.quay_tag_info:
-    repository: coreos/dnsmasq
+    repository: herve4m/quay-api-operator
     tag: latest
     quay_host: quay.io
   register: t
@@ -31,7 +31,7 @@
   ansible.builtin.debug:
     var: t
 
-- name: Getting the details of the tags in a non-existing repository
+- name: Getting the details of the tags in a nonexisting repository
   infra.quay_configuration.quay_tag_info:
     repository: nosuchrepository
     quay_host: "{{ quay_url }}"
