@@ -213,7 +213,7 @@
     that: not result['changed']
     fail_msg: The preceding task should not have changed anything
 
-- name: Ensure non-existing organization is deleted (no change)
+- name: Ensure nonexisting organization is deleted (no change)
   infra.quay_configuration.quay_organization:
     name: nonexistingorganization
     state: absent

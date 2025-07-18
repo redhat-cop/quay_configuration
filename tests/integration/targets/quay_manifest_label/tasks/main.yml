@@ -242,7 +242,7 @@
     that: not result['changed']
     fail_msg: The preceding task should not have changed anything
 
-- name: Non-existing namespace
+- name: Nonexisting namespace
   infra.quay_configuration.quay_manifest_label:
     image: nonexisting/ansibletestrepo:latest
     key: architecture
@@ -272,7 +272,7 @@
     that: result['failed']
     fail_msg: The preceding task should have failed (no organization specified)
 
-- name: ERROR EXPECTED Non-existing namespace
+- name: ERROR EXPECTED Nonexisting namespace
   infra.quay_configuration.quay_manifest_label:
     image: nonexisting/ansibletestrepo:latest
     key: architecture
@@ -287,9 +287,9 @@
 - name: Ensure that the task failed
   ansible.builtin.assert:
     that: result['failed']
-    fail_msg: The preceding task should have failed (non-existing organization)
+    fail_msg: The preceding task should have failed (nonexisting organization)
 
-- name: ERROR EXPECTED Non-existing tag
+- name: ERROR EXPECTED Nonexisting tag
   infra.quay_configuration.quay_manifest_label:
     image: ansibletestorg/ansibletestrepo:1234567
     key: architecture
@@ -304,7 +304,7 @@
 - name: Ensure that the task failed
   ansible.builtin.assert:
     that: result['failed']
-    fail_msg: The preceding task should have failed (non-existing tag)
+    fail_msg: The preceding task should have failed (nonexisting tag)
 
 - name: Ensure the repository is removed
   infra.quay_configuration.quay_repository:

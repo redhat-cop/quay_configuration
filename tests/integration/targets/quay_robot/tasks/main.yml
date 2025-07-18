@@ -86,7 +86,7 @@
     that: result['changed']
     fail_msg: The preceding task should have changed something
 
-- name: Non-existing organization and state=absent (no change)
+- name: Nonexisting organization and state=absent (no change)
   infra.quay_configuration.quay_robot:
     name: nonexisting+testrobot5
     state: absent
@@ -224,7 +224,7 @@
     fail_msg: The preceding task should have changed something
 
 # Errors
-- name: ERROR EXPECTED Non-existing organization
+- name: ERROR EXPECTED Nonexisting organization
   infra.quay_configuration.quay_robot:
     name: nonexisting+testrobot5
     state: present
@@ -237,7 +237,7 @@
 - name: Ensure that the task failed
   ansible.builtin.assert:
     that: result['failed']
-    fail_msg: The preceding task should have failed (non-existing organization)
+    fail_msg: The preceding task should have failed (nonexisting organization)
 
 - name: ERROR EXPECTED No organization specified why anonymous access
   infra.quay_configuration.quay_robot:
@@ -251,7 +251,7 @@
 - name: Ensure that the task failed
   ansible.builtin.assert:
     that: result['failed']
-    fail_msg: The preceding task should have failed (non-existing organization)
+    fail_msg: The preceding task should have failed (nonexisting organization)
 
 - name: ERROR EXPECTED Not the owner of the namespace
   infra.quay_configuration.quay_robot:

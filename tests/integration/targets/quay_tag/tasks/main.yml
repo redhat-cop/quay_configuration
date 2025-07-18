@@ -241,7 +241,7 @@
     quay_token: "{{ quay_token }}"
     validate_certs: false
 
-- name: Non-existing namespace
+- name: Nonexisting namespace
   infra.quay_configuration.quay_tag:
     image: nonexisting/ansibletestrepo:v2.0.0
     tag: v1.0.0
@@ -271,7 +271,7 @@
     that: result['failed']
     fail_msg: The preceding task should have failed (no organization specified)
 
-- name: ERROR EXPECTED Non-existing namespace
+- name: ERROR EXPECTED Nonexisting namespace
   infra.quay_configuration.quay_tag:
     image: nonexisting/ansibletestrepo:v2.0.0
     tag: v1.0.0
@@ -285,7 +285,7 @@
 - name: Ensure that the task failed
   ansible.builtin.assert:
     that: result['failed']
-    fail_msg: The preceding task should have failed (non-existing organization)
+    fail_msg: The preceding task should have failed (nonexisting organization)
 
 - name: ERROR EXPECTED Missing tag when digest is set
   infra.quay_configuration.quay_tag:
@@ -334,7 +334,7 @@
     that: result['failed']
     fail_msg: The preceding task should have failed (wrong date format)
 
-- name: ERROR EXPECTED Non-existing image
+- name: ERROR EXPECTED Nonexisting image
   infra.quay_configuration.quay_tag:
     image: ansibletestorg/ansibletestrepo:1234567
     tag: v4.0.0
@@ -348,7 +348,7 @@
 - name: Ensure that the task failed
   ansible.builtin.assert:
     that: result['failed']
-    fail_msg: The preceding task should have failed (non-existing image)
+    fail_msg: The preceding task should have failed (nonexisting image)
 
 - name: Ensure the tag v2.0.0 is removed
   infra.quay_configuration.quay_tag:

@@ -157,7 +157,7 @@
     quay_token: "{{ quay_token }}"
     validate_certs: false
 
-- name: Ensure non-existing repository is deleted (no change)
+- name: Ensure nonexisting repository is deleted (no change)
   infra.quay_configuration.quay_repository:
     name: nonexistingorg/nonexistingrepo
     state: absent

@@ -131,7 +131,7 @@
     that: not result['changed']
     fail_msg: The preceding task should not have changed anything
 
-- name: ERROR EXPECTED Non-existing organization
+- name: ERROR EXPECTED Nonexisting organization
   infra.quay_configuration.quay_default_perm:
     organization: nonexisting
     name: ansibletestteam1
@@ -148,9 +148,9 @@
 - name: Ensure that the task failed
   ansible.builtin.assert:
     that: result['failed']
-    fail_msg: The preceding task should have failed (non-existing organization)
+    fail_msg: The preceding task should have failed (nonexisting organization)
 
-- name: ERROR EXPECTED Non-existing user
+- name: ERROR EXPECTED Nonexisting user
   infra.quay_configuration.quay_default_perm:
     organization: ansibletestorg
     name: nonexistinguser
@@ -166,9 +166,9 @@
 - name: Ensure that the task failed
   ansible.builtin.assert:
     that: result['failed']
-    fail_msg: The preceding task should have failed (non-existing user)
+    fail_msg: The preceding task should have failed (nonexisting user)
 
-- name: ERROR EXPECTED Non-existing team
+- name: ERROR EXPECTED Nonexisting team
   infra.quay_configuration.quay_default_perm:
     organization: ansibletestorg
     name: nonexistingteam
@@ -184,9 +184,9 @@
 - name: Ensure that the task failed
   ansible.builtin.assert:
     that: result['failed']
-    fail_msg: The preceding task should have failed (non-existing team)
+    fail_msg: The preceding task should have failed (nonexisting team)
 
-- name: ERROR EXPECTED Non-existing creator
+- name: ERROR EXPECTED Nonexisting creator
   infra.quay_configuration.quay_default_perm:
     organization: ansibletestorg
     name: ansibletestteam1
@@ -203,7 +203,7 @@
 - name: Ensure that the task failed
   ansible.builtin.assert:
     that: result['failed']
-    fail_msg: The preceding task should have failed (non-existing creator)
+    fail_msg: The preceding task should have failed (nonexisting creator)
 
 - name: ERROR EXPECTED Creator is a robot account
   infra.quay_configuration.quay_default_perm:

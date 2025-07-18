@@ -1,7 +1,7 @@
 ---
-- name: Retrieve the layers of the coreos/dnsmasq:latest image
+- name: Retrieve the layers of the herve4m/quay-api-operator:latest image
   infra.quay_configuration.quay_layer_info:
-    image: coreos/dnsmasq:latest
+    image: herve4m/quay-api-operator:latest
     quay_host: quay.io
   register: layers1
 
@@ -9,9 +9,9 @@
   ansible.builtin.debug:
     var: layers1
 
-- name: Retrieve the layers of the coreos/dnsmasq image (default tag)
+- name: Retrieve the layers of the herve4m/quay-api-operator image (default tag)
   infra.quay_configuration.quay_layer_info:
-    image: coreos/dnsmasq
+    image: herve4m/quay-api-operator
     quay_host: quay.io
   register: layers2
 
@@ -32,7 +32,7 @@
     that: result['failed']
     fail_msg: The preceding task should have failed
 
-- name: Retrieve an image in a non-existing namespace
+- name: Retrieve an image in a nonexisting namespace
   infra.quay_configuration.quay_layer_info:
     image: nonexisting/ansibletestrepo:latest
     quay_host: "{{ quay_url }}"
@@ -45,7 +45,7 @@
     that: not result['changed']
     fail_msg: The preceding task should not have changed anything
 
-- name: Retrieve a non-existing image in my namespace (no change)
+- name: Retrieve a nonexisting image in my namespace (no change)
   infra.quay_configuration.quay_layer_info:
     image: dnsmasq:v1.0.0
     quay_host: "{{ quay_url }}"

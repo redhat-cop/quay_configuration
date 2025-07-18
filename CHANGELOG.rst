@@ -4,6 +4,24 @@ Quay Container Registry Collection Release Notes
 
 .. contents:: Topics
 
+v2.6.0
+======
+
+Release Summary
+---------------
+
+New ``infra.quay_configuration.quay_config_info`` module and new parameters.
+
+Minor Changes
+-------------
+
+- Add the ``unsigned_images`` and ``skopeo_timeout`` options to the ``infra.quay_configuration.quay_repository_mirror`` module.
+
+New Modules
+-----------
+
+- infra.quay_configuration.quay_config_info - Return Quay's configuration
+
 v2.5.2
 ======
 

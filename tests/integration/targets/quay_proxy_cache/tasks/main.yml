@@ -1,5 +1,5 @@
 ---
-- name: Ensure non-existing proxy cache configuration is deleted (no change)
+- name: Ensure nonexisting proxy cache configuration is deleted (no change)
   infra.quay_configuration.quay_proxy_cache:
     organization: ansibletestorg
     state: absent
@@ -83,7 +83,7 @@
     that: result['changed']
     fail_msg: The preceding task should have changed something
 
-- name: Ensure non-existing proxy cache configuration is deleted (no change) (2)
+- name: Ensure nonexisting proxy cache configuration is deleted (no change) (2)
   infra.quay_configuration.quay_proxy_cache:
     organization: ansibletestorg
     state: absent

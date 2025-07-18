@@ -243,7 +243,7 @@
 - name: Ensure that the task failed
   ansible.builtin.assert:
     that: result['failed']
-    fail_msg: The preceding task should have failed (non-existing organization)
+    fail_msg: The preceding task should have failed (nonexisting organization)
 
 - name: ERROR EXPECTED Wrong quota format
   infra.quay_configuration.quay_quota:

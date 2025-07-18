@@ -9,7 +9,7 @@
     quay_token: "{{ quay_token }}"
     validate_certs: false
 
-- name: ERROR EXPECTED Non-existing namespace
+- name: ERROR EXPECTED Nonexisting namespace
   infra.quay_configuration.quay_repository_prune:
     repository: nonexisting/ansibletestrepo
     method: tags
@@ -25,7 +25,7 @@
 - name: Ensure that the task failed
   ansible.builtin.assert:
     that: result['failed']
-    fail_msg: The preceding task should have failed (non-existing organization)
+    fail_msg: The preceding task should have failed (nonexisting organization)
 
 - name: ERROR EXPECTED Wrong number of tags
   infra.quay_configuration.quay_repository_prune:
@@ -81,7 +81,7 @@
     that: result['failed']
     fail_msg: The preceding task should have failed (not allowed)
 
-- name: Ensure a policy does not exist in a non-existing repository (no change)
+- name: Ensure a policy does not exist in a nonexisting repository (no change)
   infra.quay_configuration.quay_repository_prune:
     repository: ansibletestorg/nonexisting
     method: tags
@@ -147,7 +147,7 @@
     quay_token: "{{ quay_token }}"
     validate_certs: false
 
-- name: Ensure non-existing policy is removed (no change)
+- name: Ensure nonexisting policy is removed (no change)
   infra.quay_configuration.quay_repository_prune:
     repository: ansibletestorg/ansibletestrepo
     method: date

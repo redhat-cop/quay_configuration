@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# Copyright: (c) 2021, 2022, 2024 Hervé Quatremain <herve.quatremain@redhat.com>
+# Copyright: (c) 2021, 2022, 2024, 2025 Hervé Quatremain <herve.quatremain@redhat.com>
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 # For accessing the API documentation from a running system, use the swagger-ui
@@ -79,6 +79,17 @@ options:
         configure a new repository mirror, then the synchronization is
         immediately active, and a synchronization is initiated if the
         O(is_enabled) parameter is V(true).
+    type: str
+  skopeo_timeout:
+    description:
+      - Maximum duration of mirroring jobs.
+      - The timeout must be between 5 minutes (300 seconds) and 12 hours
+        (43200 seconds).
+      - The O(skopeo_timeout) parameter accepts a time unit as a suffix;
+        C(s) for seconds, C(m) for minutes, and C(h) for hours. For example,
+        C(10m) for 10 minutes.
+      - 5 minutes (300 seconds) by default.
+      - Setting a timeout requires Quay version 3.15 or later.
     type: str
   robot_username:
     description:
@@ -184,7 +195,7 @@ RETURN = r""" # """
 import copy
 from datetime import datetime
 
-from ..module_utils.api_module import APIModule
+from ..module_utils.api_module import APIModule, APIModuleError
 
 
 def main():
@@ -200,6 +211,7 @@ def main():
         image_tags=dict(type="list", elements="str"),
         sync_interval=dict(type="str"),
         sync_start_date=dict(),
+        skopeo_timeout=dict(type="str"),
         http_proxy=dict(),
         https_proxy=dict(),
         no_proxy=dict(),
@@ -222,6 +234,7 @@ def main():
     image_tags = module.params.get("image_tags")
     sync_interval = module.params.get("sync_interval")
     sync_start_date = module.params.get("sync_start_date")
+    skopeo_timeout = module.params.get("skopeo_timeout")
     http_proxy = module.params.get("http_proxy")
     https_proxy = module.params.get("https_proxy")
     no_proxy = module.params.get("no_proxy")
@@ -232,6 +245,18 @@ def main():
         if sync_interval is not None
         else 86400
     )
+    s_timeout = (
+        module.str_period_to_second("skopeo_timeout", skopeo_timeout)
+        if skopeo_timeout is not None
+        else 300
+    )
+    if s_timeout < 300 or s_timeout > 43200:
+        module.fail_json(
+            msg=(
+                "Wrong value for the `skopeo_timeout` parameter: {value} ({value_s}s) is "
+                "not between 5 minutes (300s) and 12 hours (43200s)"
+            ).format(value=skopeo_timeout, value_s=s_timeout)
+        )
 
     namespace, repo_shortname, _not_used = module.split_name("name", name, "present")
     full_repo_name = "{namespace}/{repository}".format(
@@ -248,6 +273,7 @@ def main():
     #     "external_registry_username": null,
     #     "external_registry_config": {
     #         "verify_tls": true,
+    #         "unsigned_images": false,
     #         "proxy": {
     #             "http_proxy": null,
     #             "https_proxy": null,
@@ -265,7 +291,8 @@ def main():
     #             "latest"
     #         ]
     #     },
-    #     "robot_username": "production+auditrobot"
+    #     "robot_username": "production+auditrobot",
+    #     "skopeo_timeout_interval": 300
     # }
 
     mirror_details = module.get_object_path(
@@ -303,6 +330,7 @@ def main():
                 if sync_start_date
                 else datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")
             ),
+            "skopeo_timeout_interval": s_timeout,
             "external_registry_username": (
                 external_registry_username if external_registry_username else None
             ),
@@ -313,20 +341,39 @@ def main():
                     "https_proxy": https_proxy if https_proxy else None,
                     "no_proxy": no_proxy if no_proxy else None,
                 },
-                "unsigned_images": unsigned_images if unsigned_images is not None else False,
+                "unsigned_images": (
+                    unsigned_images if unsigned_images is not None else False
+                ),
             },
         }
         if external_registry_password:
             new_fields["external_registry_password"] = external_registry_password
 
-        module.create(
-            "repository",
-            full_repo_name,
-            "repository/{full_repo_name}/mirror",
-            new_fields,
-            auto_exit=False,
-            full_repo_name=full_repo_name,
-        )
+        # Quay 3.15 and later requires the skopeo_timeout_interval parameter.
+        # Older versions, however, do not support that parameter.
+        # Try first with the parameter, and if an error is reported (older
+        # Quay versions), then rerun the create operation without the
+        # skopeo_timeout_interval parameter
+        try:
+            module.create(
+                "repository",
+                full_repo_name,
+                "repository/{full_repo_name}/mirror",
+                new_fields,
+                auto_exit=False,
+                exit_on_error=False,
+                full_repo_name=full_repo_name,
+            )
+        except APIModuleError:
+            del new_fields["skopeo_timeout_interval"]
+            module.create(
+                "repository",
+                full_repo_name,
+                "repository/{full_repo_name}/mirror",
+                new_fields,
+                auto_exit=False,
+                full_repo_name=full_repo_name,
+            )
 
         if force_sync:
             module.create(
@@ -352,6 +399,8 @@ def main():
         new_fields["sync_start_date"] = sync_start_date
     if sync_interval is not None:
         new_fields["sync_interval"] = s_interval
+    if skopeo_timeout is not None:
+        new_fields["skopeo_timeout_interval"] = s_timeout
     if robot_username is not None:
         new_fields["robot_username"] = robot_username
     if external_reference is not None:

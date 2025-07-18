@@ -103,7 +103,7 @@
     quay_token: "{{ quay_token }}"
     validate_certs: false
 
-- name: Non-existing organization and state=absent (no change)
+- name: Nonexisting organization and state=absent (no change)
   infra.quay_configuration.quay_application:
     organization: nonexisting
     name: ansibletestapp1
@@ -118,7 +118,7 @@
     that: not result['changed']
     fail_msg: The preceding task should not have changed anything
 
-- name: ERROR EXPECTED Non-existing organization
+- name: ERROR EXPECTED Nonexisting organization
   infra.quay_configuration.quay_application:
     organization: nonexisting
     name: ansibletestapp1
@@ -132,7 +132,7 @@
 - name: Ensure that the task failed
   ansible.builtin.assert:
     that: result['failed']
-    fail_msg: The preceding task should have failed (non-existing organization)
+    fail_msg: The preceding task should have failed (nonexisting organization)
 
 - name: ERROR EXPECTED Already existing application
   infra.quay_configuration.quay_application:

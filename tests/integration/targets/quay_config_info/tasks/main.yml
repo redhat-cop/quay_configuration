@@ -1,0 +1,12 @@
+---
+- name: Retrieve Quay's configuration
+  infra.quay_configuration.quay_config_info:
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  register: quay_conf
+
+- name: Display result
+  ansible.builtin.debug:
+    var: quay_conf
+...
