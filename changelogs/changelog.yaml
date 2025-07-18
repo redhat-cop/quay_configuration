@@ -304,3 +304,17 @@ releases:
     fragments:
     - 20-v2.5.2-summary.yml
     release_date: '2024-12-23'
+  2.6.0:
+    changes:
+      minor_changes:
+      - Add the ``unsigned_images`` and ``skopeo_timeout`` options to the ``infra.quay_configuration.quay_repository_mirror``
+        module.
+      release_summary: New ``infra.quay_configuration.quay_config_info`` module and
+        new parameters.
+    fragments:
+    - 35-v2.6.0-summary.yml
+    modules:
+    - description: Return Quay's configuration
+      name: quay_config_info
+      namespace: ''
+    release_date: '2025-07-18'
