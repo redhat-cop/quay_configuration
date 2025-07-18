@@ -21,7 +21,7 @@ Name | Description
 ---: | :---
 `quay_api_token` |          Create OAuth access tokens for accessing the Quay Container Registry API
 `quay_application` |        Manage Quay Container Registry applications
-`quay_config` |             Return Quay's configuration
+`quay_config_info` |        Return Quay's configuration
 `quay_default_perm` |       Manage Quay Container Registry default repository permissions
 `quay_docker_token` |       Manage tokens for accessing Quay Container Registry repositories
 `quay_first_user` |         Create the first user account

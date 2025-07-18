@@ -23,7 +23,7 @@ __metaclass__ = type
 
 DOCUMENTATION = r"""
 ---
-module: quay_config
+module: quay_config_info
 short_description: Return Quay's configuration
 description:
   - Return current Quay's configuration.
@@ -52,7 +52,7 @@ extends_documentation_fragment:
 
 EXAMPLES = r"""
 - name: Retrieve Quay's configuration
-  infra.quay_configuration.quay_config:
+  infra.quay_configuration.quay_config_info:
     quay_host: https://quay.example.com
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
   register: quay_conf
