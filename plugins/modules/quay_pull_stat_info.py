@@ -103,7 +103,7 @@ last_tag_pull_date:
   description: Date and time of the last pull operation.
   type: str
   returned: Only when getting statistics by tags.
-  sample: 2025-10-24T10:30:00Z
+  sample: Mon, 29 Dec 2025 15:53:23 -0000
 manifest_digest:
   description: SHA256 digest of the image.
   type: str
@@ -118,7 +118,7 @@ last_manifest_pull_date:
   description: Date and time of the last pull operation.
   type: str
   returned: always.
-  sample: 2025-10-24T10:30:00Z
+  sample: Mon, 29 Dec 2025 15:53:23 -0000
 """
 
 from ..module_utils.api_module import APIModule
