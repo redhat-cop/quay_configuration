@@ -1257,7 +1257,7 @@ class APIModule(AnsibleModule):
                     ).format(param=parameter_name, sep=separator, name=value)
                 )
 
-        # Check whether namespace exists (organization or user account)
+        # Check whether the namespace exists (organization or user account)
         namespace_details = self.get_namespace(namespace)
         if not namespace_details:
             if state == "absent":

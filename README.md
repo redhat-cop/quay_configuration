@@ -33,6 +33,7 @@ Name | Description
 `quay_organization` |       Manage Quay Container Registry organizations
 `quay_organization_prune` | Manage auto-pruning policies for organizations and user namespaces
 `quay_proxy_cache` |        Manage Quay Container Registry proxy cache configurations
+`quay_pull_stat_info` |     Return image pull statistics for tags and manifests
 `quay_quota` |              Manage Quay Container Registry organizations quota
 `quay_repository` |         Manage Quay Container Registry repositories
 `quay_repository_mirror` |  Manage Quay Container Registry repository mirror configurations

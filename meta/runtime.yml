@@ -15,6 +15,7 @@ action_groups:
     - quay_organization_prune
     - quay_organization
     - quay_proxy_cache
+    - quay_pull_stat_info
     - quay_quota
     - quay_repository_mirror
     - quay_repository_prune

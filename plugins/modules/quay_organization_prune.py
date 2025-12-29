@@ -163,7 +163,7 @@ def main():
     # Convert the parameters to a dictionary that can be used with the API
     data = module.process_prune_parameters(method, value, tag_pattern, tag_pattern_matches)
 
-    # Check whether namespace exists (organization or user account)
+    # Check whether the namespace exists (organization or user account)
     if not module.get_namespace(namespace):
         if state == "absent":
             module.exit_json(changed=False)
