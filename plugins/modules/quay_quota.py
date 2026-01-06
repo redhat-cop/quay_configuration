@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# Copyright: (c) 2022, 2024 Hervé Quatremain <herve.quatremain@redhat.com>
+# Copyright: (c) 2022-2026 Hervé Quatremain <herve.quatremain@redhat.com>
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 # For accessing the API documentation from a running system, use the swagger-ui
@@ -73,6 +73,8 @@ notes:
   - The module requires that your Quay administrator enables quota management
     for your installation (by setting C(FEATURE_QUOTA_MANAGEMENT) to C(True) in
     C(config.yaml)).
+    For Quay version 3.16 or later, the administrator must also set
+    C(FEATURE_SUPERUSERS_FULL_ACCESS) to C(True).
   - The token that you provide in O(quay_token) must have the "Administer
     Organization" and "Administer User" permissions.
 attributes:
