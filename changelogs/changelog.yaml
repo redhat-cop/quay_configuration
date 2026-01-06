@@ -318,3 +318,13 @@ releases:
       name: quay_config_info
       namespace: ''
     release_date: '2025-07-18'
+  2.7.0:
+    changes:
+      release_summary: New ``quay_pull_stat_info`` information module
+    fragments:
+    - 48-v2.7.0-summary.yml
+    modules:
+    - description: Return image pull statistics for tags and manifests
+      name: quay_pull_stat_info
+      namespace: ''
+    release_date: '2025-12-29'

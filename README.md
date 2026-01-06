@@ -33,6 +33,7 @@ Name | Description
 `quay_organization` |       Manage Quay Container Registry organizations
 `quay_organization_prune` | Manage auto-pruning policies for organizations and user namespaces
 `quay_proxy_cache` |        Manage Quay Container Registry proxy cache configurations
+`quay_pull_stat_info` |     Return image pull statistics for tags and manifests
 `quay_quota` |              Manage Quay Container Registry organizations quota
 `quay_repository` |         Manage Quay Container Registry repositories
 `quay_repository_mirror` |  Manage Quay Container Registry repository mirror configurations
@@ -238,4 +239,5 @@ See the [changelog](https://github.com/redhat-cop/quay_configuration/blob/main/C
 
 GNU General Public License v3.0 or later.
 
+<!-- markdown-link-check-disable-next-line -->
 See [LICENSE](https://www.gnu.org/licenses/gpl-3.0.txt) to read the full text.

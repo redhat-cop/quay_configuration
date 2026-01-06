@@ -51,7 +51,8 @@
         quay_host: "{{ quay_url }}"
         validate_certs: false
       register: result
-      failed_when: false
+      retries: 10
+      delay: 10
 
     - name: Ensure that the OAuth access token is defined
       ansible.builtin.assert:

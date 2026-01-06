@@ -4,6 +4,19 @@ Quay Container Registry Collection Release Notes
 
 .. contents:: Topics
 
+v2.7.0
+======
+
+Release Summary
+---------------
+
+New ``quay_pull_stat_info`` information module
+
+New Modules
+-----------
+
+- infra.quay_configuration.quay_pull_stat_info - Return image pull statistics for tags and manifests
+
 v2.6.0
 ======
 

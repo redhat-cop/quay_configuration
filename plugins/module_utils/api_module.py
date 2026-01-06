@@ -1,4 +1,4 @@
-# Copyright: (c) 2021-2024 Hervé Quatremain <herve.quatremain@redhat.com>
+# Copyright: (c) 2021-2026 Hervé Quatremain <herve.quatremain@redhat.com>
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 
@@ -11,7 +11,7 @@ import json
 import re
 
 from ansible.module_utils.basic import AnsibleModule, env_fallback
-from ansible.module_utils._text import to_text
+from ansible.module_utils.common.text.converters import to_text
 from ansible.module_utils.six.moves.urllib.parse import urlparse, urlencode
 from ansible.module_utils.six.moves.urllib.error import HTTPError
 from ansible.module_utils.urls import Request, SSLValidationError
@@ -155,17 +155,29 @@ class APIModule(AnsibleModule):
         if not username or not password:
             return None
 
-        # Retrieve the CSRF cookie and token from the root page (GET /)
-        url = self.host_url._replace(path="/")
+        # Retrieve the CSRF cookie and token from /csrf_token (Quay 3.16 and
+        # later), or from the root page / (Quay 3.15 and earlier)
+        url = self.host_url._replace(path="/csrf_token")
         headers = {"Accept": "*/*"}
         try:
-            html = self.make_raw_request("GET", url, headers=headers)
+            response = self.make_json_request("GET", url, headers=headers)
         except APIModuleError as e:
             self.fail_json(msg=str(e))
         try:
-            csrf = re.search(r"window.__token\s*=\s*'(.*?)';", to_text(html["body"])).group(1)
-        except AttributeError:
-            self.fail_json(msg="Cannot retrieve the CSRF token from the returned data")
+            csrf = response["json"]["csrf_token"]
+        except KeyError:
+            # Try to get the CSRF from / (Quay 3.15 and earlier)
+            url = self.host_url._replace(path="/")
+            try:
+                html = self.make_raw_request("GET", url, headers=headers)
+            except APIModuleError as e:
+                self.fail_json(msg=str(e))
+            try:
+                csrf = re.search(
+                    r"window.__token\s*=\s*'(.*?)';", to_text(html["body"])
+                ).group(1)
+            except AttributeError:
+                self.fail_json(msg="Cannot retrieve the CSRF token from the returned data")
 
         # Log in to the web UI (POST /api/v1/signin)
         url = self.build_url("signin")
@@ -1257,7 +1269,7 @@ class APIModule(AnsibleModule):
                     ).format(param=parameter_name, sep=separator, name=value)
                 )
 
-        # Check whether namespace exists (organization or user account)
+        # Check whether the namespace exists (organization or user account)
         namespace_details = self.get_namespace(namespace)
         if not namespace_details:
             if state == "absent":
