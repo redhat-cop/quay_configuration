@@ -8,13 +8,13 @@ repos:
       - id: trailing-whitespace
         exclude: ^docs/
   - repo: https://github.com/adrienverge/yamllint.git
-    rev: v1.37.1
+    rev: v1.38.0
     hooks:
       - id: yamllint
         types:
           - yaml
   - repo: https://github.com/ansible/ansible-lint.git
-    rev: v26.1.0
+    rev: v26.1.1
     hooks:
       - id: ansible-lint
         types:
