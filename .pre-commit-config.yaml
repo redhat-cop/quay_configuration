@@ -14,7 +14,7 @@ repos:
         types:
           - yaml
   - repo: https://github.com/ansible/ansible-lint.git
-    rev: v26.3.0
+    rev: v26.4.0
     hooks:
       - id: ansible-lint
         language_version: python3.13
