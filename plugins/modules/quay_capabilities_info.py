@@ -71,12 +71,12 @@ capabilities:
   }
 """
 
-from ..module_utils.api_module import APIModule
+from ..module_utils.api_module import APIModuleNoAuth
 
 
 def main():
     # Create a module for ourselves
-    module = APIModule(argument_spec={}, supports_check_mode=True)
+    module = APIModuleNoAuth(argument_spec={}, supports_check_mode=True)
 
     # Get Quay's capabilities
     #
