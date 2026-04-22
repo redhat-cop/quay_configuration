@@ -32,6 +32,7 @@ Name | Description
 `quay_message` |            Manage Quay Container Registry global messages
 `quay_notification` |       Manage Quay Container Registry repository notifications
 `quay_organization` |       Manage Quay Container Registry organizations
+`quay_organization_immutability` | Manage tag immutability policies for organizations and user namespaces
 `quay_organization_prune` | Manage auto-pruning policies for organizations and user namespaces
 `quay_proxy_cache` |        Manage Quay Container Registry proxy cache configurations
 `quay_pull_stat_info` |     Return image pull statistics for tags and manifests

@@ -45,6 +45,7 @@ The following list gives a short descriptions of the variables:
 * `quay_org_name`: Name of the organization to create.
 * `quay_org_email`: Email address to associate with the organization.
 * `quay_org_prune`: List of auto-pruning tags policies for the organization.
+* `quay_org_immutability`: List of tag immutability policies for the organization.
 * `quay_org_users`: List of user accounts to create.
 * `quay_org_robots`: List of robot accounts to create in the organization.
 * `quay_org_teams`: List of the teams to create in the organization.
@@ -100,6 +101,12 @@ Example Playbook
             tag_pattern: nightly
           - method: date
             value: 5w
+        # Organization tag immutability policies
+        quay_org_immutability:
+          - tag_pattern: "release-.*"
+            behavior: matching_immutable
+          - tag_pattern: "prod-.*.*"
+            behavior: matching_immutable
         # User accounts to create
         quay_org_users:
           - username: lvasquez

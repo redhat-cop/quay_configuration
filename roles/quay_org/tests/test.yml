@@ -24,6 +24,11 @@
           - method: date
             value: 10w
             tag_pattern: nightly
+        quay_org_immutability:
+          - tag_pattern: "release-.*"
+            behavior: matching_immutable
+          - tag_pattern: "prod-.*.*"
+            behavior: matching_immutable
         quay_org_users:
           - username: lvasquez
             email: lvasquez@example.com

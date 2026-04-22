@@ -20,6 +20,9 @@
       - method: date
         value: 10w
         tag_pattern: nightly
+    quay_org_immutability:
+      - tag_pattern: "dev-.*"
+        behavior: not_matching_immutable
     quay_org_users:
       - username: testuser1
         email: testuser1@example.com
