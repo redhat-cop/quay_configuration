@@ -1330,6 +1330,7 @@ class APIModule(AnsibleModule):
                     [
                         {
                             "name": "1.33.0",
+                            "immutable": false,
                             "reversion": False,
                             "start_ts": 1632982224,
                             "manifest_digest": "sha256:f948...95fe",
@@ -1339,6 +1340,7 @@ class APIModule(AnsibleModule):
                         },
                         {
                             "name": "latest",
+                            "immutable": false,
                             "reversion": False,
                             "start_ts": 1632982222,
                             "manifest_digest": "sha256:9ce9...f3c7",
@@ -1348,6 +1350,7 @@ class APIModule(AnsibleModule):
                         },
                         {
                             "name": "1.34.0",
+                            "immutable": false,
                             "reversion": False,
                             "start_ts": 1632982221,
                             "end_ts": 1640336040,

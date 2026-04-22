@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# Copyright: (c) 2021, 2022, 2024 Hervé Quatremain <herve.quatremain@redhat.com>
+# Copyright: (c) 2021, 2022, 2024, 2026 Hervé Quatremain <herve.quatremain@redhat.com>
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 # For accessing the API documentation from a running system, use the swagger-ui
@@ -67,6 +67,12 @@ options:
         U(https://docs.python.org/3/library/time.html#time.strftime)).
     type: str
     default: "%Y%m%d%H%M.%S"
+  immutable:
+    description:
+      - Whether the tag must be immutable or not. Immutability prevents a tag
+        from being changed or deleted.
+      - Requires Quay version 3.17 or later.
+    type: bool
   state:
     description:
       - If V(absent), then the module deletes the image which tag is given in
@@ -77,6 +83,10 @@ options:
     default: present
     choices: [absent, present]
 notes:
+  - O(immutable) requires Quay version 3.17 or later.
+  - Your Quay administrator must enable the tag immutability feature
+    of your Quay installation (C(FEATURE_IMMUTABLE_TAGS) in C(config.yaml))
+    to use the O(immutable) option in Quay version 3.17 or later.
   - The token that you provide in O(quay_token) must have the "Administer
     Repositories" permission.
 attributes:
@@ -155,6 +165,7 @@ def main():
         tag=dict(),
         expiration=dict(),
         expiration_format=dict(default="%Y%m%d%H%M.%S"),
+        immutable=dict(type="bool"),
         state=dict(choices=["present", "absent"], default="present"),
     )
 
@@ -166,6 +177,7 @@ def main():
     tag = module.params.get("tag")
     expiration = module.params.get("expiration")
     expiration_format = module.params.get("expiration_format")
+    immutable = module.params.get("immutable")
     state = module.params.get("state")
 
     # Get the components of the given image (namespace, repository, tag, digest)
@@ -221,6 +233,7 @@ def main():
     #   [
     #      {
     #        "name": "v1.0.0",
+    #        "immutable": false,
     #        "reversion": False,
     #        "start_ts": 1633179652,
     #        "end_ts": 1633179654,
@@ -234,8 +247,9 @@ def main():
     tags = module.get_tags(namespace, img.repository, img.tag, img.digest)
     tag_list = [t["name"] for t in tags if "name" in t]
 
-    # No tag to set and no expiration date/time to update. Exit (no change)
-    if (not tag or tag in tag_list) and expiration is None:
+    # No tag to set, no expiration date/time to update, and not immutability to
+    # set. Exit (no change)
+    if (not tag or tag in tag_list) and expiration is None and immutable is None:
         module.exit_json(changed=False)
 
     # Convert the expiration date/time to the epoch format
@@ -263,11 +277,14 @@ def main():
     else:
         new_fields = {"expiration": None}
 
+    if immutable is not None:
+        new_fields = {"immutable": immutable}
+
     if not tag_list:
         module.fail_json(msg="The {image} image does not exist.".format(image=image))
 
     # No tag to set or the image has already the requested tag. Only the
-    # expiration date has to be updated
+    # expiration date and the immutability have to be updated
     if not tag or tag in tag_list:
         # In the list of returned tags, locate the tag to update
         if not tag:
@@ -312,7 +329,7 @@ def main():
     tags = module.get_tags(namespace, img.repository, tag)
 
     # The two tags point to the same image. No need to create the tag, only
-    # the expiration need updating.
+    # the expiration and immutability need updating.
     if len(tags) > 0 and tags[0].get("manifest_digest") == manifest_digest:
         new_tag_details = tags[0]
         if "end_ts" in new_tag_details:

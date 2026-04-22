@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# Copyright: (c) 2021, 2022, 2024 Hervé Quatremain <herve.quatremain@redhat.com>
+# Copyright: (c) 2021, 2022, 2024, 2026 Hervé Quatremain <herve.quatremain@redhat.com>
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 # For accessing the API documentation from a running system, use the swagger-ui
@@ -153,9 +153,15 @@ tags:
       type: str
       returned: only when an expiration date has been explicitly assigned
       sample: Fri, 24 Dec 2021 08:54:00 -0000
+    immutable:
+      description: Whether the tag is immutable or not.
+      type: bool
+      returned: only with Quay version 3.17 or later.
+      sample: true
   sample: [
             {
               "name": "1.33.1",
+              "immutable": false,
               "reversion": false,
               "start_ts": 1632982223,
               "manifest_digest": "sha256:9ce9...f3c7",
@@ -165,6 +171,7 @@ tags:
             },
             {
               "name": "latest",
+              "immutable": false,
               "reversion": false,
               "start_ts": 1632982222,
               "manifest_digest": "sha256:9ce9...f3c7",
@@ -174,6 +181,7 @@ tags:
             },
             {
               "name": "1.34.0",
+              "immutable": false,
               "reversion": false,
               "start_ts": 1632982221,
               "end_ts": 1640336040,
