@@ -369,7 +369,7 @@
 
 - name: ERROR EXPECTED Ensure the tag v3.0.0 is removed
   infra.quay_configuration.quay_tag:
-    image: ansibletestorg/foo:v3.0.0
+    image: ansibletestorg/ansibletestrepo:v3.0.0
     expiration: ""
     immutable: false
     state: absent
@@ -386,7 +386,7 @@
 
 - name: Ensure the tag v3.0.0 is mutable
   infra.quay_configuration.quay_tag:
-    image: ansibletestorg/foo:v3.0.0
+    image: ansibletestorg/ansibletestrepo:v3.0.0
     immutable: false
     quay_host: "{{ quay_url }}"
     quay_token: "{{ quay_token }}"
@@ -394,7 +394,7 @@
 
 - name: Ensure the tag v3.0.0 is removed
   infra.quay_configuration.quay_tag:
-    image: ansibletestorg/foo:v3.0.0
+    image: ansibletestorg/ansibletestrepo:v3.0.0
     immutable: true
     state: absent
     quay_host: "{{ quay_url }}"
