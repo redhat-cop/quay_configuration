@@ -83,6 +83,10 @@ notes:
     Quay installation (C(FEATURE_IMMUTABLE_TAGS) in C(config.yaml)).
   - The token that you provide in O(quay_token) must have the "Administer
     Repositories" permission.
+  - See the M(infra.quay_configuration.quay_organization_immutability) module
+    to manage tag immutability policies at the organization level.
+  - See the M(infra.quay_configuration.quay_tag) module to manage the
+    immutability of a specific tag.
 attributes:
   check_mode:
     support: full
