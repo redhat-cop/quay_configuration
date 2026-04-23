@@ -38,6 +38,7 @@ Name | Description
 `quay_pull_stat_info` |     Return image pull statistics for tags and manifests
 `quay_quota` |              Manage Quay Container Registry organizations quota
 `quay_repository` |         Manage Quay Container Registry repositories
+`quay_repository_immutability` | Manage tag immutability policies for repositories
 `quay_repository_mirror` |  Manage Quay Container Registry repository mirror configurations
 `quay_repository_prune` |   Manage auto-pruning policies for repositories
 `quay_robot` |              Manage Quay Container Registry robot accounts

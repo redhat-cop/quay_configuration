@@ -46,6 +46,7 @@ The following list gives a short descriptions of the variables:
 * `quay_org_email`: Email address to associate with the organization.
 * `quay_org_prune`: List of auto-pruning tags policies for the organization.
 * `quay_org_immutability`: List of tag immutability policies for the organization.
+  The tag immutability feature requires Quay version 3.17 or later.
 * `quay_org_users`: List of user accounts to create.
 * `quay_org_robots`: List of robot accounts to create in the organization.
 * `quay_org_teams`: List of the teams to create in the organization.
@@ -154,6 +155,9 @@ Example Playbook
                 tag_pattern: nightly
               - method: date
                 value: 1w
+            immutability:
+              - tag_pattern: "test-.*"
+                behavior: no_matching_immutable
 ...
 ```
 

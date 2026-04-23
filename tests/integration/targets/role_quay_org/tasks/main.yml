@@ -79,6 +79,9 @@
             tag_pattern_matches: false
           - method: date
             value: 5w
+        immutability:
+          - tag_pattern: "test-.*"
+            behavior: matching_immutable
 
 # Cleanup (by using quay_username and quay_password for testing purpose)
 - name: Ensure repositories are removed

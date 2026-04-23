@@ -67,3 +67,12 @@
 #       - name: qa
 #         type: team
 #         role: read
+#     prune:
+#       - method: tags
+#         value: 5
+#         tag_pattern: nightly
+#       - method: date
+#         value: 1w
+#     immutability:
+#       - tag_pattern: "test-.*"
+#         behavior: no_matching_immutable

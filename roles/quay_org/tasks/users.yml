@@ -1,5 +1,6 @@
 ---
 - name: Ensure the user accounts exist
+  when: quay_org_users is defined
   infra.quay_configuration.quay_user:
     username: "{{ item['username'] }}"
     email: "{{ item['email'] | default(omit) }}"

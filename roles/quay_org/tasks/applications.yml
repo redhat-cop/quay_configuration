@@ -1,5 +1,6 @@
 ---
 - name: Ensure the applications exist
+  when: quay_org_applications is defined
   infra.quay_configuration.quay_application:
     organization: "{{ quay_org_name }}"
     name: "{{ item['name'] }}"

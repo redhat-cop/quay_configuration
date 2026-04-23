@@ -1,5 +1,6 @@
 ---
 - name: Ensure the tag immutability policies exist for the organization
+  when: quay_org_immutability is defined
   infra.quay_configuration.quay_organization_immutability:
     namespace: "{{ quay_org_name }}"
     tag_pattern: "{{ item['tag_pattern'] }}"

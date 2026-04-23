@@ -1,5 +1,6 @@
 ---
 - name: Ensure the teams exist
+  when: quay_org_teams is defined
   infra.quay_configuration.quay_team:
     organization: "{{ quay_org_name }}"
     name: "{{ item['name'] }}"
