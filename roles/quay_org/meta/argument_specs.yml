@@ -28,6 +28,13 @@ argument_specs:
             mean true, and V(no), V(0), V(False), and no value mean false).
         type: bool
         default: true
+      quay_org_timeout:
+        description:
+          - Number of seconds to wait for Quay to send data before giving up.
+          - If you do not set the parameter, then the role tries the
+            E(QUAY_TIMEOUT) environment variable.
+        type: float
+        default: 10.0
       quay_org_token:
         description:
           - OAuth access token for authenticating against the API.

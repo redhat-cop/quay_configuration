@@ -15,3 +15,5 @@
     quay_username: "{{ quay_org_username | default(omit) }}"
     quay_password: "{{ quay_org_password | default(omit) }}"
     quay_host: "{{ quay_org_host | default(omit) }}"
+    validate_certs: "{{ quay_org_validate_certs | default(omit) }}"
+    timeout: "{{ quay_org_timeout | default(omit) }}"

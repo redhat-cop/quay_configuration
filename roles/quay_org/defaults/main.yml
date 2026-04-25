@@ -5,6 +5,7 @@
 # quay_org_username: admin
 # quay_org_password: Sup3rS3cr37
 # quay_org_validate_certs: false
+# quay_org_timeout: 21.0
 # quay_org_name: production
 # quay_org_email: production@example.com
 # quay_org_cache_registry: quay.io/sclorg

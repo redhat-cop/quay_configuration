@@ -47,6 +47,7 @@ class APIModule(AnsibleModule):
             default=True,
             fallback=(env_fallback, ["QUAY_VERIFY_SSL"]),
         ),
+        timeout=dict(type="float", default=10.0, fallback=(env_fallback, ["QUAY_TIMEOUT"])),
     )
 
     MUTUALLY_EXCLUSIVE = [
@@ -141,7 +142,9 @@ class APIModule(AnsibleModule):
             "Accept": "application/json",
         }
         self.session = Request(
-            validate_certs=self.params.get("validate_certs"), headers=headers
+            validate_certs=self.params.get("validate_certs"),
+            timeout=self.params.get("timeout"),
+            headers=headers,
         )
 
     def authenticate(self):
@@ -1567,6 +1570,7 @@ class APIModuleNoAuth(APIModule):
             default=True,
             fallback=(env_fallback, ["QUAY_VERIFY_SSL"]),
         ),
+        timeout=dict(type="float", default=10.0, fallback=(env_fallback, ["QUAY_TIMEOUT"])),
     )
     MUTUALLY_EXCLUSIVE = []
     REQUIRED_TOGETHER = []
