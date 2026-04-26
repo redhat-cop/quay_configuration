@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# Copyright: (c) 2021, 2022, 2024, 2025 Hervé Quatremain <herve.quatremain@redhat.com>
+# Copyright: (c) 2021, 2022, 2024-2026 Hervé Quatremain <herve.quatremain@redhat.com>
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 # For accessing the API documentation from a running system, use the swagger-ui
@@ -33,7 +33,7 @@ options:
   name:
     description:
       - Name of the existing repository for which the mirror parameters are
-        configured. The format for the name is C(namespace)/C(shortname).The
+        configured. The format for the name is C(namespace)/C(shortname). The
         namespace can be an organization or your personal namespace.
       - If you omit the namespace part in the name, then the module looks for
         the repository in your personal namespace.

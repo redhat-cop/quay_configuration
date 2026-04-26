@@ -28,10 +28,10 @@ description:
   - Create or delete tokens for client tools to access repositories.
   - For example, the C(docker), C(podman), and C(skopeo) command-line tools can
     use such tokens.
-  - Kubernetes can also use those tokens, declared is Kubernetes secret
+  - Kubernetes can also use those tokens, declared as Kubernetes secret
     objects, to pull images and deploy pods.
   - Using tokens is an alternative to using your user login and password.
-  - The tokens you create are for the user account you are logged in.
+  - The tokens you create are for the user account with which you are logged in.
     You cannot create tokens for other users, even if you are logged in with a
     super user account.
 version_added: '0.0.11'
