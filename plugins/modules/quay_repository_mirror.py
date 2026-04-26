@@ -136,7 +136,7 @@ options:
     default: false
 notes:
   - Your Quay administrator must enable the mirroring capability of your Quay
-    installation (C(FEATURE_REPO_MIRROR) in C(config.yaml)) to use that module.
+    installation (C(FEATURE_REPO_MIRROR) in C(config.yaml)) to use this module.
   - You cannot modify a repository mirroring configuration if a synchronization
     is in progress.
   - There is no API function to remove the configuration. However, you can
@@ -147,6 +147,8 @@ notes:
     The configuration is preserved when you disable mirroring.
   - The user account associated with the token that you provide in
     O(quay_token) must have administrator access to the repository.
+  - See the M(infra.quay_configuration.quay_organization_mirror) module
+    to mirror repositories in a dedicated organization.
 attributes:
   check_mode:
     support: full
@@ -182,7 +184,7 @@ EXAMPLES = r"""
     quay_host: https://quay.example.com
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
-- name: Immediate trigger a synchronization of the repository
+- name: Trigger an immediate synchronization of the repository
   infra.quay_configuration.quay_repository_mirror:
     name: production/smallimage
     force_sync: true

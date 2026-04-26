@@ -1,0 +1,329 @@
+---
+# Supporting organization
+- name: Ensure organization ansibletestmirror exists
+  infra.quay_configuration.quay_organization:
+    name: ansibletestmirror
+    email: ansibletestmirror@example.com
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+# Supporting robot account
+- name: Ensure the robot account exist
+  infra.quay_configuration.quay_robot:
+    name: ansibletestmirror+ansibletestrobot
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+- name: ERROR EXPECTED Missing required parameters
+  infra.quay_configuration.quay_organization_mirror:
+    organization: ansibletestmirror
+    sync_interval: 43200
+    sync_start_date: "2021-01-01T12:00:00Z"
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  ignore_errors: true
+  register: result
+
+- name: Ensure that the task failed
+  ansible.builtin.assert:
+    that: result['failed']
+    fail_msg: The preceding task should have failed (missing parameters)
+
+- name: ERROR EXPECTED Nonexisting organization
+  infra.quay_configuration.quay_organization_mirror:
+    organization: nonexisting
+    external_registry_type: quay
+    external_registry_url: https://quay.io
+    external_namespace: projectquay
+    robot_username: ansibletestmirror+ansibletestrobot
+    visibility: public
+    repository_filters:
+      - quay
+      - clair
+      - redis
+    sync_interval: 2d
+    sync_start_date: "2026-04-20T13:00:00Z"
+    is_enabled: true
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  ignore_errors: true
+  register: result
+
+- name: Ensure that the task failed
+  ansible.builtin.assert:
+    that: result['failed']
+    fail_msg: The preceding task should have failed (nonexisting organization)
+
+- name: ERROR EXPECTED Nonexisting robot account
+  infra.quay_configuration.quay_organization_mirror:
+    organization: ansibletestmirror
+    external_registry_type: quay
+    external_registry_url: https://quay.io
+    external_namespace: projectquay
+    robot_username: ansibletestmirror+doesnotexist
+    visibility: public
+    repository_filters:
+      - quay
+      - clair
+      - redis
+    sync_interval: 2d
+    sync_start_date: "2026-04-20T13:00:00Z"
+    is_enabled: true
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  ignore_errors: true
+  register: result
+
+- name: Ensure that the task failed
+  ansible.builtin.assert:
+    that: result['failed']
+    fail_msg: The preceding task should have failed (nonexisting robot account)
+
+- name: Ensure organization mirror configuration for ansibletestmirror exists
+  infra.quay_configuration.quay_organization_mirror:
+    organization: ansibletestmirror
+    external_registry_type: quay
+    external_registry_url: https://quay.io
+    external_namespace: projectquay
+    robot_username: ansibletestmirror+ansibletestrobot
+    visibility: private
+    repository_filters:
+      - quay
+      - clair
+      - redis
+    sync_interval: 43200
+    sync_start_date: "2026-04-20T13:00:00Z"
+    is_enabled: true
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+- name: Ensure organization mirror configuration is updated (no change)
+  infra.quay_configuration.quay_organization_mirror:
+    organization: ansibletestmirror
+    external_registry_type: quay
+    robot_username: ansibletestmirror+ansibletestrobot
+    sync_interval: 12h
+    skopeo_timeout: 5m
+    verify_tls: true
+    http_proxy: ""
+    https_proxy: ""
+    no_proxy: ""
+    force_sync: false
+    is_enabled: true
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  register: result
+
+- name: Ensure that the task did not change anything
+  ansible.builtin.assert:
+    that: not result['changed']
+    fail_msg: The preceding task should not have changed anything
+
+- name: Ensure organization mirror configuration is updated (1)
+  infra.quay_configuration.quay_organization_mirror:
+    organization: ansibletestmirror
+    external_registry_type: quay
+    robot_username: ansibletestmirror+ansibletestrobot
+    visibility: public
+    sync_interval: 21600
+    skopeo_timeout: 1h
+    repository_filters:
+      - quay
+    verify_tls: true
+    http_proxy: http://proxy.example.com:3128
+    https_proxy: ""
+    no_proxy: ""
+    force_sync: false
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+- name: Ensure organization mirror configuration is updated (2)
+  infra.quay_configuration.quay_organization_mirror:
+    organization: ansibletestmirror
+    http_proxy: ""
+    https_proxy: https://proxy.example.com:3128
+    no_proxy: quay.io
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+- name: Ensure organization mirror configuration is updated (3)
+  infra.quay_configuration.quay_organization_mirror:
+    organization: ansibletestmirror
+    http_proxy: ""
+    https_proxy: ""
+    no_proxy: ""
+    repository_filters:
+      - quay
+    force_sync: false
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+- name: Ensure organization mirror configuration is updated (4)
+  infra.quay_configuration.quay_organization_mirror:
+    organization: ansibletestmirror
+    robot_username: ansibletestmirror+ansibletestrobot
+    https_proxy: https://proxy.example.com:3128
+    http_proxy: ""
+    no_proxy: quay.io
+    external_registry_username: jziglar
+    external_registry_password: vs9mrD55NP
+    verify_tls: false
+    sync_interval: 21600s
+    sync_start_date: "2025-11-02T21:42:00Z"
+    repository_filters:
+      - quay
+      - clair
+    is_enabled: false
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+- name: Ensure organization mirror configuration is active
+  infra.quay_configuration.quay_organization_mirror:
+    organization: ansibletestmirror
+    is_enabled: true
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+- name: ERROR EXPECTED Wrong sync interval (too low)
+  infra.quay_configuration.quay_organization_mirror:
+    organization: ansibletestmirror
+    sync_interval: 59s
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  ignore_errors: true
+  register: result
+
+- name: Ensure that the task failed
+  ansible.builtin.assert:
+    that: result['failed']
+    fail_msg: The preceding task should have failed (sync interval too low)
+
+- name: ERROR EXPECTED Wrong sync interval (wrong syntax)
+  infra.quay_configuration.quay_organization_mirror:
+    organization: ansibletestmirror
+    sync_interval: notaninterval
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  ignore_errors: true
+  register: result
+
+- name: Ensure that the task failed
+  ansible.builtin.assert:
+    that: result['failed']
+    fail_msg: The preceding task should have failed (sync interval syntax)
+
+- name: ERROR EXPECTED Wrong skopeo timeout (too high)
+  infra.quay_configuration.quay_organization_mirror:
+    organization: ansibletestmirror
+    skopeo_timeout: 1d
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  ignore_errors: true
+  register: result
+
+- name: Ensure that the task failed
+  ansible.builtin.assert:
+    that: result['failed']
+    fail_msg: The preceding task should have failed (skopeo timeout too high)
+
+- name: ERROR EXPECTED Wrong skopeo timeout (too low)
+  infra.quay_configuration.quay_organization_mirror:
+    organization: ansibletestmirror
+    skopeo_timeout: 100s
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  ignore_errors: true
+  register: result
+
+- name: Ensure that the task failed
+  ansible.builtin.assert:
+    that: result['failed']
+    fail_msg: The preceding task should have failed (skopeo timeout too low)
+
+- name: ERROR EXPECTED Wrong skopeo timeout (wrong syntax)
+  infra.quay_configuration.quay_organization_mirror:
+    organization: ansibletestmirror
+    skopeo_timeout: notatimeout
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  ignore_errors: true
+  register: result
+
+- name: Ensure that the task failed
+  ansible.builtin.assert:
+    that: result['failed']
+    fail_msg: The preceding task should have failed (wrong timeout syntax)
+
+- name: Force mirror to sync
+  infra.quay_configuration.quay_organization_mirror:
+    organization: ansibletestmirror
+    force_sync: true
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+- name: Ensure the organization mirror configuration is removed
+  infra.quay_configuration.quay_organization_mirror:
+    organization: ansibletestmirror
+    external_registry_type: quay
+    external_registry_url: https://quay.io
+    external_namespace: projectquay
+    robot_username: ansibletestmirror+ansibletestrobot
+    visibility: private
+    repository_filters:
+      - quay
+      - clair
+      - redis
+    sync_interval: 43200
+    sync_start_date: "2026-04-20T13:00:00Z"
+    is_enabled: true
+    state: absent
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+- name: Ensure the organization mirror configuration is removed (no change)
+  infra.quay_configuration.quay_organization_mirror:
+    organization: ansibletestmirror
+    state: absent
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  register: result
+
+- name: Ensure that the task did not change anything
+  ansible.builtin.assert:
+    that: not result['changed']
+    fail_msg: The preceding task should not have changed anything
+
+# Delete the supporting organization
+- name: Ensure organization ansibletestmirror is removed
+  infra.quay_configuration.quay_organization:
+    name: ansibletestmirror
+    state: absent
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+...
