@@ -1,10 +1,10 @@
 ---
-- name: Ensure the user accounts exist
-  when: quay_org_users is defined
-  infra.quay_configuration.quay_user:
-    username: "{{ item['username'] }}"
-    email: "{{ item['email'] | default(omit) }}"
-    password: "{{ item['password'] | default(omit) }}"
+- name: Ensure the tag immutability policies exist for the organization
+  when: quay_org_immutability is defined
+  infra.quay_configuration.quay_organization_immutability:
+    namespace: "{{ quay_org_name }}"
+    tag_pattern: "{{ item['tag_pattern'] }}"
+    behavior: "{{ item['behavior'] | default(omit) }}"
     state: present
     quay_token: "{{ quay_org_token | default(omit) }}"
     quay_username: "{{ quay_org_username | default(omit) }}"
@@ -12,4 +12,4 @@
     quay_host: "{{ quay_org_host | default(omit) }}"
     validate_certs: "{{ quay_org_validate_certs | default(omit) }}"
     timeout: "{{ quay_org_timeout | default(omit) }}"
-  loop: "{{ quay_org_users }}"
+  loop: "{{ quay_org_immutability }}"

@@ -47,6 +47,7 @@ class APIModule(AnsibleModule):
             default=True,
             fallback=(env_fallback, ["QUAY_VERIFY_SSL"]),
         ),
+        timeout=dict(type="float", default=10.0, fallback=(env_fallback, ["QUAY_TIMEOUT"])),
     )
 
     MUTUALLY_EXCLUSIVE = [
@@ -141,7 +142,9 @@ class APIModule(AnsibleModule):
             "Accept": "application/json",
         }
         self.session = Request(
-            validate_certs=self.params.get("validate_certs"), headers=headers
+            validate_certs=self.params.get("validate_certs"),
+            timeout=self.params.get("timeout"),
+            headers=headers,
         )
 
     def authenticate(self):
@@ -488,7 +491,13 @@ class APIModule(AnsibleModule):
         return ": ".join(msg_fragments)
 
     def get_object_path(
-        self, endpoint, query_params=None, exit_on_error=True, ok_error_codes=None, **kwargs
+        self,
+        endpoint,
+        query_params=None,
+        exit_on_error=True,
+        ok_error_codes=None,
+        duplicate_underscore=True,
+        **kwargs
     ):
         """Retrieve a single object from a GET API call.
 
@@ -505,6 +514,11 @@ class APIModule(AnsibleModule):
         :param ok_error_codes: HTTP error codes that are acceptable (not errors)
                                when returned by the API. 404 by default.
         :type ok_error_codes: list
+        :param duplicate_underscore: If ``True`` (the default), the attributes
+                                     in the JSON response that have an
+                                     underscore in their names are duplicated
+                                     with the underscore removed.
+        :type duplicate_underscore: bool
         :param kwargs: Dictionary used to substitute parameters in the given
                        ``endpoint`` string. For example ``{"username":"jdoe"}``
         :type kwargs: dict
@@ -554,12 +568,13 @@ class APIModule(AnsibleModule):
         # Duplicate all attributes that have underscores (`_') in their name
         # with the same name but without the underscores. Some PUT data use
         # the attribute names without underscores.
-        try:
-            for k in response["json"].copy().keys():
-                if "_" in k:
-                    response["json"][k.replace("_", "")] = response["json"][k]
-        except AttributeError:
-            pass
+        if duplicate_underscore:
+            try:
+                for k in response["json"].copy().keys():
+                    if "_" in k:
+                        response["json"][k.replace("_", "")] = response["json"][k]
+            except AttributeError:
+                pass
         return response["json"]
 
     def delete(
@@ -1318,6 +1333,7 @@ class APIModule(AnsibleModule):
                     [
                         {
                             "name": "1.33.0",
+                            "immutable": false,
                             "reversion": False,
                             "start_ts": 1632982224,
                             "manifest_digest": "sha256:f948...95fe",
@@ -1327,6 +1343,7 @@ class APIModule(AnsibleModule):
                         },
                         {
                             "name": "latest",
+                            "immutable": false,
                             "reversion": False,
                             "start_ts": 1632982222,
                             "manifest_digest": "sha256:9ce9...f3c7",
@@ -1336,6 +1353,7 @@ class APIModule(AnsibleModule):
                         },
                         {
                             "name": "1.34.0",
+                            "immutable": false,
                             "reversion": False,
                             "start_ts": 1632982221,
                             "end_ts": 1640336040,
@@ -1552,6 +1570,7 @@ class APIModuleNoAuth(APIModule):
             default=True,
             fallback=(env_fallback, ["QUAY_VERIFY_SSL"]),
         ),
+        timeout=dict(type="float", default=10.0, fallback=(env_fallback, ["QUAY_TIMEOUT"])),
     )
     MUTUALLY_EXCLUSIVE = []
     REQUIRED_TOGETHER = []

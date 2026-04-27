@@ -28,6 +28,13 @@ argument_specs:
             mean true, and V(no), V(0), V(False), and no value mean false).
         type: bool
         default: true
+      quay_org_timeout:
+        description:
+          - Number of seconds to wait for Quay to send data before giving up.
+          - If you do not set the parameter, then the role tries the
+            E(QUAY_TIMEOUT) environment variable.
+        type: float
+        default: 10.0
       quay_org_token:
         description:
           - OAuth access token for authenticating against the API.
@@ -194,6 +201,28 @@ argument_specs:
               - V(true) by default.
             type: bool
             default: true
+      quay_org_immutability:
+        description:
+          - List of tag immutability policies for the organization.
+          - The tag immutability feature requires Quay version 3.17 or later.
+        type: list
+        elements: dict
+        options:
+          tag_pattern:
+            description:
+              - Regular expression to select the tags to protect.
+            required: true
+            type: str
+          behavior:
+            description:
+              - Specify the behavior of the matching pattern.
+              - If V(matching_immutable), then tags that match the pattern are
+                immutable.
+              - If V(not_matching_immutable), then all the tags not matching
+                the pattern are immutable.
+              - V(matching_immutable) by default.
+            type: str
+            choices: [matching_immutable, not_matching_immutable]
       quay_org_users:
         description:
           - List of user account to create.
@@ -512,3 +541,26 @@ argument_specs:
                   - V(true) by default.
                 type: bool
                 default: true
+          immutability:
+            description:
+              - List of tag immutability policies for the repository.
+              - The tag immutability feature requires Quay version 3.17 or
+                later.
+            type: list
+            elements: dict
+            options:
+              tag_pattern:
+                description:
+                  - Regular expression to select the tags to protect.
+                required: true
+                type: str
+              behavior:
+                description:
+                  - Specify the behavior of the matching pattern.
+                  - If V(matching_immutable), then tags that match the pattern
+                    are immutable.
+                  - If V(not_matching_immutable), then all the tags not matching
+                    the pattern are immutable.
+                  - V(matching_immutable) by default.
+                type: str
+                choices: [matching_immutable, not_matching_immutable]

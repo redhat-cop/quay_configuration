@@ -22,7 +22,7 @@ If you wish to use an OAuth access token, then you can create one as follows:
 5. Select the permissions to associate to the token.
    To be able to use all the role in the collection, select `Administer Organization`, `Administer Repositories`, `Create Repositories`, `Super User Access`, and `Administer User`.
 6. Click `Generate Token`.
-7. Copy and then paste the token string into the `quay_token` role variable.
+7. Copy and then paste the token string into the `quay_org_token` role variable.
 
 
 Role Variables
@@ -32,19 +32,22 @@ You can access the documentation of all the role variables by running the `ansib
 
 The following list gives a short descriptions of the variables:
 
-* `quay_host`: URL for access the Quay Container Registry API.
-* `quay_token`: OAuth access token for authenticating with the API.
-  Mutually exclusive with `quay_username` and `quay_password`.
-* `quay_username`: Username for authenticating with the API.
-  You also need to define the `quay_password` variable.
-  Mutually exclusive with `quay_token`.
-* `quay_password`: Password for authenticating with the API.
-  You also need to define the `quay_username` variable.
-  Mutually exclusive with `quay_token`.
-* `quay_validate_certs`: Whether to allow insecure connections to the API.
+* `quay_org_host`: URL for access the Quay Container Registry API.
+* `quay_org_token`: OAuth access token for authenticating with the API.
+  Mutually exclusive with `quay_org_username` and `quay_org_password`.
+* `quay_org_username`: Username for authenticating with the API.
+  You also need to define the `quay_org_password` variable.
+  Mutually exclusive with `quay_org_token`.
+* `quay_org_password`: Password for authenticating with the API.
+  You also need to define the `quay_org_username` variable.
+  Mutually exclusive with `quay_org_token`.
+* `quay_org_validate_certs`: Whether to allow insecure connections to the API.
+* `quay_org_timeout`: Number of seconds to wait for Quay to send data before giving up.
 * `quay_org_name`: Name of the organization to create.
 * `quay_org_email`: Email address to associate with the organization.
 * `quay_org_prune`: List of auto-pruning tags policies for the organization.
+* `quay_org_immutability`: List of tag immutability policies for the organization.
+  The tag immutability feature requires Quay version 3.17 or later.
 * `quay_org_users`: List of user accounts to create.
 * `quay_org_robots`: List of robot accounts to create in the organization.
 * `quay_org_teams`: List of the teams to create in the organization.
@@ -79,10 +82,11 @@ Example Playbook
         name: infra.quay_configuration.quay_org
       vars:
         # Connection parameters
-        quay_host: https://quay.example.com
-        quay_username: admin
-        quay_password: Sup3r53cr37
-        quay_validate_certs: true
+        quay_org_host: https://quay.example.com
+        quay_org_username: admin
+        quay_org_password: Sup3r53cr37
+        quay_org_validate_certs: true
+        quay_org_timeout: 21.0
         # Organization name and email
         quay_org_name: production
         quay_org_email: production@example.com
@@ -100,6 +104,12 @@ Example Playbook
             tag_pattern: nightly
           - method: date
             value: 5w
+        # Organization tag immutability policies
+        quay_org_immutability:
+          - tag_pattern: "release-.*"
+            behavior: matching_immutable
+          - tag_pattern: "prod-.*.*"
+            behavior: matching_immutable
         # User accounts to create
         quay_org_users:
           - username: lvasquez
@@ -147,6 +157,9 @@ Example Playbook
                 tag_pattern: nightly
               - method: date
                 value: 1w
+            immutability:
+              - tag_pattern: "test-.*"
+                behavior: no_matching_immutable
 ...
 ```
 

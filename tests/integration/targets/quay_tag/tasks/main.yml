@@ -104,6 +104,7 @@
   infra.quay_configuration.quay_tag:
     image: ansibletestorg/ansibletestrepo:latest
     tag: v1.0.0
+    immutable: false
     state: present
     quay_host: "{{ quay_url }}"
     quay_token: "{{ quay_token }}"
@@ -184,11 +185,26 @@
     quay_token: "{{ quay_token }}"
     validate_certs: false
 
-- name: Ensure the tag v2.0.0 is added with expiration (no change)
+- name: Ensure the tag v2.0.0 is added with expiration 1 (no change)
   infra.quay_configuration.quay_tag:
     image: ansibletestorg/ansibletestrepo:v2.0.0
     expiration: "{{ expiration }}"
+    immutable: false
     state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  register: result
+
+- name: Ensure that the task did not change anything
+  ansible.builtin.assert:
+    that: not result['changed']
+    fail_msg: The preceding task should not have changed anything
+
+- name: Ensure the tag v2.0.0 is updated with immutable to false (no change)
+  infra.quay_configuration.quay_tag:
+    image: ansibletestorg/ansibletestrepo:v2.0.0
+    immutable: false
     quay_host: "{{ quay_url }}"
     quay_token: "{{ quay_token }}"
     validate_certs: false
@@ -231,11 +247,12 @@
     validate_certs: false
   register: t
 
-- name: Ensure the tag v3.0.0 is added with expiration
+- name: Ensure the tag v3.0.0 is added with expiration and immutability
   infra.quay_configuration.quay_tag:
     image: ansibletestorg/ansibletestrepo@{{ t['tags'][0]['manifest_digest'] }}
     tag: v3.0.0
     expiration: "{{ expiration }}"
+    immutable: true
     state: present
     quay_host: "{{ quay_url }}"
     quay_token: "{{ quay_token }}"
@@ -349,6 +366,40 @@
   ansible.builtin.assert:
     that: result['failed']
     fail_msg: The preceding task should have failed (nonexisting image)
+
+- name: ERROR EXPECTED Ensure the tag v3.0.0 is removed
+  infra.quay_configuration.quay_tag:
+    image: ansibletestorg/ansibletestrepo:v3.0.0
+    expiration: ""
+    immutable: false
+    state: absent
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  ignore_errors: true
+  register: resul
+
+- name: Ensure that the task failed
+  ansible.builtin.assert:
+    that: result['failed']
+    fail_msg: The preceding task should have failed (immutable tag)
+
+- name: Ensure the tag v3.0.0 is mutable
+  infra.quay_configuration.quay_tag:
+    image: ansibletestorg/ansibletestrepo:v3.0.0
+    immutable: false
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+
+- name: Ensure the tag v3.0.0 is removed
+  infra.quay_configuration.quay_tag:
+    image: ansibletestorg/ansibletestrepo:v3.0.0
+    immutable: true
+    state: absent
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
 
 - name: Ensure the tag v2.0.0 is removed
   infra.quay_configuration.quay_tag:

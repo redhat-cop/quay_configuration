@@ -1,0 +1,11 @@
+---
+- name: Retrieve Quay's capabilities
+  infra.quay_configuration.quay_capabilities_info:
+    quay_host: "{{ quay_url }}"
+    validate_certs: false
+  register: quay_capabilities
+
+- name: Display result
+  ansible.builtin.debug:
+    var: quay_capabilities
+...

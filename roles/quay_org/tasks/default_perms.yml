@@ -1,5 +1,6 @@
 ---
 - name: Ensure the default permissions exist
+  when: quay_org_default_perms is defined
   infra.quay_configuration.quay_default_perm:
     organization: "{{ quay_org_name }}"
     name: "{{ quay_org_name + '+' + item['name']
@@ -14,4 +15,5 @@
     quay_password: "{{ quay_org_password | default(omit) }}"
     quay_host: "{{ quay_org_host | default(omit) }}"
     validate_certs: "{{ quay_org_validate_certs | default(omit) }}"
+    timeout: "{{ quay_org_timeout | default(omit) }}"
   loop: "{{ quay_org_default_perms }}"

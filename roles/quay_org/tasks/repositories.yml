@@ -1,5 +1,6 @@
 ---
 - name: Ensure the repositories exist
+  when: quay_org_repositories is defined
   infra.quay_configuration.quay_repository:
     name: "{{ quay_org_name }}/{{ item['name'] }}"
     visibility: "{{ item['visibility'] | default(omit) }}"
@@ -15,9 +16,11 @@
     quay_password: "{{ quay_org_password | default(omit) }}"
     quay_host: "{{ quay_org_host | default(omit) }}"
     validate_certs: "{{ quay_org_validate_certs | default(omit) }}"
+    timeout: "{{ quay_org_timeout | default(omit) }}"
   loop: "{{ quay_org_repositories }}"
 
-- name: Ensure the auto-pruning policies for the repositories exist
+- name: Ensure the auto-pruning policies exist for the repositories
+  when: quay_org_repositories is defined
   infra.quay_configuration.quay_repository_prune:
     repository: "{{ quay_org_name }}/{{ item[0]['name'] }}"
     method: "{{ item[1]['method'] }}"
@@ -30,5 +33,22 @@
     quay_password: "{{ quay_org_password | default(omit) }}"
     quay_host: "{{ quay_org_host | default(omit) }}"
     validate_certs: "{{ quay_org_validate_certs | default(omit) }}"
+    timeout: "{{ quay_org_timeout | default(omit) }}"
   loop: "{{ quay_org_repositories |
     ansible.builtin.subelements('prune', skip_missing=true) }}"
+
+- name: Ensure the tag immutability policies exist for the repositories
+  when: quay_org_repositories is defined
+  infra.quay_configuration.quay_repository_immutability:
+    repository: "{{ quay_org_name }}/{{ item[0]['name'] }}"
+    tag_pattern: "{{ item[1]['tag_pattern'] }}"
+    behavior: "{{ item[1]['behavior'] | default(omit) }}"
+    state: present
+    quay_token: "{{ quay_org_token | default(omit) }}"
+    quay_username: "{{ quay_org_username | default(omit) }}"
+    quay_password: "{{ quay_org_password | default(omit) }}"
+    quay_host: "{{ quay_org_host | default(omit) }}"
+    validate_certs: "{{ quay_org_validate_certs | default(omit) }}"
+    timeout: "{{ quay_org_timeout | default(omit) }}"
+  loop: "{{ quay_org_repositories |
+    ansible.builtin.subelements('immutability', skip_missing=true) }}"

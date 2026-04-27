@@ -21,6 +21,7 @@ Name | Description
 ---: | :---
 `quay_api_token` |          Create OAuth access tokens for accessing the Quay Container Registry API
 `quay_application` |        Manage Quay Container Registry applications
+`quay_capabilities_info` |  Return Quay's capabilities
 `quay_config_info` |        Return Quay's configuration
 `quay_default_perm` |       Manage Quay Container Registry default repository permissions
 `quay_docker_token` |       Manage tokens for accessing Quay Container Registry repositories
@@ -31,11 +32,14 @@ Name | Description
 `quay_message` |            Manage Quay Container Registry global messages
 `quay_notification` |       Manage Quay Container Registry repository notifications
 `quay_organization` |       Manage Quay Container Registry organizations
+`quay_organization_immutability` | Manage tag immutability policies for organizations and user namespaces
+`quay_organization_mirror` | Manage Quay Container Registry organization mirror configurations
 `quay_organization_prune` | Manage auto-pruning policies for organizations and user namespaces
 `quay_proxy_cache` |        Manage Quay Container Registry proxy cache configurations
 `quay_pull_stat_info` |     Return image pull statistics for tags and manifests
 `quay_quota` |              Manage Quay Container Registry organizations quota
 `quay_repository` |         Manage Quay Container Registry repositories
+`quay_repository_immutability` | Manage tag immutability policies for repositories
 `quay_repository_mirror` |  Manage Quay Container Registry repository mirror configurations
 `quay_repository_prune` |   Manage auto-pruning policies for repositories
 `quay_robot` |              Manage Quay Container Registry robot accounts

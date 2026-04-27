@@ -31,6 +31,13 @@ options:
     type: bool
     default: true
     aliases: [verify_ssl]
+  timeout:
+    description:
+      - Number of seconds to wait for Quay to send data before giving up.
+      - If you do not set the parameter, then the module tries the
+        E(QUAY_TIMEOUT) environment variable.
+    type: float
+    default: 10.0
 """
 
     LOGIN = r"""
