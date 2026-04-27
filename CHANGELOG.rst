@@ -4,6 +4,28 @@ Quay Container Registry Collection Release Notes
 
 .. contents:: Topics
 
+v2.8.0
+======
+
+Release Summary
+---------------
+
+New modules and new module options.
+
+Minor Changes
+-------------
+
+- Add the ``immutable`` option to the ``infra.quay_configuration.quay_tag`` module. With this option you can prevent a tag from being changed or deleted. This option requires Quay version 3.17 or later.
+- Add the ``timeout`` option to all the modules. With this option, you control the timeout when accessing the Quay API.
+
+New Modules
+-----------
+
+- infra.quay_configuration.quay_capabilities_info - Return Quay's capabilities
+- infra.quay_configuration.quay_organization_immutability - Manage tag immutability policies for organizations and user namespaces
+- infra.quay_configuration.quay_organization_mirror - Manage Quay Container Registry organization mirror configurations
+- infra.quay_configuration.quay_repository_immutability - Manage tag immutability policies for repositories
+
 v2.7.0
 ======
 

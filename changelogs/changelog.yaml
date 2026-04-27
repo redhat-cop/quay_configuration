@@ -328,3 +328,28 @@ releases:
       name: quay_pull_stat_info
       namespace: ''
     release_date: '2025-12-29'
+  2.8.0:
+    changes:
+      minor_changes:
+      - Add the ``immutable`` option to the ``infra.quay_configuration.quay_tag``
+        module. With this option you can prevent a tag from being changed or deleted.
+        This option requires Quay version 3.17 or later.
+      - Add the ``timeout`` option to all the modules. With this option, you control
+        the timeout when accessing the Quay API.
+      release_summary: New modules and new module options.
+    fragments:
+    - 59-v2.8.0-summary.yml
+    modules:
+    - description: Return Quay's capabilities
+      name: quay_capabilities_info
+      namespace: ''
+    - description: Manage tag immutability policies for organizations and user namespaces
+      name: quay_organization_immutability
+      namespace: ''
+    - description: Manage Quay Container Registry organization mirror configurations
+      name: quay_organization_mirror
+      namespace: ''
+    - description: Manage tag immutability policies for repositories
+      name: quay_repository_immutability
+      namespace: ''
+    release_date: '2026-04-27'
