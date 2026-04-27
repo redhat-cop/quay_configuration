@@ -10,6 +10,8 @@ on:
 
 jobs:
   release:
+    permissions:
+      contents: write
     uses:
       redhat-cop/ansible_collections_tooling/.github/workflows/release.yml@main
     with:
