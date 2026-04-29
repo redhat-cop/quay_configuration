@@ -4,6 +4,14 @@ Quay Container Registry Collection Release Notes
 
 .. contents:: Topics
 
+v2.8.1
+======
+
+Bugfixes
+--------
+
+- quay_repository_immutability - report an error when the repository does not exist instead of returning a Python stack error.
+
 v2.8.0
 ======
 
