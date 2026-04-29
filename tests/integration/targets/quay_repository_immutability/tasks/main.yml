@@ -25,6 +25,22 @@
     that: result['failed']
     fail_msg: The preceding task should have failed (nonexisting organization)
 
+- name: ERROR EXPECTED Nonexisting repository
+  infra.quay_configuration.quay_repository_immutability:
+    repository: ansibletestorg/nonexisting
+    tag_pattern: "release-.*"
+    state: present
+    quay_host: "{{ quay_url }}"
+    quay_token: "{{ quay_token }}"
+    validate_certs: false
+  ignore_errors: true
+  register: result
+
+- name: Ensure that the task failed
+  ansible.builtin.assert:
+    that: result['failed']
+    fail_msg: The preceding task should have failed (nonexisting repository)
+
 - name: Ensure the immutability policy 1 exists
   infra.quay_configuration.quay_repository_immutability:
     repository: ansibletestorg/ansibletestrepo
