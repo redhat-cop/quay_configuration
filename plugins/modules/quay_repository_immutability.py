@@ -177,12 +177,13 @@ def main():
     # Looking for the policies
     policy_details = None
     new_policy_details = None
-    for policy in policy_list.get("policies", []):
-        policy_pattern = policy.get("tagPattern", "")
-        if tag_pattern == policy_pattern:
-            policy_details = policy
-        elif new_tag_pattern == policy_pattern:
-            new_policy_details = policy
+    if policy_list:
+        for policy in policy_list.get("policies", []):
+            policy_pattern = policy.get("tagPattern", "")
+            if tag_pattern == policy_pattern:
+                policy_details = policy
+            elif new_tag_pattern == policy_pattern:
+                new_policy_details = policy
 
     # The destination tag pattern already exists
     if policy_details and new_policy_details:
@@ -214,6 +215,11 @@ def main():
             )
         else:
             module.exit_json(changed=False)
+
+    if not policy_list:
+        module.fail_json(
+            msg="The {repo} repository does not exist.".format(repo=full_repo_name)
+        )
 
     # Prepare the data that gets set for update or create
     new_fields = {}

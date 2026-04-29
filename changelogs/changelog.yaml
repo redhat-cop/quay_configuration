@@ -353,3 +353,11 @@ releases:
       name: quay_repository_immutability
       namespace: ''
     release_date: '2026-04-27'
+  2.8.1:
+    changes:
+      bugfixes:
+      - quay_repository_immutability - report an error when the repository does not
+        exist instead of returning a Python stack error.
+    fragments:
+    - 61-v2.8.1-summary.yml
+    release_date: '2026-04-29'
