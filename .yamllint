@@ -4,6 +4,7 @@ extends: default
 ignore:
   - .tox
   - changelogs
+  - certification.yml
 
 rules:
   braces:

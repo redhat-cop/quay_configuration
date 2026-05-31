@@ -1,0 +1,30 @@
+---
+# This workflow runs pre-commit, which executes YAML linting.
+# See .pre-commit-config.yaml for more details.
+# The workflow also runs Ansible sanity tests
+name: Pre-commit and markdown checks
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  pre-commit:
+    uses:
+      redhat-cop/ansible_collections_tooling/.github/workflows/pre-commit.yml@main
+    with:
+      collection_namespace: infra
+      collection_name: quay_configuration
+      collection_version: 2.0.0
+      collection_repo: https://github.com/redhat-cop/quay_configuration
+  markdown-link-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: tcort/github-action-markdown-link-check@v1
+        with:
+          use-quiet-mode: 'yes'
+          use-verbose-mode: 'yes'
+...
