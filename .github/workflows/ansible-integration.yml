@@ -51,7 +51,7 @@ jobs:
         working-directory: ./ansible_collections/infra/quay_configuration
 
       # See the reports at https://codecov.io/gh/infra/quay_configuration
-      - uses: codecov/codecov-action@v4
+      - uses: codecov/codecov-action@v6
         with:
           fail_ci_if_error: false
 ...
