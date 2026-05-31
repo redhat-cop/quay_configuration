@@ -91,6 +91,7 @@ options:
       - 5 minutes (300 seconds) by default.
       - Setting a timeout requires Quay version 3.15 or later.
     type: str
+    aliases: [skopeo_timeout_interval]
   robot_username:
     description:
       - Username of the robot account that is used for synchronization.
@@ -213,7 +214,7 @@ def main():
         image_tags=dict(type="list", elements="str"),
         sync_interval=dict(type="str"),
         sync_start_date=dict(),
-        skopeo_timeout=dict(type="str"),
+        skopeo_timeout=dict(type="str", aliases=["skopeo_timeout_interval"]),
         http_proxy=dict(),
         https_proxy=dict(),
         no_proxy=dict(),

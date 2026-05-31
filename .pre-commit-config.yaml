@@ -13,6 +13,8 @@ repos:
       - id: yamllint
         types:
           - yaml
+  # Managed by the Partner Certification Checker
+  # https://github.com/ansible-collections/partner-certification-checker
   - repo: https://github.com/ansible/ansible-lint.git
     rev: v26.4.0
     hooks:

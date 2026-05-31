@@ -89,7 +89,7 @@
     robot_username: ansibletestorg+ansibletestrobot1
     http_proxy: http://proxy.example.com:3128
     sync_interval: 21600
-    skopeo_timeout: 1h
+    skopeo_timeout_interval: 1h
     image_tags:
       - linux
     quay_host: "{{ quay_url }}"
@@ -204,7 +204,7 @@
     robot_username: ansibletestorg+ansibletestrobot1
     image_tags:
       - latest
-    skopeo_timeout: 100s
+    skopeo_timeout_interval: 100s
     sync_start_date: "2021-01-01T12:00:00Z"
     quay_host: "{{ quay_url }}"
     quay_token: "{{ quay_token }}"

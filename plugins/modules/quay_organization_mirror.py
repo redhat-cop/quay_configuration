@@ -136,6 +136,7 @@ options:
         C(10m) for 10 minutes.
       - 5 minutes (300 seconds) by default.
     type: str
+    aliases: [skopeo_timeout_interval]
   verify_tls:
     description:
       - Defines whether TLS of the external registry should be verified.
@@ -268,7 +269,7 @@ def main():
         repository_filters=dict(type="list", elements="str"),
         sync_interval=dict(type="str"),
         sync_start_date=dict(),
-        skopeo_timeout=dict(type="str"),
+        skopeo_timeout=dict(type="str", aliases=["skopeo_timeout_interval"]),
         verify_tls=dict(type="bool"),
         http_proxy=dict(),
         https_proxy=dict(),

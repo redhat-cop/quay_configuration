@@ -1,6 +1,7 @@
 # Quay Container Registry Collection for Ansible
 
-[![Sanity Test](https://github.com/redhat-cop/quay_configuration/actions/workflows/pre-commit-sanity.yml/badge.svg)](https://github.com/redhat-cop/quay_configuration/actions/workflows/pre-commit-sanity.yml)
+[![Sanity Test](https://github.com/redhat-cop/quay_configuration/actions/workflows/pre-commit.yml/badge.svg)](https://github.com/redhat-cop/quay_configuration/actions/workflows/pre-commit.yml)
+[![Partner Certification Test](https://github.com/redhat-cop/quay_configuration/actions/workflows/certification.yml/badge.svg)](https://github.com/redhat-cop/quay_configuration/actions/workflows/certification.yml)
 [![Integration Test](https://github.com/redhat-cop/quay_configuration/actions/workflows/ansible-integration.yml/badge.svg)](https://github.com/redhat-cop/quay_configuration/actions/workflows/ansible-integration.yml)
 
 
