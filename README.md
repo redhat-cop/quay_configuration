@@ -91,6 +91,7 @@ If you manage your Ansible project in automation controller, then automation con
 
 You can also download the tar archive from [Ansible Galaxy](https://galaxy.ansible.com/infra/quay_configuration), and then manually install the collection.
 
+<!-- markdown-link-check-disable-next-line -->
 See [Ansible -- Using collections](https://docs.ansible.com/ansible/latest/user_guide/collections_using.html) for more details.
 
 

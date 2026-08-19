@@ -31,8 +31,13 @@ Prepare and submit pull requests as follows:
 1. Fork the repository on GitHub and then clone it locally.
 2. Create a branch named appropriately for the change you are going to make.
 3. Make your code change.
-4. If you are creating a role or a module, then add a test playbook in the `tests/test_playbooks/` directory.
+4. If you are creating a role or a module, then add an integration test in the `tests/integration/targets/` directory.
+   <!-- markdown-link-check-disable-next-line -->
+   See [Understanding integration tests](https://docs.ansible.com/ansible/latest/community/collection_contributors/collection_integration_about.html)
+   to learn how to create integrations tests.
+   You can also use the existing tests as examples.
 5. Add a changelog fragment file in the `changelogs/fragments/` directory.
+   <!-- markdown-link-check-disable-next-line -->
    See the [Changelogs](https://docs.ansible.com/ansible/latest/community/development_process.html#changelogs) document for guidance.
 6. Push your code change to your forked repository.
 7. Use the GitHub web UI to navigate to the original repository https://github.com/redhat-cop/quay_configuration/pulls (not your forked repository).
@@ -40,4 +45,4 @@ Prepare and submit pull requests as follows:
 8. All pull requests go to a validation process.
    Make sure to run `pre-commit` before submitting your code.
 
-For more details of forks and pull request, see the [Creating a pull request from a fork](https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork)  and [How to create a pull request in GitHub](https://opensource.com/article/19/7/create-pull-request-github) documentations.
+For more details of forks and pull request, see the [Creating a pull request from a fork](https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork) and [How to create a pull request in GitHub](https://opensource.com/article/19/7/create-pull-request-github) documentations.
