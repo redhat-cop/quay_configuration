@@ -457,7 +457,18 @@ def main():
         if updated:
             changed = True
 
-    if force_sync and mirror_details["sync_status"] not in ("SYNCING", "SYNC_NOW"):
+    if force_sync and mirror_details["sync_status"] in ("SYNCING"):
+        module.create(
+            "repository",
+            full_repo_name,
+            "repository/{full_repo_name}/mirror/sync-cancel",
+            {},
+            auto_exit=False,
+            full_repo_name=full_repo_name,
+        )
+        changed = True
+    
+    if force_sync and mirror_details["sync_status"] not in ("SYNC_NOW"):
         module.create(
             "repository",
             full_repo_name,
