@@ -467,7 +467,7 @@ def main():
             full_repo_name=full_repo_name,
         )
         changed = True
-    
+
     if force_sync and mirror_details["sync_status"] not in ("SYNC_NOW"):
         module.create(
             "repository",
