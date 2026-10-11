@@ -4,6 +4,19 @@ Quay Container Registry Collection Release Notes
 
 .. contents:: Topics
 
+v2.9.0
+======
+
+Release Summary
+---------------
+
+New option for the ``infra.quay_configuration.quay_repository_mirror`` module.
+
+Minor Changes
+-------------
+
+- Add the ``architecture_filter`` option to the ``infra.quay_configuration.quay_repository_mirror`` module. With this option you can select the architectures that you want to mirror. This option requires Quay version 3.17 or later.
+
 v2.8.1
 ======
 
