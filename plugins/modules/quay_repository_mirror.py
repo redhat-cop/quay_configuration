@@ -130,6 +130,14 @@ options:
         the O(http_proxy) or O(https_proxy) variables.
       - See the C(curl) documentation for more details.
     type: str
+  architecture_filter:
+    description:
+      - List of architectures to mirror from the remote repository.
+      - When omitted, all available architectures are mirrored.
+      - Filtering architectures requires Quay version 3.17 or later.
+    type: list
+    elements: str
+    choices: [amd64, arm64, ppc64le, s390x]
   force_sync:
     description:
       - Triggers an immediate image synchronization.
@@ -178,6 +186,20 @@ EXAMPLES = r"""
     quay_host: https://quay.example.com
     quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
 
+- name: Ensure mirroring is set with architecture filter
+  infra.quay_configuration.quay_repository_mirror:
+    name: production/smallimage
+    external_reference: quay.io/projectquay/quay
+    robot_username: production+auditrobot
+    is_enabled: true
+    image_tags:
+      - latest
+    architecture_filter:
+      - amd64
+      - arm64
+    quay_host: https://quay.example.com
+    quay_token: vgfH9zH5q6eV16Con7SvDQYSr0KPYQimMHVehZv7
+
 - name: Ensure mirroring is disabled for the production/smallimage repository
   infra.quay_configuration.quay_repository_mirror:
     name: production/smallimage
@@ -219,6 +241,9 @@ def main():
         https_proxy=dict(),
         no_proxy=dict(),
         unsigned_images=dict(type="bool"),
+        architecture_filter=dict(
+            type="list", elements="str", choices=["amd64", "arm64", "ppc64le", "s390x"]
+        ),
     )
 
     # Create a module for ourselves
@@ -241,6 +266,7 @@ def main():
     http_proxy = module.params.get("http_proxy")
     https_proxy = module.params.get("https_proxy")
     no_proxy = module.params.get("no_proxy")
+    architecture_filter = module.params.get("architecture_filter")
 
     # Verify that the interval is valid and convert it to an integer (seconds)
     s_interval = (
@@ -295,7 +321,13 @@ def main():
     #         ]
     #     },
     #     "robot_username": "production+auditrobot",
-    #     "skopeo_timeout_interval": 300
+    #     "skopeo_timeout_interval": 300,
+    #     "architecture_filter": [
+    #         "amd64",
+    #         "arm64",
+    #         "ppc64le",
+    #         "s390x"
+    #     ]
     # }
 
     mirror_details = module.get_object_path(
@@ -351,6 +383,8 @@ def main():
         }
         if external_registry_password:
             new_fields["external_registry_password"] = external_registry_password
+        if architecture_filter is not None:
+            new_fields["architecture_filter"] = architecture_filter
 
         # Quay 3.15 and later requires the skopeo_timeout_interval parameter.
         # Older versions, however, do not support that parameter.
@@ -415,6 +449,8 @@ def main():
             "rule_kind": "tag_glob_csv",
             "rule_value": image_tags,
         }
+    if architecture_filter is not None:
+        new_fields["architecture_filter"] = architecture_filter
 
     try:
         registry_config = copy.deepcopy(mirror_details["external_registry_config"])

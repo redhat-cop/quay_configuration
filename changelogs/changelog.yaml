@@ -361,3 +361,14 @@ releases:
     fragments:
     - 61-v2.8.1-summary.yml
     release_date: '2026-04-29'
+  2.9.0:
+    changes:
+      minor_changes:
+      - Add the ``architecture_filter`` option to the ``infra.quay_configuration.quay_repository_mirror``
+        module. With this option you can select the architectures that you want to
+        mirror. This option requires Quay version 3.17 or later.
+      release_summary: New option for the ``infra.quay_configuration.quay_repository_mirror``
+        module.
+    fragments:
+    - 78-v2.9.0-summary.yml
+    release_date: '2026-10-11'
