@@ -476,7 +476,7 @@ def main():
     changed = False
     if new_fields:
         # Cannot update the configuration when a synchronization is in progress
-        if mirror_details["sync_status"] == "SYNCING":
+        if mirror_details["sync_status"] == "SYNCING" and force_sync is not True:
             module.exit_json(
                 skipped=True,
                 msg="cannot update the configuration while a synchronization is in progress",
