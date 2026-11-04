@@ -372,3 +372,11 @@ releases:
     fragments:
     - 78-v2.9.0-summary.yml
     release_date: '2026-10-11'
+  2.9.1:
+    changes:
+      bugfixes:
+      - quay_repository_mirror - Fix a bug when a synchronization process is already
+        running
+    fragments:
+    - 82-v2.9.1-summary.yml
+    release_date: '2026-11-04'
