@@ -4,6 +4,14 @@ Quay Container Registry Collection Release Notes
 
 .. contents:: Topics
 
+v2.9.1
+======
+
+Bugfixes
+--------
+
+- quay_repository_mirror - Fix a bug when a synchronization process is already running
+
 v2.9.0
 ======
 
