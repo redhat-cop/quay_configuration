@@ -4,6 +4,19 @@ Quay Container Registry Collection Release Notes
 
 .. contents:: Topics
 
+v2.9.2
+======
+
+Release Summary
+---------------
+
+Concurrent username/password runs no longer fail with 401 errors.
+
+Bugfixes
+--------
+
+- api_module - do not log out of Quay when using username/password authentication. Quay's signout endpoint rotates the account UUID, which invalidates every session of the account. When several modules ran simultaneously under the same account, the first module to exit invalidated the sessions of the others, which then failed with a 401 error.
+
 v2.9.1
 ======
 
