@@ -380,3 +380,15 @@ releases:
     fragments:
     - 82-v2.9.1-summary.yml
     release_date: '2026-11-04'
+  2.9.2:
+    changes:
+      bugfixes:
+      - api_module - do not log out of Quay when using username/password authentication.
+        Quay's signout endpoint rotates the account UUID, which invalidates every
+        session of the account. When several modules ran simultaneously under the
+        same account, the first module to exit invalidated the sessions of the others,
+        which then failed with a 401 error.
+      release_summary: Concurrent username/password runs no longer fail with 401 errors.
+    fragments:
+    - 83-v2.9.2-summary.yml
+    release_date: '2026-11-05'
