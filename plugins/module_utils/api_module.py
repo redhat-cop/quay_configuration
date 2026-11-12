@@ -216,12 +216,30 @@ class APIModule(AnsibleModule):
 
     def logout(self):
         """Logout."""
-        if self.authenticated and not self.token_authenticated:
-            url = self.build_url("signout")
-            try:
-                self.make_json_request("POST", url)
-            except APIModuleError:
-                pass
+        # The signout call is intentionally disabled.
+        #
+        # When authenticating with a username and password, Quay identifies the
+        # session by the user account UUID stored in the session cookie. The
+        # signout endpoint (POST /api/v1/signout) calls
+        # `invalidate_all_sessions()`, which rotates that account UUID. Rotating
+        # the UUID invalidates *every* session of the account, not just this
+        # one. As a result, when two playbooks run modules concurrently under
+        # the same account, the first module that logs out invalidates the
+        # session of the other still-running modules, which then fail with a
+        # 401 error on their next API call.
+        #
+        # Not calling signout is harmless: Quay stores the session entirely in a
+        # signed client-side cookie (no server-side session state), so there is
+        # nothing to clean up on the server. The collection keeps that cookie
+        # only in memory and discards it when the module process exits, so the
+        # session is effectively abandoned (and expires on its own in Quay).
+        #
+        # if self.authenticated and not self.token_authenticated:
+        #     url = self.build_url("signout")
+        #     try:
+        #         self.make_json_request("POST", url)
+        #     except APIModuleError:
+        #         pass
         self.authenticated = False
         self.create_session()
 
