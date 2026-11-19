@@ -23,4 +23,13 @@ homepage: {{ collection_repo }}
 
 # The URL to the collection issue tracker
 issues: {{ collection_repo }}/issues
+
+# Files and directories to exclude from the collection artifact (patterns are
+# relative to the collection root). Development tooling, CI configuration,
+# tests, and changelog fragments are not user-facing and only increase the size
+# of execution environments. CHANGELOG.rst is still included.
+build_ignore:
+  - .*
+  - changelogs
+  - tests
 ...
